@@ -1,0 +1,10 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+tfplan
+*.tfstate
+*.tfstate.backup
+
+# Sensitive files
+*.pem
+*.key
