@@ -5,354 +5,565 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jamar Chambers — Cloud Security Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0f1e;
-      --surface: #111827;
-      --border: #1e2d45;
-      --accent: #00e5ff;
-      --accent2: #7b61ff;
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --tag-bg: #0d2137;
-      --tag-border: #1a3a57;
+      --sidebar-bg: #1a2332;
+      --sidebar-accent: #2d3f55;
+      --sidebar-text: #cbd5e1;
+      --sidebar-muted: #64748b;
+      --sidebar-heading: #ffffff;
+      --accent: #38bdf8;
+      --accent2: #818cf8;
+      --main-bg: #f8fafc;
+      --main-text: #1e293b;
+      --main-muted: #1e293b;
+      --main-border: #e2e8f0;
+      --main-surface: #ffffff;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px;
-      line-height: 1.7;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--main-bg);
+      color: var(--main-text);
       min-height: 100vh;
-      overflow-x: hidden;
+      display: flex;
     }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: var(--sidebar-bg);
+      min-height: 100vh;
+      padding: 48px 28px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
     }
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 60px 24px 80px;
+
+    .avatar-wrap {
+      margin-bottom: 28px;
+      text-align: center;
     }
-    header {
-      border-left: 3px solid var(--accent);
-      padding-left: 24px;
-      margin-bottom: 60px;
-      animation: fadeSlideIn 0.6s ease both;
-    }
-    .label {
-      font-size: 11px;
-      letter-spacing: 0.2em;
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--sidebar-accent);
+      border: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
       color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      margin: 0 auto 16px;
     }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2.2rem, 6vw, 3.8rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: #fff;
+
+    .sidebar-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--sidebar-heading);
+      line-height: 1.2;
       margin-bottom: 4px;
     }
-    h1 span { color: var(--accent); }
-    .role {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent2);
-      margin: 10px 0 16px;
-    }
-    .credentials {
+
+    .sidebar-role {
       font-size: 11px;
       color: var(--accent);
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
     }
-    .contact-row {
+
+    .sidebar-credentials {
+      font-size: 11px;
+      color: var(--sidebar-muted);
+      margin-top: 4px;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--sidebar-accent);
+      margin: 24px 0;
+    }
+
+    .sidebar-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    /* Contact */
+    .contact-list {
+      list-style: none;
+      margin-bottom: 8px;
+    }
+    .contact-list li {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .contact-row a {
-      color: var(--muted);
-      text-decoration: none;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
       font-size: 12px;
+      color: var(--sidebar-text);
+    }
+    .contact-list li .icon {
+      color: var(--accent);
+      font-style: normal;
+      flex-shrink: 0;
+      width: 14px;
+      text-align: center;
+      margin-top: 1px;
+    }
+    .contact-list a {
+      color: var(--sidebar-text);
+      text-decoration: none;
       transition: color 0.2s;
     }
-    .contact-row a:hover { color: var(--accent); }
-    .contact-row a::before { content: '↗ '; }
-    .counter-bar {
-      display: inline-flex;
+    .contact-list a:hover { color: var(--accent); }
+
+    /* Skills */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .skill-tag {
+      background: var(--sidebar-accent);
+      color: var(--sidebar-text);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid #334155;
+    }
+
+    /* Education in sidebar */
+    .edu-block {
+      margin-bottom: 16px;
+    }
+    .edu-block .year {
+      font-size: 11px;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .edu-block .degree {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sidebar-heading);
+      margin-bottom: 2px;
+    }
+    .edu-block .school {
+      font-size: 11px;
+      color: var(--sidebar-muted);
+    }
+    .edu-block .coursework {
+      font-size: 10px;
+      color: var(--sidebar-muted);
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    /* Counter */
+    .counter-pill {
+      display: flex;
       align-items: center;
-      gap: 10px;
-      background: var(--tag-bg);
+      gap: 8px;
+      background: var(--sidebar-accent);
       border: 1px solid var(--accent);
       border-radius: 4px;
-      padding: 6px 14px;
-      margin-bottom: 48px;
-      font-size: 12px;
+      padding: 6px 12px;
+      font-size: 11px;
       color: var(--accent);
-      animation: fadeSlideIn 0.6s 0.2s ease both;
+      margin-top: 8px;
     }
-    .counter-bar .dot {
-      width: 6px; height: 6px;
+    .counter-pill .dot {
+      width: 5px; height: 5px;
       background: var(--accent);
       border-radius: 50%;
       animation: pulse 2s infinite;
+      flex-shrink: 0;
     }
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
-    section {
-      margin-bottom: 48px;
-      animation: fadeSlideIn 0.6s ease both;
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      padding: 52px 56px;
+      max-width: 760px;
     }
-    section:nth-child(2) { animation-delay: 0.1s; }
-    section:nth-child(3) { animation-delay: 0.2s; }
-    section:nth-child(4) { animation-delay: 0.3s; }
-    section:nth-child(5) { animation-delay: 0.4s; }
-    section:nth-child(6) { animation-delay: 0.5s; }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+
+    /* Name hero */
+    .hero {
+      margin-bottom: 44px;
+      padding-bottom: 36px;
+      border-bottom: 2px solid var(--main-border);
     }
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.25em;
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      color: var(--main-text);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+    .hero-role {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--main-muted);
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+    }
+    .hero-summary {
+      font-size: 15px;
+      color: var(--main-muted);
+      line-height: 1.8;
+      max-width: 600px;
+      font-weight: 300;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 44px;
+    }
+
+    .section-header {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      margin-bottom: 24px;
     }
-    .section-title::after {
+    .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--main-text);
+      white-space: nowrap;
+    }
+    .section-header::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--border);
+      background: var(--main-border);
     }
-    .about-text {
-      color: #94a3b8;
-      max-width: 680px;
-      line-height: 1.9;
-    }
+
+    /* Experience */
     .exp-item {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 24px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--main-border);
     }
-    .exp-item:last-child { border-bottom: none; }
-    .exp-meta { font-size: 11px; color: var(--muted); }
-    .exp-meta .company {
-      display: block;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 4px;
+    .exp-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
-    .exp-meta .period { color: var(--accent2); font-size: 11px; }
-    .exp-content h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .exp-content ul { list-style: none; color: #94a3b8; }
-    .exp-content ul li {
-      padding: 3px 0;
-      padding-left: 16px;
-      position: relative;
-    }
-    .exp-content ul li::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-size: 10px;
-      top: 5px;
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .skill-category {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px;
-      transition: border-color 0.2s;
-    }
-    .skill-category:hover { border-color: var(--accent2); }
-    .skill-category-name {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 12px;
-    }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag {
-      background: var(--tag-bg);
-      border: 1px solid var(--tag-border);
-      border-radius: 3px;
-      padding: 2px 8px;
-      font-size: 11px;
-      color: var(--text);
-    }
-    .certs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
-    }
-    .cert-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .cert-item:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .cert-icon { font-size: 20px; flex-shrink: 0; }
-    .cert-name { font-size: 12px; color: var(--text); font-weight: 500; }
-    .cert-issuer { font-size: 10px; color: var(--muted); margin-top: 2px; }
-    .project-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 20px;
-      margin-bottom: 12px;
-      transition: border-color 0.2s;
-    }
-    .project-item:hover { border-color: var(--accent2); }
-    .project-header {
+    .exp-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      margin-bottom: 4px;
       gap: 16px;
-      margin-bottom: 8px;
     }
-    .project-name {
-      font-family: 'Syne', sans-serif;
+    .exp-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--main-text);
+    }
+    .exp-period {
+      font-size: 12px;
+      color: #1e293b;
+      white-space: nowrap;
+    }
+    .exp-company {
+      font-size: 13px;
       font-weight: 600;
-      font-size: 1rem;
-      color: #fff;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+    .exp-list {
+      list-style: none;
+      color: var(--main-muted);
+      font-size: 13.5px;
+    }
+    .exp-list li {
+      padding: 4px 0 4px 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .exp-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 11px;
+      top: 6px;
+    }
+
+    /* Projects */
+    .project-card {
+      background: var(--main-surface);
+      border: 1px solid var(--main-border);
+      border-radius: 8px;
+      padding: 22px 24px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.08);
+    }
+    .project-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      gap: 16px;
+    }
+    .project-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--main-text);
     }
     .project-link {
       font-size: 11px;
       color: var(--accent);
       text-decoration: none;
-      white-space: nowrap;
       border: 1px solid var(--accent);
       border-radius: 3px;
       padding: 2px 8px;
+      white-space: nowrap;
       transition: background 0.2s;
     }
-    .project-link:hover { background: var(--accent); color: var(--bg); }
-    .project-desc { color: #94a3b8; font-size: 13px; margin-bottom: 12px; }
-    .edu-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .edu-item:last-child { border-bottom: none; }
-    .edu-degree {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
+    .project-link:hover {
+      background: var(--accent);
       color: #fff;
-      font-size: 0.95rem;
     }
-    .edu-school { color: #94a3b8; font-size: 12px; margin-top: 3px; }
-    .edu-coursework { color: var(--muted); font-size: 11px; margin-top: 6px; line-height: 1.6; }
-    .edu-year { color: var(--accent2); font-size: 12px; white-space: nowrap; padding-top: 3px; }
-    footer {
-      margin-top: 60px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
+    .project-desc {
+      font-size: 13px;
+      color: var(--main-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tech-tag {
       font-size: 11px;
-      color: var(--muted);
+      background: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      border-radius: 3px;
+      padding: 2px 8px;
+    }
+
+    /* Certs */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .cert-card {
+      background: var(--main-surface);
+      border: 1px solid var(--main-border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      transition: border-color 0.2s;
+    }
+    .cert-card:hover { border-color: var(--accent2); }
+    .cert-icon { font-size: 22px; flex-shrink: 0; }
+    .cert-name { font-size: 12px; font-weight: 600; color: var(--main-text); }
+    .cert-issuer { font-size: 11px; color: var(--main-muted); margin-top: 2px; }
+
+    /* Footer */
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--main-border);
+      font-size: 11px;
+      color: var(--main-muted);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
     }
-    @media (max-width: 600px) {
-      .exp-item { grid-template-columns: 1fr; gap: 8px; }
-      .project-header { flex-direction: column; }
+
+    /* Animations */
+    .sidebar { animation: slideIn 0.5s ease both; }
+    .main { animation: fadeIn 0.5s 0.1s ease both; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        min-width: unset;
+        height: auto;
+        position: static;
+      }
+      .main { padding: 32px 24px; }
     }
   </style>
 </head>
 <body>
-<div class="wrapper">
 
-  <header>
-    <p class="label">// cloud resume challenge</p>
-    <h1>Jamar <span>Chambers</span></h1>
-    <p class="credentials">R.T. (R) (ARRT) · M.S. Cybersecurity</p>
-    <p class="role">Cloud Security Engineer</p>
-    <p style="color: var(--muted); font-size:12px; max-width:540px;">
-      Healthcare IT professional with ARRT certification and a Master's in Cybersecurity — bridging clinical compliance (HIPAA, NIST, ISO 27001) with modern cloud security engineering on AWS.
-    </p>
-    <div class="contact-row">
-      <a href="mailto:chambersjamar@gmail.com">chambersjamar@gmail.com</a>
-      <a href="tel:2016651189">201-665-1189</a>
-      <a href="https://www.linkedin.com/in/chambsec/" target="_blank">LinkedIn</a>
-      <a href="https://github.com/chambsec" target="_blank">GitHub</a>
-      <a href="#" target="_blank">Teaneck, NJ</a>
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="avatar-wrap">
+      <div class="avatar">JC</div>
+      <p class="sidebar-name">Jamar Chambers</p>
+      <p class="sidebar-role">Cloud Security Engineer</p>
+      <p class="sidebar-credentials">R.T. (R) (ARRT) · M.S. Cybersecurity</p>
     </div>
-  </header>
 
-  <div class="counter-bar">
-    <span class="dot"></span>
-    <span>Visitor count: <strong id="visitor-count">...</strong></span>
-  </div>
+    <div class="counter-pill">
+      <span class="dot"></span>
+      <span>Visitors: <strong id="visitor-count">...</strong></span>
+    </div>
 
-  <section>
-    <h2 class="section-title">About</h2>
-    <p class="about-text">
-      I'm a registered radiologic technologist and ARRT-certified imaging specialist with nearly a decade of experience in high-stakes clinical environments at institutions like Memorial Sloan Kettering. I hold a Master of Science in Cybersecurity from Thomas Edison State University, with deep coursework in cryptography, forensics, risk management, and governance. My clinical background in HIPAA compliance, audit trails, and Epic EHR governance translates directly into cloud security — I understand regulatory frameworks not just as theory, but as daily operational reality. I'm now building hands-on AWS infrastructure skills through the Cloud Resume Challenge.
-    </p>
-  </section>
+    <div class="sidebar-divider"></div>
 
-  <section>
-    <h2 class="section-title">Experience</h2>
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="company">Memorial Sloan Kettering Cancer Center</span>
-        <span class="period">July 2023 – Present</span>
-        <span style="display:block; margin-top:4px; color:var(--muted);">New York, NY</span>
-      </div>
-      <div class="exp-content">
-        <h3>Radiologic Technologist · QA · Epic Super User</h3>
-        <ul>
+    <p class="sidebar-section-title">Contact</p>
+    <ul class="contact-list">
+      <li><span class="icon">✉</span><a href="mailto:chambersjamar@gmail.com">chambersjamar@gmail.com</a></li>
+      <li><span class="icon">📞</span><span>201-665-1189</span></li>
+      <li><span class="icon">📍</span><span>Teaneck, NJ</span></li>
+      <li><span class="icon">in</span><a href="https://www.linkedin.com/in/chambsec/" target="_blank">linkedin.com/in/chambsec</a></li>
+      <li><span class="icon">⌥</span><a href="https://github.com/chambsec" target="_blank">github.com/chambsec</a></li>
+      <li><span class="icon">🌐</span><a href="https://www.chamb.dev" target="_blank">chamb.dev</a></li>
+    </ul>
+
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-section-title">Cybersecurity</p>
+    <div class="skill-tags">
+      <span class="skill-tag">Network Security</span>
+      <span class="skill-tag">Incident Response</span>
+      <span class="skill-tag">Digital Forensics</span>
+      <span class="skill-tag">Risk Management</span>
+      <span class="skill-tag">Cryptography</span>
+      <span class="skill-tag">NIST</span>
+      <span class="skill-tag">ISO 27001</span>
+      <span class="skill-tag">PCI DSS</span>
+      <span class="skill-tag">HIPAA</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-section-title">AWS & Cloud</p>
+    <div class="skill-tags">
+      <span class="skill-tag">IAM</span>
+      <span class="skill-tag">S3</span>
+      <span class="skill-tag">CloudFront</span>
+      <span class="skill-tag">Lambda</span>
+      <span class="skill-tag">DynamoDB</span>
+      <span class="skill-tag">API Gateway</span>
+      <span class="skill-tag">Route 53</span>
+      <span class="skill-tag">CloudWatch</span>
+      <span class="skill-tag">WAF</span>
+      <span class="skill-tag">ACM</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-section-title">DevOps & Tools</p>
+    <div class="skill-tags">
+      <span class="skill-tag">Terraform</span>
+      <span class="skill-tag">GitHub Actions</span>
+      <span class="skill-tag">CI/CD</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Bash</span>
+      <span class="skill-tag">Linux (Kali)</span>
+      <span class="skill-tag">Active Directory</span>
+      <span class="skill-tag">Git</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-section-title">Healthcare IT</p>
+    <div class="skill-tags">
+      <span class="skill-tag">Epic Super User</span>
+      <span class="skill-tag">PACS</span>
+      <span class="skill-tag">RIS</span>
+      <span class="skill-tag">HL7</span>
+      <span class="skill-tag">DICOM</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-section-title">Education</p>
+
+    <div class="edu-block">
+      <p class="year">2025</p>
+      <p class="degree">M.S. Cybersecurity</p>
+      <p class="school">Thomas Edison State University</p>
+      <p class="coursework">Cryptography · Forensics · Risk Management · Network Defense · Governance</p>
+    </div>
+
+    <div class="edu-block">
+      <p class="year">2020</p>
+      <p class="degree">B.S. Diagnostic Imaging Sciences</p>
+      <p class="school">Rutgers University</p>
+      <p class="coursework">PACS/RIS/HIM · HL7 · DICOM · Project Management</p>
+    </div>
+
+    <div class="edu-block">
+      <p class="year">2016</p>
+      <p class="degree">A.A.S. Radiologic Sciences</p>
+      <p class="school">Bergen Community College</p>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main">
+
+    <div class="hero">
+      <h1>Jamar <em>Chambers</em></h1>
+      <p class="hero-role">Cloud Security Engineer</p>
+      <p class="hero-summary">
+        Healthcare IT professional with ARRT certification and a Master's in Cybersecurity — bridging nearly a decade of clinical compliance experience (HIPAA, NIST, ISO 27001) with modern AWS cloud security engineering. Currently building production-grade infrastructure through the Cloud Resume Challenge.
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2>Experience</h2></div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <p class="exp-title">Radiologic Technologist · QA · Epic Super User</p>
+          <span class="exp-period">July 2023 – Present</span>
+        </div>
+        <p class="exp-company">Memorial Sloan Kettering Cancer Center — New York, NY</p>
+        <ul class="exp-list">
           <li>Serve as Epic Super User, governing clinical data access controls and improving system adoption across departments</li>
           <li>Documented and enforced compliance procedures aligned with DOH, HIPAA, and ACR regulatory standards</li>
           <li>Maintained audit trails and logs for quality control, supporting regulatory audits and compliance reporting</li>
@@ -360,181 +571,80 @@
           <li>Oversaw governance of imaging software, ensuring secure configurations and access controls</li>
         </ul>
       </div>
-    </div>
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="company">Englewood Hospital & Medical Center</span>
-        <span class="period">Nov 2016 – May 2022</span>
-        <span style="display:block; margin-top:4px; color:var(--muted);">Englewood, NJ</span>
-      </div>
-      <div class="exp-content">
-        <h3>Radiologic Technologist</h3>
-        <ul>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <p class="exp-title">Radiologic Technologist</p>
+          <span class="exp-period">Nov 2016 – May 2022</span>
+        </div>
+        <p class="exp-company">Englewood Hospital & Medical Center — Englewood, NJ</p>
+        <ul class="exp-list">
           <li>Supported compliance initiatives in intraoperative environments through policy adherence and technical documentation</li>
           <li>Maintained accurate patient data across imaging systems (PACS, RIS) in a regulated clinical environment</li>
         </ul>
       </div>
     </div>
-  </section>
 
-  <section>
-    <h2 class="section-title">Projects</h2>
-    <div class="project-item">
-      <div class="project-header">
-        <span class="project-name">Cloud Resume Challenge</span>
-        <a href="#" class="project-link">↗ Live Site</a>
-      </div>
-      <p class="project-desc">
-        Full-stack serverless resume hosted entirely on AWS. Frontend delivered via S3 + CloudFront with HTTPS enforced via ACM. Backend visitor counter built with API Gateway, Lambda (Python), and DynamoDB. Infrastructure defined as code with Terraform and deployed automatically via GitHub Actions CI/CD pipeline.
-      </p>
-      <div class="tags">
-        <span class="tag">S3</span>
-        <span class="tag">CloudFront</span>
-        <span class="tag">Route 53</span>
-        <span class="tag">ACM</span>
-        <span class="tag">Lambda</span>
-        <span class="tag">DynamoDB</span>
-        <span class="tag">API Gateway</span>
-        <span class="tag">Terraform</span>
-        <span class="tag">GitHub Actions</span>
-        <span class="tag">Python</span>
-      </div>
-    </div>
-  </section>
+    <div class="section">
+      <div class="section-header"><h2>Projects</h2></div>
 
-  <section>
-    <h2 class="section-title">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-category">
-        <p class="skill-category-name">Cybersecurity</p>
-        <div class="tags">
-          <span class="tag">Network Security</span>
-          <span class="tag">Incident Response</span>
-          <span class="tag">Digital Forensics</span>
-          <span class="tag">Risk Management</span>
-          <span class="tag">Cryptography</span>
+      <div class="project-card">
+        <div class="project-card-header">
+          <p class="project-card-title">Cloud Resume Challenge</p>
+          <a href="https://github.com/chambsec/cloud-resume-challenge" class="project-link" target="_blank">↗ GitHub Repo</a>
         </div>
-      </div>
-      <div class="skill-category">
-        <p class="skill-category-name">Frameworks & Compliance</p>
-        <div class="tags">
-          <span class="tag">NIST</span>
-          <span class="tag">ISO 27001</span>
-          <span class="tag">PCI DSS</span>
-          <span class="tag">HIPAA</span>
-          <span class="tag">ACR</span>
-          <span class="tag">DOH</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <p class="skill-category-name">AWS & Cloud</p>
-        <div class="tags">
-          <span class="tag">IAM</span>
-          <span class="tag">S3</span>
-          <span class="tag">CloudFront</span>
-          <span class="tag">Lambda</span>
-          <span class="tag">DynamoDB</span>
-          <span class="tag">API Gateway</span>
-          <span class="tag">Route 53</span>
-          <span class="tag">CloudWatch</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <p class="skill-category-name">Healthcare IT</p>
-        <div class="tags">
-          <span class="tag">Epic Super User</span>
-          <span class="tag">PACS</span>
-          <span class="tag">RIS</span>
-          <span class="tag">HIM</span>
-          <span class="tag">HL7</span>
-          <span class="tag">DICOM</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <p class="skill-category-name">Operating Systems & Tools</p>
-        <div class="tags">
-          <span class="tag">Linux (Kali)</span>
-          <span class="tag">Windows</span>
-          <span class="tag">Active Directory</span>
-          <span class="tag">Terraform</span>
-          <span class="tag">GitHub Actions</span>
-          <span class="tag">Python</span>
-        </div>
-      </div>
-      <div class="skill-category">
-        <p class="skill-category-name">DevOps & IaC</p>
-        <div class="tags">
-          <span class="tag">Terraform</span>
-          <span class="tag">CloudFormation</span>
-          <span class="tag">CI/CD</span>
-          <span class="tag">Git</span>
-          <span class="tag">Bash</span>
-          <span class="tag">YAML</span>
+        <p class="project-desc">
+          Full-stack serverless resume hosted entirely on AWS. Frontend delivered via S3 + CloudFront with HTTPS enforced via ACM and WAF enabled. Backend visitor counter built with API Gateway, Lambda (Python), and DynamoDB. Infrastructure defined as code with Terraform and deployed automatically via GitHub Actions CI/CD pipeline.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">S3</span>
+          <span class="tech-tag">CloudFront</span>
+          <span class="tech-tag">ACM</span>
+          <span class="tech-tag">WAF</span>
+          <span class="tech-tag">Lambda</span>
+          <span class="tech-tag">DynamoDB</span>
+          <span class="tech-tag">API Gateway</span>
+          <span class="tech-tag">Terraform</span>
+          <span class="tech-tag">GitHub Actions</span>
+          <span class="tech-tag">Python</span>
         </div>
       </div>
     </div>
-  </section>
 
-  <section>
-    <h2 class="section-title">Certifications</h2>
-    <div class="certs-grid">
-      <div class="cert-item">
-        <span class="cert-icon">🏥</span>
-        <div>
-          <p class="cert-name">R.T. (R) — Registered Radiologic Technologist</p>
-          <p class="cert-issuer">ARRT · Active</p>
+    <div class="section">
+      <div class="section-header"><h2>Certifications</h2></div>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <span class="cert-icon">🏥</span>
+          <div>
+            <p class="cert-name">R.T. (R) ARRT</p>
+            <p class="cert-issuer">Active · Registered Radiologic Technologist</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <span class="cert-icon">☁️</span>
+          <div>
+            <p class="cert-name">AWS Cloud Practitioner</p>
+            <p class="cert-issuer">Amazon Web Services · In Progress</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <span class="cert-icon">🔐</span>
+          <div>
+            <p class="cert-name">AWS Security Specialty</p>
+            <p class="cert-issuer">Amazon Web Services · Planned</p>
+          </div>
         </div>
       </div>
-      <div class="cert-item">
-        <span class="cert-icon">☁️</span>
-        <div>
-          <p class="cert-name">AWS Cloud Practitioner</p>
-          <p class="cert-issuer">Amazon Web Services · In Progress</p>
-        </div>
-      </div>
-      <div class="cert-item">
-        <span class="cert-icon">🔐</span>
-        <div>
-          <p class="cert-name">AWS Security Specialty</p>
-          <p class="cert-issuer">Amazon Web Services · Planned</p>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <section>
-    <h2 class="section-title">Education</h2>
-    <div class="edu-item">
-      <div>
-        <p class="edu-degree">M.S. Cybersecurity</p>
-        <p class="edu-school">Thomas Edison State University — Trenton, NJ</p>
-        <p class="edu-coursework">Cybersecurity Foundations · Network Defense · OS Security · Cryptography · Cyber Risk Management · Cyber Forensics · Cybersecurity Strategy & Governance · Kali Linux · Active Directory</p>
-      </div>
-      <span class="edu-year">May 2025</span>
-    </div>
-    <div class="edu-item">
-      <div>
-        <p class="edu-degree">B.S. Diagnostic Imaging Sciences</p>
-        <p class="edu-school">Rutgers University — Newark, NJ</p>
-        <p class="edu-coursework">CT/MRI Physics · Cross-Sectional Anatomy · PACS/RIS/HIM · HL7 · DICOM · Project Management</p>
-      </div>
-      <span class="edu-year">May 2020</span>
-    </div>
-    <div class="edu-item">
-      <div>
-        <p class="edu-degree">A.A.S. Radiologic Sciences</p>
-        <p class="edu-school">Bergen Community College — Paramus, NJ</p>
-      </div>
-      <span class="edu-year">Aug 2016</span>
-    </div>
-  </section>
+    <footer>
+      <span>Built with AWS · S3 + CloudFront + Lambda + DynamoDB + Terraform</span>
+      <span id="last-updated">Last updated: 2025</span>
+    </footer>
 
-  <footer>
-    <span>Built with AWS · S3 + CloudFront + Lambda + DynamoDB</span>
-    <span id="last-updated">Last updated: 2025</span>
-  </footer>
+  </main>
 
-</div>
 <script>
   async function fetchVisitorCount() {
     const countEl = document.getElementById('visitor-count');
@@ -545,7 +655,6 @@
       countEl.textContent = data.count.toLocaleString();
     } catch {
       countEl.textContent = '—';
-      countEl.title = 'Visitor counter coming in Chunk 2!';
     }
   }
   fetchVisitorCount();
