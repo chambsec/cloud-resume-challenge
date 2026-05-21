@@ -22,7 +22,19 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 cp index.html s3://chambsec-resume/index.html
+          aws s3 sync . s3://chambsec-resume/ \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "*.tf" \
+            --exclude "*.tfstate" \
+            --exclude "*.tfstate.backup" \
+            --exclude "*.zip" \
+            --exclude "*.py" \
+            --exclude "tfplan" \
+            --exclude ".gitignore" \
+            --exclude "README.md" \
+            --exclude "*.md" \
+            --delete
 
       - name: Invalidate CloudFront cache
         run: |
