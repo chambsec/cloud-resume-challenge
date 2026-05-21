@@ -6,15 +6,13 @@
 
 ## The Story Behind This Project
 
-I'm a Radiologic Technologist with nearly a decade of experience at places like Memorial Sloan Kettering Cancer Center. For years I worked inside some of the most regulated data environments in healthcare — managing audit logs, enforcing HIPAA compliance, governing access controls on clinical imaging systems.
+I spent years working in highly regulated healthcare environments, managing audit logs, enforcing HIPAA compliance, and maintaining strict access controls for clinical imaging systems. Over time, I realized I was already approaching problems with a security-first mindset — I just wanted to expand those skills into cloud engineering.
 
-At some point I realized something: I was already thinking like a security engineer. I just didn't have the cloud infrastructure skills to match.
+That realization pushed me to start building.
 
-So I decided to build them.
+The Cloud Resume Challenge by Forrest Brazeal became my first major cloud project. What starts as a simple idea — hosting a resume on AWS — quickly turns into a hands-on lesson in real-world cloud engineering. Through the project, I built a serverless backend, implemented infrastructure as code, and created an automated CI/CD pipeline from the ground up.
 
-The Cloud Resume Challenge by Forrest Brazeal was the first real project I tackled. The goal sounds simple — host your resume on AWS. But the deeper you go, the more you realize it's actually a full-stack cloud engineering project in disguise. By the end I had built a serverless backend, written infrastructure as code, and set up an automated CI/CD pipeline. All from scratch.
-
-This is that project.
+This project represents that transition from working with secure healthcare systems to building modern cloud infrastructure.
 
 ---
 
