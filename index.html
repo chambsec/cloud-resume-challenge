@@ -60,18 +60,29 @@
 
     a { color: inherit; text-decoration: none; }
 
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
     /* ── Nav ── */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 3rem;
       background: var(--bg);
       border-bottom: 0.5px solid var(--border);
       transition: var(--transition);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .nav-left {
@@ -134,8 +145,7 @@
 
     /* ── Hero ── */
     .hero {
-      padding: 5.5rem 3rem 4.5rem;
-      max-width: 900px;
+      padding: 5.5rem 0 4.5rem;
     }
 
     .hero-eyebrow {
@@ -226,7 +236,7 @@
 
     /* ── Sections ── */
     .section {
-      padding: 3.5rem 3rem;
+      padding: 3.5rem 0;
       border-top: 0.5px solid var(--border);
       transition: border-color 0.25s ease;
     }
@@ -378,14 +388,9 @@
 
     /* ── Footer ── */
     footer {
-      padding: 2rem 3rem;
+      padding: 2rem 0;
       border-top: 0.5px solid var(--border);
       background: var(--surface);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       transition: var(--transition);
     }
 
@@ -412,10 +417,11 @@
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
+      .container { padding: 0 1.5rem; }
+      .nav-inner { padding: 1rem 1.5rem; }
       .nav-links { gap: 1.25rem; }
-      .hero { padding: 3.5rem 1.5rem 3rem; }
-      .section { padding: 2.5rem 1.5rem; }
+      .hero { padding: 3.5rem 0 3rem; }
+      .section { padding: 2.5rem 0; }
       .writing-grid { grid-template-columns: 1fr; }
       .writing-item:nth-child(even) { padding-left: 0; border-left: none; }
       .projects-grid { grid-template-columns: 1fr; }
@@ -445,22 +451,25 @@
 
   <!-- Nav -->
   <nav>
-    <div class="nav-left">
-      <a href="/" class="nav-logo">chamb<span>.</span>dev</a>
-      <ul class="nav-links">
-        <li><a href="#writing">writing</a></li>
-        <li><a href="#projects">projects</a></li>
-        <li><a href="/resume.html">resume</a></li>
-      </ul>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="/" class="nav-logo">chamb<span>.</span>dev</a>
+        <ul class="nav-links">
+          <li><a href="#writing">writing</a></li>
+          <li><a href="#projects">projects</a></li>
+          <li><a href="/resume.html">resume</a></li>
+        </ul>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-      <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
+    <div class="container">
     <div class="hero-eyebrow">Cloud Security Engineer &nbsp;·&nbsp; Builder &nbsp;·&nbsp; New Jersey</div>
     <h1 class="hero-name">
       Chris<br>
@@ -474,74 +483,79 @@
       <a href="#writing" class="btn-primary">Read the writing →</a>
       <a href="#projects" class="btn-ghost">View projects</a>
     </div>
+    </div>
   </section>
 
   <!-- Writing -->
   <section class="section" id="writing">
-    <div class="section-label">Writing</div>
-    <div class="writing-grid">
-      <a href="#" class="writing-item">
-        <div class="writing-tag">Architecture</div>
-        <div class="writing-title">Why I enforce human approval on every autonomous agent I build</div>
-        <div class="writing-date">Jun 2025</div>
-      </a>
-      <a href="#" class="writing-item">
-        <div class="writing-tag">Compliance</div>
-        <div class="writing-title">What healthcare IT taught me about least-privilege access</div>
-        <div class="writing-date">May 2025</div>
-      </a>
-      <a href="#" class="writing-item">
-        <div class="writing-tag">Serverless</div>
-        <div class="writing-title">Cutting Lambda execution time by 70% with one change</div>
-        <div class="writing-date">Apr 2025</div>
-      </a>
-      <a href="#" class="writing-item">
-        <div class="writing-tag">GRC</div>
-        <div class="writing-title">Closing HIPAA gaps with Terraform and OPA — what the code actually looks like</div>
-        <div class="writing-date">Mar 2025</div>
-      </a>
+    <div class="container">
+      <div class="section-label">Writing</div>
+      <div class="writing-grid">
+        <a href="#" class="writing-item">
+          <div class="writing-tag">Architecture</div>
+          <div class="writing-title">Why I enforce human approval on every autonomous agent I build</div>
+          <div class="writing-date">Jun 2025</div>
+        </a>
+        <a href="#" class="writing-item">
+          <div class="writing-tag">Compliance</div>
+          <div class="writing-title">What healthcare IT taught me about least-privilege access</div>
+          <div class="writing-date">May 2025</div>
+        </a>
+        <a href="#" class="writing-item">
+          <div class="writing-tag">Serverless</div>
+          <div class="writing-title">Cutting Lambda execution time by 70% with one change</div>
+          <div class="writing-date">Apr 2025</div>
+        </a>
+        <a href="#" class="writing-item">
+          <div class="writing-tag">GRC</div>
+          <div class="writing-title">Closing HIPAA gaps with Terraform and OPA — what the code actually looks like</div>
+          <div class="writing-date">Mar 2025</div>
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- Projects -->
   <section class="section" id="projects">
-    <div class="section-label">Selected projects</div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-num">01</div>
-        <div class="project-name">GRC Engineering Capstone</div>
-        <div class="project-desc">End-to-end compliance-as-code across AWS and GCP. Closed 7 of 8 HIPAA Security Rule gaps using Terraform, OPA/Rego, and OSCAL with signed evidence bundles.</div>
-        <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener" class="project-link">↗ github.com/chambsec</a>
-        <div class="tag-row">
-          <span class="tag">Terraform</span>
-          <span class="tag">OPA/Rego</span>
-          <span class="tag">OSCAL</span>
-          <span class="tag">NIST</span>
-          <span class="tag">GCP</span>
+    <div class="container">
+      <div class="section-label">Selected projects</div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-num">01</div>
+          <div class="project-name">GRC Engineering Capstone</div>
+          <div class="project-desc">End-to-end compliance-as-code across AWS and GCP. Closed 7 of 8 HIPAA Security Rule gaps using Terraform, OPA/Rego, and OSCAL with signed evidence bundles.</div>
+          <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener" class="project-link">↗ github.com/chambsec</a>
+          <div class="tag-row">
+            <span class="tag">Terraform</span>
+            <span class="tag">OPA/Rego</span>
+            <span class="tag">OSCAL</span>
+            <span class="tag">NIST</span>
+            <span class="tag">GCP</span>
+          </div>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="project-num">02</div>
-        <div class="project-name">Serverless Media Pipeline</div>
-        <div class="project-desc">AI-powered content pipeline running in production. Bedrock → Lambda → API Gateway → DynamoDB → SES. Multi-agent orchestration with human-in-the-loop approval gates.</div>
-        <div class="tag-row">
-          <span class="tag">Bedrock</span>
-          <span class="tag">Lambda</span>
-          <span class="tag">DynamoDB</span>
-          <span class="tag">SES</span>
-          <span class="tag">AWS</span>
+        <div class="project-card">
+          <div class="project-num">02</div>
+          <div class="project-name">Serverless Media Pipeline</div>
+          <div class="project-desc">AI-powered content pipeline running in production. Bedrock → Lambda → API Gateway → DynamoDB → SES. Multi-agent orchestration with human-in-the-loop approval gates.</div>
+          <div class="tag-row">
+            <span class="tag">Bedrock</span>
+            <span class="tag">Lambda</span>
+            <span class="tag">DynamoDB</span>
+            <span class="tag">SES</span>
+            <span class="tag">AWS</span>
+          </div>
         </div>
-      </div>
-      <div class="project-card">
-        <div class="project-num">03</div>
-        <div class="project-name">Cloud Resume Challenge</div>
-        <div class="project-desc">Full-stack serverless resume on AWS. S3 + CloudFront + ACM + WAF frontend. Lambda + DynamoDB visitor counter. IaC with Terraform, CI/CD via GitHub Actions.</div>
-        <a href="https://github.com/chambsec/cloud-resume-challenge" target="_blank" rel="noopener" class="project-link">↗ github.com/chambsec</a>
-        <div class="tag-row">
-          <span class="tag">S3</span>
-          <span class="tag">CloudFront</span>
-          <span class="tag">Terraform</span>
-          <span class="tag">GitHub Actions</span>
+        <div class="project-card">
+          <div class="project-num">03</div>
+          <div class="project-name">Cloud Resume Challenge</div>
+          <div class="project-desc">Full-stack serverless resume on AWS. S3 + CloudFront + ACM + WAF frontend. Lambda + DynamoDB visitor counter. IaC with Terraform, CI/CD via GitHub Actions.</div>
+          <a href="https://github.com/chambsec/cloud-resume-challenge" target="_blank" rel="noopener" class="project-link">↗ github.com/chambsec</a>
+          <div class="tag-row">
+            <span class="tag">S3</span>
+            <span class="tag">CloudFront</span>
+            <span class="tag">Terraform</span>
+            <span class="tag">GitHub Actions</span>
+          </div>
         </div>
       </div>
     </div>
@@ -549,36 +563,38 @@
 
   <!-- Stack -->
   <section class="section">
-    <div class="section-label">Stack</div>
-    <div class="stack-row">
-      <div class="stack-group">
-        <div class="stack-group-label">Cloud</div>
-        <div class="stack-items">
-          <span class="stack-item">Lambda</span>
-          <span class="stack-item">API Gateway</span>
-          <span class="stack-item">DynamoDB</span>
-          <span class="stack-item">CloudFront</span>
-          <span class="stack-item">Bedrock</span>
-          <span class="stack-item">SES</span>
+    <div class="container">
+      <div class="section-label">Stack</div>
+      <div class="stack-row">
+        <div class="stack-group">
+          <div class="stack-group-label">Cloud</div>
+          <div class="stack-items">
+            <span class="stack-item">Lambda</span>
+            <span class="stack-item">API Gateway</span>
+            <span class="stack-item">DynamoDB</span>
+            <span class="stack-item">CloudFront</span>
+            <span class="stack-item">Bedrock</span>
+            <span class="stack-item">SES</span>
+          </div>
         </div>
-      </div>
-      <div class="stack-group">
-        <div class="stack-group-label">Security & GRC</div>
-        <div class="stack-items">
-          <span class="stack-item">OPA / Rego</span>
-          <span class="stack-item">OSCAL</span>
-          <span class="stack-item">NIST 800-53</span>
-          <span class="stack-item">HIPAA</span>
-          <span class="stack-item">GuardDuty</span>
+        <div class="stack-group">
+          <div class="stack-group-label">Security & GRC</div>
+          <div class="stack-items">
+            <span class="stack-item">OPA / Rego</span>
+            <span class="stack-item">OSCAL</span>
+            <span class="stack-item">NIST 800-53</span>
+            <span class="stack-item">HIPAA</span>
+            <span class="stack-item">GuardDuty</span>
+          </div>
         </div>
-      </div>
-      <div class="stack-group">
-        <div class="stack-group-label">Tooling</div>
-        <div class="stack-items">
-          <span class="stack-item">Terraform</span>
-          <span class="stack-item">GitHub Actions</span>
-          <span class="stack-item">Python</span>
-          <span class="stack-item">Bash</span>
+        <div class="stack-group">
+          <div class="stack-group-label">Tooling</div>
+          <div class="stack-items">
+            <span class="stack-item">Terraform</span>
+            <span class="stack-item">GitHub Actions</span>
+            <span class="stack-item">Python</span>
+            <span class="stack-item">Bash</span>
+          </div>
         </div>
       </div>
     </div>
@@ -586,13 +602,15 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-left">Chris Chambers R.T.(R)(ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
-    <ul class="footer-links">
-      <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
-      <li><a href="/resume.html">Resume</a></li>
-    </ul>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;width:100%">
+      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
+      <ul class="footer-links">
+        <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+        <li><a href="/resume.html">Resume</a></li>
+      </ul>
+    </div>
   </footer>
 
   <script>
