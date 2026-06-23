@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,6 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     :root {
       --bg:        #F5F4F0;
       --surface:   #EEECEA;
@@ -30,7 +29,6 @@
       --sans:      'Inter', sans-serif;
       --transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
-
     body.dark {
       --bg:        #252420;
       --surface:   #2E2D29;
@@ -42,278 +40,65 @@
       --accent:    #E04B2A;
       --accent-dk: #C83D20;
     }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 15px;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-      transition: var(--transition);
-    }
-
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; transition: var(--transition); }
     a { color: inherit; text-decoration: none; }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 3rem;
-    }
-
-    /* Nav */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 0.5px solid var(--border);
-      transition: var(--transition);
-    }
-
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1.25rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); transition: var(--transition); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 1.25rem 3rem; display: flex; justify-content: space-between; align-items: center; }
     .nav-left { display: flex; align-items: center; gap: 2.5rem; }
-
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
+    .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
     .nav-logo span { color: var(--accent); }
-
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
-    }
-
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
     .nav-links a.active { color: var(--accent); }
-
-    .theme-toggle {
-      background: none;
-      border: 0.5px solid var(--border);
-      color: var(--muted);
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
+    .theme-toggle { background: none; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
     .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-    .icon-sun  { display: none; }
-    .icon-moon { display: block; }
-    body.dark .icon-sun  { display: block; }
-    body.dark .icon-moon { display: none; }
-
-    /* Page header */
-    .page-header {
-      padding: 4rem 0 3rem;
-      border-bottom: 0.5px solid var(--border);
-    }
-
-    .page-title {
-      font-family: var(--mono);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-    }
-
+    .icon-sun { display: none; } .icon-moon { display: block; }
+    body.dark .icon-sun { display: block; } body.dark .icon-moon { display: none; }
+    .page-header { padding: 4rem 0 3rem; border-bottom: 0.5px solid var(--border); }
+    .page-title { font-family: var(--mono); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.75rem; }
     .page-title span { color: var(--accent); }
-
-    .page-desc {
-      font-size: 15px;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 480px;
-    }
-
-    /* Filter bar */
-    .filter-bar {
-      display: flex;
-      gap: 6px;
-      padding: 1.5rem 0;
-      border-bottom: 0.5px solid var(--border);
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border: 0.5px solid var(--border);
-      color: var(--muted);
-      background: none;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
+    .page-desc { font-size: 15px; font-weight: 300; color: var(--muted); max-width: 480px; }
+    .filter-bar { display: flex; gap: 6px; padding: 1.5rem 0; border-bottom: 0.5px solid var(--border); flex-wrap: wrap; }
+    .filter-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border: 0.5px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: all 0.15s; }
     .filter-btn:hover { border-color: var(--subtle); color: var(--text); }
     .filter-btn.active { border-color: var(--accent); color: var(--accent); }
-
-    /* Post list */
     .post-list { padding: 0 0 5rem; }
-
-    .post-item {
-      display: grid;
-      grid-template-columns: 120px 1fr 100px;
-      align-items: start;
-      gap: 2rem;
-      padding: 1.5rem 0;
-      border-bottom: 0.5px solid var(--border);
-      transition: all 0.15s;
-    }
-
+    .post-item { display: grid; grid-template-columns: 120px 1fr 100px; align-items: start; gap: 2rem; padding: 1.5rem 0; border-bottom: 0.5px solid var(--border); transition: all 0.15s; }
     .post-item:hover .post-item-title { color: var(--accent); }
-
-    .post-item-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--dim);
-      padding-top: 3px;
-    }
-
+    .post-item-date { font-family: var(--mono); font-size: 11px; color: var(--dim); padding-top: 3px; }
     .post-item-main {}
-
-    .post-item-tag {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--accent);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-    }
-
-    .post-item-title {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.4;
-      margin-bottom: 0.4rem;
-      transition: color 0.2s;
-    }
-
-    .post-item-desc {
-      font-size: 13px;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .post-item-arrow {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--dim);
-      text-align: right;
-      padding-top: 3px;
-      transition: color 0.2s;
-    }
-
+    .post-item-tag { font-family: var(--mono); font-size: 9px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .post-item-title { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: 0.4rem; transition: color 0.2s; }
+    .post-item-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+    .post-item-arrow { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: right; padding-top: 3px; transition: color 0.2s; }
     .post-item:hover .post-item-arrow { color: var(--accent); }
-
-    .post-count {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--dim);
-      letter-spacing: 0.08em;
-      padding: 1.25rem 0 0;
-    }
-
-    /* Empty state */
-    .coming-soon {
-      padding: 1.5rem 0;
-      border-bottom: 0.5px solid var(--border);
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    /* Footer */
-    footer {
-      padding: 2rem 0;
-      border-top: 0.5px solid var(--border);
-      background: var(--surface);
-      transition: var(--transition);
-    }
-
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .footer-left {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-
+    .post-count { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: 0.08em; padding: 1.25rem 0 0; }
+    footer { padding: 2rem 0; border-top: 0.5px solid var(--border); background: var(--surface); transition: var(--transition); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
     .footer-links { display: flex; gap: 1.75rem; list-style: none; }
-
-    .footer-links a {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      transition: color 0.2s;
-    }
-
+    .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--muted); transition: color 0.2s; }
     .footer-links a:hover { color: var(--accent); }
-
-    /* Responsive */
     @media (max-width: 768px) {
-      .container { padding: 0 1.5rem; }
-      .nav-inner { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.25rem; }
+      .container { padding: 0 1.5rem; } .nav-inner { padding: 1rem 1.5rem; } .nav-links { gap: 1.25rem; }
       .page-header { padding: 3rem 0 2rem; }
       .post-item { grid-template-columns: 1fr; gap: 0.4rem; }
-      .post-item-date { order: 3; }
-      .post-item-arrow { display: none; }
+      .post-item-date { order: 3; } .post-item-arrow { display: none; }
       .footer-inner { padding: 0 1.5rem; flex-direction: column; align-items: flex-start; }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none; }
-    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none; } }
   </style>
 </head>
 <body>
-
   <script>
     (function() {
       const saved = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.body.classList.add('dark');
-      }
+      if (saved === 'dark' || (!saved && prefersDark)) document.body.classList.add('dark');
     })();
   </script>
-
   <nav>
     <div class="nav-inner">
       <div class="nav-left">
@@ -330,28 +115,31 @@
       </button>
     </div>
   </nav>
-
   <div class="container">
-
     <header class="page-header">
       <h1 class="page-title">Writing<span>.</span></h1>
       <p class="page-desc">Cloud security, AWS, compliance engineering, and the transition from healthcare IT to cloud infrastructure.</p>
     </header>
-
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
       <button class="filter-btn" onclick="filterPosts('personal', this)">Personal</button>
+      <button class="filter-btn" onclick="filterPosts('academic', this)">Academic</button>
+      <button class="filter-btn" onclick="filterPosts('builder', this)">Builder</button>
       <button class="filter-btn" onclick="filterPosts('architecture', this)">Architecture</button>
       <button class="filter-btn" onclick="filterPosts('compliance', this)">Compliance</button>
       <button class="filter-btn" onclick="filterPosts('serverless', this)">Serverless</button>
       <button class="filter-btn" onclick="filterPosts('grc', this)">GRC</button>
-      <button class="filter-btn" onclick="filterPosts('builder', this)">Builder</button>
     </div>
-
     <div class="post-list" id="post-list">
-
-      <!-- Post 01 — Live -->
-
+      <a href="/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure/" class="post-item" data-tag="builder">
+        <div class="post-item-date">Jun 23, 2026</div>
+        <div class="post-item-main">
+          <div class="post-item-tag">Builder</div>
+          <div class="post-item-title">From Cloud Resume Challenge to Personal Brand Infrastructure</div>
+          <div class="post-item-desc">What I built after finishing the Cloud Resume Challenge, and why the portfolio is never finished.</div>
+        </div>
+        <div class="post-item-arrow">&#8599;</div>
+      </a>
       <a href="/writing/invisible-infrastructure-modern-healthcare/" class="post-item" data-tag="academic">
         <div class="post-item-date">Jun 20, 2026</div>
         <div class="post-item-main">
@@ -359,9 +147,8 @@
           <div class="post-item-title">The Invisible Infrastructure Behind Modern Healthcare</div>
           <div class="post-item-desc">The healthcare supply chain consists of a complex network of systems that ensures the critical production, distribution, and delivery of supplies to ensure reliable patient care.</div>
         </div>
-        <div class="post-item-arrow">↗</div>
+        <div class="post-item-arrow">&#8599;</div>
       </a>
-
       <a href="/writing/from-clinical-to-cloud/" class="post-item" data-tag="personal">
         <div class="post-item-date">Jun 19, 2026</div>
         <div class="post-item-main">
@@ -369,35 +156,14 @@
           <div class="post-item-title">From Clinical to Cloud</div>
           <div class="post-item-desc">Ten years in clinical healthcare. One pandemic. The decision to move to the infrastructure layer.</div>
         </div>
-        <div class="post-item-arrow">↗</div>
+        <div class="post-item-arrow">&#8599;</div>
       </a>
-
-
-
-            
-
-      <!-- Add future posts above this line in the same format -->
-      <!-- 
-      <a href="/writing/post-slug/" class="post-item" data-tag="architecture">
-        <div class="post-item-date">Mon YYYY</div>
-        <div class="post-item-main">
-          <div class="post-item-tag">Architecture</div>
-          <div class="post-item-title">Post title here</div>
-          <div class="post-item-desc">One sentence description.</div>
-        </div>
-        <div class="post-item-arrow">↗</div>
-      </a>
-      -->
-
     </div>
-
     <div class="post-count" id="post-count">3 posts</div>
-
   </div>
-
   <footer>
     <div class="footer-inner">
-      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
+      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;&middot;&nbsp; M.S. Cybersecurity</div>
       <ul class="footer-links">
         <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
@@ -406,13 +172,11 @@
       </ul>
     </div>
   </footer>
-
   <script>
     function toggleTheme() {
       const isDark = document.body.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
-
     function filterPosts(tag, btn) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -429,6 +193,5 @@
       document.getElementById('post-count').textContent = visible + ' post' + (visible !== 1 ? 's' : '');
     }
   </script>
-
 </body>
 </html>
