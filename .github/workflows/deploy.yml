@@ -22,7 +22,7 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync . s3://chambsec-resume/ \
+          aws s3 sync . s3://${{ secrets.S3_BUCKET }}/ \
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude "*.tf" \
@@ -39,5 +39,5 @@ jobs:
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id E15STNEPORHNJV \
+            --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} \
             --paths "/*"
