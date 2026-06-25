@@ -8,3 +8,33 @@ tfplan
 # Sensitive files
 *.pem
 *.key
+
+# Node
+node_modules/
+dist/
+build/
+.vite/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Environment
+.env
+.env.local
+.env.production
+.env.*.local
+
+# AWS and deployment
+.aws/
+*.zip
+
+# IDE and OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
