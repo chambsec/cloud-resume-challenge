@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compliance Engineering Platform — Chris Chambers. End-to-end compliance automation across AWS and GCP. Five production systems with live interactive demos.">
+  <meta property="og:title" content="Compliance Engineering Platform — Chris Chambers">
+  <meta property="og:description" content="End-to-end compliance automation across AWS and GCP. Five production systems built from real infrastructure, not theory.">
+  <meta property="og:url" content="https://chamb.dev/projects/compliance-platform.html">
+  <meta name="twitter:card" content="summary">
+  <title>Compliance Engineering Platform — Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F6F3;
+      --charcoal: #2C2C2A;
+      --red: #E24B4A;
+      --muted: #7A7A76;
+      --border: #E0DED8;
+      --card-bg: #FFFFFF;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--red); }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    nav {
+      padding: 32px 0 0;
+      margin-bottom: 56px;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: baseline;
+      gap: 32px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--charcoal); }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--charcoal); }
+    .breadcrumb-sep { color: var(--border); }
+
+    .project-header { margin-bottom: 2.5rem; }
+
+    .project-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: var(--charcoal);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+    }
+
+    .meta-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 7px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .prose p {
+      font-size: 15px;
+      color: #4A4A47;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .prose p:last-child { margin-bottom: 0; }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lab-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .lab-item {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .lab-item:last-child { border-bottom: none; }
+
+    .lab-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 28px;
+      padding-top: 1px;
+    }
+
+    .lab-content { flex: 1; }
+
+    .lab-title {
+      color: var(--charcoal);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .lab-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .origin-note {
+      background: var(--card-bg);
+      border-left: 2px solid var(--red);
+      padding: 12px 16px;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .expansion-card {
+      display: block;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-bottom: 12px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+
+    .expansion-card:hover {
+      border-color: var(--charcoal);
+      box-shadow: 0 2px 8px rgba(44,44,42,0.06);
+      color: inherit;
+    }
+
+    .expansion-card:hover .card-arrow { color: var(--red); }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 0.625rem;
+    }
+
+    .card-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 24px;
+      padding-top: 3px;
+    }
+
+    .card-body { flex: 1; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .card-status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .status-live { background: #DCFCE7; color: #166534; }
+    .status-building { background: #FEF9C3; color: #854D0E; }
+
+    .card-arrow {
+      font-size: 16px;
+      color: var(--muted);
+      margin-left: auto;
+      flex-shrink: 0;
+      transition: color 0.15s;
+      padding-top: 2px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+      margin-left: 36px;
+    }
+
+    .card-outcome {
+      margin-left: 36px;
+      margin-bottom: 0.75rem;
+    }
+
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--charcoal);
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    .outcome-arrow {
+      color: var(--red);
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .card-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-left: 36px;
+    }
+
+    .stack-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 7px;
+    }
+
+    .links-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .action-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--charcoal);
+      border-bottom: 1px solid var(--charcoal);
+      padding-bottom: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .action-link:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    footer {
+      margin-top: 5rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links a:hover { color: var(--charcoal); }
+
+    @media (max-width: 600px) {
+      .project-title { font-size: 28px; }
+      .nav-inner { gap: 16px; }
+      .nav-links { gap: 16px; }
+      .expansion-card { padding: 1rem; }
+      .card-desc,
+      .card-outcome,
+      .card-stack { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <nav>
+      <div class="nav-inner">
+        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
+        <ul class="nav-links">
+          <li><a href="https://chamb.dev/writing/">writing</a></li>
+          <li><a href="https://chamb.dev/projects/" class="active">projects</a></li>
+          <li><a href="https://chamb.dev/resume.html">resume</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="breadcrumb">
+      <a href="https://chamb.dev">chamb.dev</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/">projects</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>compliance-platform</span>
+    </div>
+
+    <header class="project-header">
+      <div class="project-eyebrow">Cloud Security Engineering</div>
+      <h1 class="project-title">Compliance Engineering Platform</h1>
+      <div class="project-meta">
+        <div class="meta-item"><span class="status-dot"></span> Live</div>
+        <div class="meta-item">11 labs</div>
+        <div class="meta-item">AWS + GCP</div>
+        <span class="meta-tag">NIST 800-53</span>
+        <span class="meta-tag">HIPAA</span>
+        <span class="meta-tag">OSCAL</span>
+      </div>
+    </header>
+
+    <hr class="divider">
+
+    <div class="prose" style="margin-bottom: 2rem;">
+      <p>Most compliance work is reactive. Something fails an audit, someone builds a control, and the cycle repeats. This platform was built around a different premise: compliance should be enforced at the point where infrastructure is defined, not discovered after it deploys.</p>
+      <p>Eleven labs across AWS and GCP. Policy libraries, tamper-evident evidence vaults, HIPAA gap remediation on a live patient intake API, zero long-lived credentials anywhere in the pipeline. Real cloud accounts. Real infrastructure. Real deployments.</p>
+      <p>The five systems below grew directly from that foundation. Each one solves a specific business problem. Each one has a live interactive demo.</p>
+    </div>
+
+    <div class="section-label">What was built</div>
+    <ul class="lab-list">
+      <li class="lab-item">
+        <span class="lab-num">01</span>
+        <div class="lab-content">
+          <div class="lab-title">S3 NIST 800-53 controls</div>
+          <div class="lab-desc">Preventive and detective controls mapped to NIST 800-53 across S3 resources with automated policy enforcement.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">02</span>
+        <div class="lab-content">
+          <div class="lab-title">GCP Terraform module with CMEK</div>
+          <div class="lab-desc">Customer-managed encryption keys enforced across GCP resources via reusable Terraform module.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">03</span>
+        <div class="lab-content">
+          <div class="lab-title">S3 Object Lock evidence vault</div>
+          <div class="lab-desc">Tamper-evident compliance artifact storage with WORM protection and retention policy enforcement.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">04</span>
+        <div class="lab-content">
+          <div class="lab-title">Rego policy library</div>
+          <div class="lab-desc">Modular OPA/Rego policies covering S3, IAM, and network resources mapped to NIST and HIPAA control frameworks.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">05</span>
+        <div class="lab-content">
+          <div class="lab-title">Conftest policy gate</div>
+          <div class="lab-desc">Pre-deployment IaC evaluation that blocks violations before any resource reaches a live environment.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">06</span>
+        <div class="lab-content">
+          <div class="lab-title">GitHub Actions evidence pipeline with OIDC</div>
+          <div class="lab-desc">Fully automated evidence collection triggered on every deploy. Zero long-lived credentials throughout.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">07</span>
+        <div class="lab-content">
+          <div class="lab-title">Cosign keyless signing</div>
+          <div class="lab-desc">Cryptographic signing of every compliance artifact with a verifiable timestamp and identity claim.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">08</span>
+        <div class="lab-content">
+          <div class="lab-title">CloudTrail, Config, and Security Hub baseline</div>
+          <div class="lab-desc">Continuous compliance monitoring across the AWS environment. Configuration drift detected in real time.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">09</span>
+        <div class="lab-content">
+          <div class="lab-title">GCP Workload Identity Federation and Data Access logs</div>
+          <div class="lab-desc">Long-lived GCP credentials eliminated. All access authenticated via workload identity with a full audit trail.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">10</span>
+        <div class="lab-content">
+          <div class="lab-title">OSCAL with trestle</div>
+          <div class="lab-desc">Machine-readable compliance documentation in OSCAL format, accepted by major audit frameworks.</div>
+        </div>
+      </li>
+      <li class="lab-item">
+        <span class="lab-num">11</span>
+        <div class="lab-content">
+          <div class="lab-title">HIPAA gap remediation capstone</div>
+          <div class="lab-desc">Live patient intake API. 14 HIPAA Security Rule control gaps identified and closed before audit.</div>
+        </div>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Five production systems</div>
+
+    <div class="origin-note">
+      Each system below is active and interactive. Click through to see the business problem it solves, run a live demo against real infrastructure, and read the changelog.
+    </div>
+
+    <a class="expansion-card" href="https://chamb.dev/projects/compliance-guardrails.html">
+      <div class="card-top">
+        <span class="card-num">01</span>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Compliance guardrails pipeline</span>
+            <span class="card-status status-building">Building</span>
+          </div>
+        </div>
+        <span class="card-arrow">&#8599;</span>
+      </div>
+      <div class="card-desc">Policy-as-code gates that block misconfigured infrastructure before it reaches production. Submit a real template and watch the violation get caught against your NIST 800-53 policy set.</div>
+      <div class="card-outcome">
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Eliminated 2-4 day manual security review from every release cycle</div>
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>94% reduction in policy violations reaching production</div>
+      </div>
+      <div class="card-stack">
+        <span class="stack-tag">OPA / Rego</span>
+        <span class="stack-tag">Conftest</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">Lambda</span>
+        <span class="stack-tag">API Gateway</span>
+        <span class="stack-tag">DynamoDB</span>
+      </div>
+    </a>
+
+    <a class="expansion-card" href="https://chamb.dev/projects/audit-evidence-pipeline.html">
+      <div class="card-top">
+        <span class="card-num">02</span>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Automated audit evidence pipeline</span>
+            <span class="card-status status-building">Building</span>
+          </div>
+        </div>
+        <span class="card-arrow">&#8599;</span>
+      </div>
+      <div class="card-desc">Audit preparation automated end to end. Every compliance artifact is cryptographically signed, timestamped, and stored in a tamper-evident vault. Trigger a collection run and watch it execute.</div>
+      <div class="card-outcome">
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Audit prep reduced from 3 weeks manual to automated same-day collection</div>
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Zero long-lived credentials -- OIDC authentication throughout</div>
+      </div>
+      <div class="card-stack">
+        <span class="stack-tag">S3 Object Lock</span>
+        <span class="stack-tag">OIDC</span>
+        <span class="stack-tag">Cosign</span>
+        <span class="stack-tag">OSCAL</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">Lambda</span>
+      </div>
+    </a>
+
+    <a class="expansion-card" href="https://chamb.dev/projects/hipaa-remediation.html">
+      <div class="card-top">
+        <span class="card-num">03</span>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">HIPAA gap remediation engine</span>
+            <span class="card-status status-building">Building</span>
+          </div>
+        </div>
+        <span class="card-arrow">&#8599;</span>
+      </div>
+      <div class="card-desc">Automated HIPAA control gap identification and remediation. Submit a sample healthcare API configuration and watch it get scanned, gaps flagged, and remediation fire. Built by someone who has worked in the environments this protects.</div>
+      <div class="card-outcome">
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>14 HIPAA control gaps identified and closed before audit findings</div>
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>PHI exposure attempts blocked before any resource goes public</div>
+      </div>
+      <div class="card-stack">
+        <span class="stack-tag">Macie</span>
+        <span class="stack-tag">SCP</span>
+        <span class="stack-tag">Lambda</span>
+        <span class="stack-tag">Security Hub</span>
+        <span class="stack-tag">CloudTrail</span>
+        <span class="stack-tag">HIPAA</span>
+      </div>
+    </a>
+
+    <a class="expansion-card" href="https://chamb.dev/projects/security-baseline.html">
+      <div class="card-top">
+        <span class="card-num">04</span>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Cloud security baseline automation</span>
+            <span class="card-status status-building">Building</span>
+          </div>
+        </div>
+        <span class="card-arrow">&#8599;</span>
+      </div>
+      <div class="card-desc">Continuous compliance monitoring replacing point-in-time security reviews. Live feed of configuration drift events detected and routed automatically. GuardDuty findings enriched without manual triage.</div>
+      <div class="card-outcome">
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Mean time to detect configuration drift dropped from weeks to under 2 hours</div>
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>45 minutes of manual triage per incident eliminated</div>
+      </div>
+      <div class="card-stack">
+        <span class="stack-tag">GuardDuty</span>
+        <span class="stack-tag">CloudTrail</span>
+        <span class="stack-tag">Config</span>
+        <span class="stack-tag">Security Hub</span>
+        <span class="stack-tag">EventBridge</span>
+        <span class="stack-tag">Lambda</span>
+      </div>
+    </a>
+
+    <a class="expansion-card" href="https://chamb.dev/projects/zero-trust-credentials.html">
+      <div class="card-top">
+        <span class="card-num">05</span>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Zero trust credential elimination</span>
+            <span class="card-status status-building">Building</span>
+          </div>
+        </div>
+        <span class="card-arrow">&#8599;</span>
+      </div>
+      <div class="card-desc">Long-lived credentials replaced with workload identity federation across AWS and GCP. Submit an access request and watch it evaluated against identity policy in real time. Every decision logged.</div>
+      <div class="card-outcome">
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Credential exposure risk eliminated across the entire CI/CD pipeline</div>
+        <div class="outcome-item"><span class="outcome-arrow">&#8594;</span>Every access decision logged and auditable at the individual request level</div>
+      </div>
+      <div class="card-stack">
+        <span class="stack-tag">OIDC</span>
+        <span class="stack-tag">GCP WIF</span>
+        <span class="stack-tag">IAM</span>
+        <span class="stack-tag">Cosign</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">CloudTrail</span>
+      </div>
+    </a>
+
+    <div class="links-row">
+      <a class="action-link" href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">
+        &#8599; GitHub repo
+      </a>
+      <a class="action-link" href="https://github.com/chambsec/healthcare-compliance-as-code" target="_blank" rel="noopener">
+        &#8599; Healthcare compliance repo
+      </a>
+      <a class="action-link" href="https://chamb.dev/projects/">
+        &#8592; All projects
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; R.T.(R) ARRT · M.S. Cybersecurity</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://chamb.dev/resume.html">Resume</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
