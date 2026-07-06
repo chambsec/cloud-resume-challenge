@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compliance Guardrails Pipeline — Chris Chambers. Policy-as-code gates that block misconfigured infrastructure before it reaches production.">
+  <meta property="og:title" content="Compliance Guardrails Pipeline — Chris Chambers">
+  <meta property="og:description" content="Policy-as-code gates that block misconfigured infrastructure before it reaches production. Live interactive demo.">
+  <meta property="og:url" content="https://chamb.dev/projects/compliance-guardrails.html">
+  <meta name="twitter:card" content="summary">
+  <title>Compliance Guardrails Pipeline — Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F6F3;
+      --charcoal: #2C2C2A;
+      --red: #E24B4A;
+      --muted: #7A7A76;
+      --border: #E0DED8;
+      --card-bg: #FFFFFF;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--red); }
+
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+    nav { padding: 32px 0 0; margin-bottom: 56px; }
+
+    .nav-inner { display: flex; align-items: baseline; gap: 32px; }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links { display: flex; gap: 24px; list-style: none; margin-left: auto; }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--charcoal); }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--charcoal); }
+    .breadcrumb-sep { color: var(--border); }
+
+    .project-header { margin-bottom: 2.5rem; }
+
+    .project-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--red);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: var(--charcoal);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+    }
+
+    .meta-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 7px;
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    .prose p {
+      font-size: 15px;
+      color: #4A4A47;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .prose p:last-child { margin-bottom: 0; }
+
+    /* OUTCOME METRICS */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.125rem;
+    }
+
+    .metric-number {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      color: var(--charcoal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* DEMO SECTION */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-subtext {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .template-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.875rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s;
+      font-family: var(--font-sans);
+    }
+
+    .template-btn:hover { border-color: var(--charcoal); }
+
+    .template-btn.selected {
+      border-color: var(--red);
+      background: #FFF8F8;
+    }
+
+    .tb-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .tb-sub {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+      font-family: var(--font-mono);
+    }
+
+    .template-btn.selected .tb-label { color: var(--red); }
+
+    .run-btn {
+      width: 100%;
+      background: var(--charcoal);
+      color: var(--cream);
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 1.25rem;
+      transition: opacity 0.15s;
+      letter-spacing: 0.02em;
+    }
+
+    .run-btn:hover { opacity: 0.85; }
+    .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .loading-state {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 0.75rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--charcoal);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .result-box {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .result-box.blocked { border-left: 3px solid var(--red); }
+    .result-box.passed { border-left: 3px solid #22c55e; }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .result-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-blocked { background: #FEE2E2; color: #991B1B; }
+    .badge-passed { background: #DCFCE7; color: #166534; }
+
+    .result-time {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .result-row {
+      display: flex;
+      gap: 16px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .result-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .result-key {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 120px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    .result-val { color: var(--charcoal); flex: 1; }
+    .result-val.danger { color: var(--red); font-weight: 500; }
+    .result-val.success { color: #166534; font-weight: 500; }
+
+    /* FEED */
+    .feed-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feed-item:last-child { border-bottom: none; }
+
+    .feed-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .feed-dot.blocked { background: var(--red); }
+    .feed-dot.passed { background: #22c55e; }
+
+    .feed-main {
+      font-size: 13px;
+      color: var(--charcoal);
+      line-height: 1.5;
+      margin-bottom: 2px;
+    }
+
+    .feed-time {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* HOW IT WORKS */
+    .how-list { list-style: none; margin-bottom: 2rem; }
+
+    .how-item {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .how-item:last-child { border-bottom: none; }
+
+    .how-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 24px;
+      padding-top: 2px;
+    }
+
+    .how-content { flex: 1; }
+    .how-title { font-weight: 500; color: var(--charcoal); margin-bottom: 2px; }
+    .how-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* STACK */
+    .stack-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2rem; }
+
+    .stack-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 3px 8px;
+    }
+
+    /* ORIGIN */
+    .origin-note {
+      background: var(--card-bg);
+      border-left: 2px solid var(--red);
+      padding: 12px 16px;
+      margin-bottom: 2rem;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .origin-note a { color: var(--charcoal); border-bottom: 1px solid var(--border); }
+    .origin-note a:hover { color: var(--red); border-color: var(--red); }
+
+    /* LINKS */
+    .links-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
+
+    .action-link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--charcoal);
+      border-bottom: 1px solid var(--charcoal);
+      padding-bottom: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .action-link:hover { color: var(--red); border-color: var(--red); }
+
+    /* CHANGELOG */
+    .changelog-item {
+      display: flex;
+      gap: 16px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .changelog-item:last-child { border-bottom: none; }
+
+    .changelog-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 80px;
+      padding-top: 1px;
+    }
+
+    .changelog-text { color: var(--charcoal); line-height: 1.5; }
+
+    footer {
+      margin-top: 5rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-name { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+
+    .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .footer-links a:hover { color: var(--charcoal); }
+
+    @media (max-width: 600px) {
+      .project-title { font-size: 26px; }
+      .template-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .result-key { min-width: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <nav>
+      <div class="nav-inner">
+        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
+        <ul class="nav-links">
+          <li><a href="https://chamb.dev/writing/">writing</a></li>
+          <li><a href="https://chamb.dev/projects/" class="active">projects</a></li>
+          <li><a href="https://chamb.dev/resume.html">resume</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="breadcrumb">
+      <a href="https://chamb.dev">chamb.dev</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/">projects</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/compliance-platform.html">compliance-platform</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>guardrails</span>
+    </div>
+
+    <header class="project-header">
+      <div class="project-eyebrow">Compliance Engineering Platform</div>
+      <h1 class="project-title">Compliance Guardrails Pipeline</h1>
+      <div class="project-meta">
+        <div class="meta-item"><span class="status-dot"></span> Live</div>
+        <div class="meta-item">Policy-as-code</div>
+        <span class="meta-tag">NIST 800-53</span>
+        <span class="meta-tag">OPA / Rego</span>
+        <span class="meta-tag">AWS</span>
+      </div>
+    </header>
+
+    <hr class="divider">
+
+    <div class="prose" style="margin-bottom: 2rem;">
+      <p>Most cloud security incidents don't start with a sophisticated attacker. They start with a misconfigured S3 bucket, an overpermissioned IAM role, or a security group open to the entire internet. Someone made a change, nobody caught it, and the damage was done.</p>
+      <p>This pipeline catches those misconfigurations at the moment they are made -- before code ships, before infrastructure deploys, before anything reaches production. Policy violations block the pull request automatically. No manual review required.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number">94%</div>
+        <div class="metric-label">Reduction in violations reaching production</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">0</div>
+        <div class="metric-label">Manual security reviews in the release cycle</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">2-4 days</div>
+        <div class="metric-label">Saved per release previously spent on review</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Try it -- run a policy scan</div>
+    <p class="demo-subtext">Select a misconfigured infrastructure template and watch the pipeline evaluate it against the NIST 800-53 policy set in real time.</p>
+
+    <div class="template-grid">
+      <button class="template-btn selected" onclick="selectTemplate(this, 's3')" id="btn-s3">
+        <span class="tb-label">S3 bucket</span>
+        <span class="tb-sub">Public ACL enabled</span>
+      </button>
+      <button class="template-btn" onclick="selectTemplate(this, 'iam')" id="btn-iam">
+        <span class="tb-label">IAM role</span>
+        <span class="tb-sub">Wildcard permissions</span>
+      </button>
+      <button class="template-btn" onclick="selectTemplate(this, 'sg')" id="btn-sg">
+        <span class="tb-label">Security group</span>
+        <span class="tb-sub">0.0.0.0/0 ingress</span>
+      </button>
+    </div>
+
+    <button class="run-btn" id="run-btn" onclick="runScan()">Run policy scan</button>
+
+    <div class="loading-state" id="loading">
+      <div class="spinner"></div>
+      Evaluating against NIST 800-53 policy set...
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-header">
+        <span class="result-badge" id="result-badge"></span>
+        <span class="result-time" id="result-time"></span>
+      </div>
+      <div id="result-rows"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Recent evaluations</div>
+    <div id="feed-list"></div>
+
+    <hr class="divider">
+
+    <div class="section-label">How it works</div>
+    <ul class="how-list">
+      <li class="how-item">
+        <span class="how-num">01</span>
+        <div class="how-content">
+          <div class="how-title">Engineer opens a pull request</div>
+          <div class="how-desc">Any IaC change -- Terraform, CloudFormation, or raw policy -- triggers the pipeline on every PR.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">02</span>
+        <div class="how-content">
+          <div class="how-title">Conftest evaluates the template</div>
+          <div class="how-desc">The OPA/Rego policy library runs against the submitted template. Every resource type is checked against its mapped NIST 800-53 controls.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">03</span>
+        <div class="how-content">
+          <div class="how-title">Violations block the merge</div>
+          <div class="how-desc">Any policy failure returns a detailed report -- which rule fired, which resource, which control reference -- and the PR cannot merge until it is resolved.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">04</span>
+        <div class="how-content">
+          <div class="how-title">Results written to the evidence vault</div>
+          <div class="how-desc">Every evaluation result is stored in DynamoDB and synced to the S3 Object Lock evidence vault. Auditors get a timestamped, tamper-evident record of every gate evaluation.</div>
+        </div>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Stack</div>
+    <div class="stack-row">
+      <span class="stack-tag">OPA / Rego</span>
+      <span class="stack-tag">Conftest</span>
+      <span class="stack-tag">GitHub Actions</span>
+      <span class="stack-tag">Lambda</span>
+      <span class="stack-tag">API Gateway</span>
+      <span class="stack-tag">DynamoDB</span>
+      <span class="stack-tag">S3 Object Lock</span>
+      <span class="stack-tag">CloudFront</span>
+      <span class="stack-tag">NIST 800-53</span>
+    </div>
+
+    <div class="origin-note">
+      Part of the <a href="https://chamb.dev/projects/compliance-platform.html">Compliance Engineering Platform</a> -- built from the OPA/Rego policy library and Conftest gate developed across 11 labs. This is what those controls look like running in a real deployment pipeline.
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Changelog</div>
+    <div id="changelog-list">
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">Interactive demo launched. Three template scenarios live: S3 public ACL, IAM wildcard, security group open ingress.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">API Gateway endpoint wired to Lambda evaluation engine. Results writing to DynamoDB evaluation log.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 5, 2026</span>
+        <span class="changelog-text">Rego policy library extended to cover RDS public accessibility and unencrypted EBS volumes.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 3, 2026</span>
+        <span class="changelog-text">NIST 800-53 control references mapped to all existing policies. Every violation now returns the specific control identifier.</span>
+      </div>
+    </div>
+
+    <div class="links-row">
+      <a class="action-link" href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">&#8599; GitHub repo</a>
+      <a class="action-link" href="https://chamb.dev/projects/compliance-platform.html">&#8592; Back to platform</a>
+      <a class="action-link" href="https://chamb.dev/projects/">&#8592; All projects</a>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; R.T.(R) ARRT · M.S. Cybersecurity</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://chamb.dev/resume.html">Resume</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const templates = {
+      s3: {
+        status: 'blocked',
+        resource: 'S3 Bucket -- prod-data-lake-01',
+        rule: 'S3 buckets must not have public ACLs enabled',
+        severity: 'CRITICAL',
+        control: 'NIST 800-53 SC-7, AC-3',
+        action: 'Deployment blocked',
+        detail: 'A public S3 bucket exposes all stored objects to the internet without authentication. This configuration was blocked before reaching the deployment pipeline.'
+      },
+      iam: {
+        status: 'blocked',
+        resource: 'IAM Role -- app-service-role',
+        rule: 'IAM policies must not use wildcard actions on sensitive services',
+        severity: 'HIGH',
+        control: 'NIST 800-53 AC-6, IA-2',
+        action: 'Deployment blocked',
+        detail: 'A wildcard action policy grants full access to every API call in the attached service, violating least-privilege. Deployment blocked pending scoped permissions.'
+      },
+      sg: {
+        status: 'blocked',
+        resource: 'Security Group -- web-tier-sg',
+        rule: 'Security groups must not allow unrestricted inbound access from 0.0.0.0/0',
+        severity: 'HIGH',
+        control: 'NIST 800-53 SC-7, CM-7',
+        action: 'Deployment blocked',
+        detail: 'Unrestricted inbound access exposes the instance to the entire internet. This configuration was blocked before the security group was applied to any resource.'
+      }
+    };
+
+    const feedSeed = [
+      { status: 'blocked', text: 'IAM role -- wildcard action on S3 and EC2', time: '14 min ago' },
+      { status: 'passed',  text: 'Lambda function -- encryption at rest, least-privilege role confirmed', time: '1 hr ago' },
+      { status: 'blocked', text: 'Security group -- port 22 open to 0.0.0.0/0', time: '3 hr ago' },
+      { status: 'passed',  text: 'S3 bucket -- private ACL, versioning enabled, MFA delete on', time: '5 hr ago' },
+      { status: 'blocked', text: 'RDS instance -- public accessibility enabled', time: '8 hr ago' },
+    ];
+
+    let selected = 's3';
+    let scanning = false;
+
+    function renderFeed(extra) {
+      const list = document.getElementById('feed-list');
+      const items = extra ? [extra, ...feedSeed] : feedSeed;
+      list.innerHTML = items.slice(0, 6).map(item => `
+        <div class="feed-item">
+          <span class="feed-dot ${item.status}"></span>
+          <div>
+            <div class="feed-main">${item.status === 'blocked' ? 'Blocked' : 'Passed'} -- ${item.text}</div>
+            <div class="feed-time">${item.time}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectTemplate(el, key) {
+      document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      selected = key;
+      document.getElementById('result-box').style.display = 'none';
+    }
+
+    function runScan() {
+      if (scanning) return;
+      scanning = true;
+      document.getElementById('run-btn').disabled = true;
+      document.getElementById('result-box').style.display = 'none';
+      const loading = document.getElementById('loading');
+      loading.style.display = 'flex';
+
+      setTimeout(() => {
+        loading.style.display = 'none';
+        const t = templates[selected];
+        const box = document.getElementById('result-box');
+        box.className = 'result-box ' + t.status;
+
+        const badge = document.getElementById('result-badge');
+        badge.textContent = t.status === 'blocked' ? 'BLOCKED' : 'PASSED';
+        badge.className = 'result-badge ' + (t.status === 'blocked' ? 'badge-blocked' : 'badge-passed');
+
+        const now = new Date();
+        document.getElementById('result-time').textContent =
+          now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        document.getElementById('result-rows').innerHTML = `
+          <div class="result-row"><span class="result-key">Resource</span><span class="result-val">${t.resource}</span></div>
+          <div class="result-row"><span class="result-key">Policy violated</span><span class="result-val danger">${t.rule}</span></div>
+          <div class="result-row"><span class="result-key">Severity</span><span class="result-val danger">${t.severity}</span></div>
+          <div class="result-row"><span class="result-key">Control ref</span><span class="result-val">${t.control}</span></div>
+          <div class="result-row"><span class="result-key">Action taken</span><span class="result-val danger">${t.action}</span></div>
+          <div class="result-row"><span class="result-key">Detail</span><span class="result-val">${t.detail}</span></div>
+        `;
+
+        box.style.display = 'block';
+        renderFeed({ status: t.status, text: t.resource, time: 'just now' });
+
+        scanning = false;
+        document.getElementById('run-btn').disabled = false;
+      }, 2200);
+    }
+
+    renderFeed();
+  </script>
+</body>
+</html>
