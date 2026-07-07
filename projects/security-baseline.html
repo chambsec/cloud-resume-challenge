@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cloud Security Baseline Automation — Chris Chambers. Continuous compliance monitoring replacing point-in-time security reviews.">
+  <meta property="og:title" content="Cloud Security Baseline Automation — Chris Chambers">
+  <meta property="og:description" content="Continuous compliance monitoring replacing point-in-time security reviews. Live feed of configuration drift events detected and routed automatically.">
+  <meta property="og:url" content="https://chamb.dev/projects/security-baseline.html">
+  <meta name="twitter:card" content="summary">
+  <title>Cloud Security Baseline Automation — Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F7F6F3;
+      --charcoal: #2C2C2A;
+      --red: #E24B4A;
+      --muted: #7A7A76;
+      --border: #E0DED8;
+      --card-bg: #FFFFFF;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+    html { font-size: 16px; }
+    body { background: var(--cream); color: var(--charcoal); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--red); }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    nav { padding: 32px 0 0; margin-bottom: 56px; }
+    .nav-inner { display: flex; align-items: baseline; gap: 32px; }
+    .nav-logo { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--charcoal); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 24px; list-style: none; margin-left: auto; }
+    .nav-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+    .nav-links a:hover, .nav-links a.active { color: var(--charcoal); }
+    .breadcrumb { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--charcoal); }
+    .breadcrumb-sep { color: var(--border); }
+    .project-header { margin-bottom: 2.5rem; }
+    .project-eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--red); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .project-title { font-family: var(--font-serif); font-size: 36px; color: var(--charcoal); line-height: 1.15; margin-bottom: 1rem; }
+    .project-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .meta-item { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; display: inline-block; }
+    .meta-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .prose p { font-size: 15px; color: #4A4A47; line-height: 1.75; margin-bottom: 1rem; }
+    .prose p:last-child { margin-bottom: 0; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+    .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.125rem; }
+    .metric-number { font-family: var(--font-serif); font-size: 28px; color: var(--charcoal); line-height: 1; margin-bottom: 4px; }
+    .metric-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.4; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .demo-subtext { font-size: 14px; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+    .finding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 8px; margin-bottom: 1rem; }
+    .finding-btn { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.875rem; cursor: pointer; text-align: left; transition: border-color 0.15s; font-family: var(--font-sans); }
+    .finding-btn:hover { border-color: var(--charcoal); }
+    .finding-btn.selected { border-color: var(--red); background: #FFF8F8; }
+    .finding-btn.selected .fb-label { color: var(--red); }
+    .fb-label { font-size: 13px; font-weight: 500; color: var(--charcoal); display: block; margin-bottom: 3px; }
+    .fb-sub { font-size: 11px; color: var(--muted); display: block; font-family: var(--font-mono); }
+    .run-btn { width: 100%; background: var(--charcoal); color: var(--cream); border: none; border-radius: 6px; padding: 0.75rem 1rem; font-family: var(--font-mono); font-size: 13px; cursor: pointer; margin-bottom: 1.25rem; transition: opacity 0.15s; letter-spacing: 0.02em; }
+    .run-btn:hover { opacity: 0.85; }
+    .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .loading-state { display: none; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding: 0.75rem 0; margin-bottom: 1rem; }
+    .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--charcoal); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .result-box { display: none; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1.5rem; border-left: 3px solid var(--red); }
+    .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .result-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.04em; background: #FEF9C3; color: #854D0E; }
+    .result-time { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+    .result-row { display: flex; gap: 16px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+    .result-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .result-key { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 130px; flex-shrink: 0; padding-top: 1px; }
+    .result-val { color: var(--charcoal); flex: 1; }
+    .result-val.danger { color: var(--red); font-weight: 500; }
+    .result-val.success { color: #166534; font-weight: 500; }
+    .result-val.warning { color: #854D0E; font-weight: 500; }
+
+    .live-feed-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .live-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .live-indicator { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: #166534; }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .feed-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .feed-dot.critical { background: var(--red); }
+    .feed-dot.high { background: #f97316; }
+    .feed-dot.medium { background: #eab308; }
+    .feed-dot.resolved { background: #22c55e; }
+    .feed-content { flex: 1; }
+    .feed-main { font-size: 13px; color: var(--charcoal); line-height: 1.5; margin-bottom: 2px; }
+    .feed-sub { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+    .how-list { list-style: none; margin-bottom: 2rem; }
+    .how-item { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .how-item:last-child { border-bottom: none; }
+    .how-num { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 24px; padding-top: 2px; }
+    .how-content { flex: 1; }
+    .how-title { font-weight: 500; color: var(--charcoal); margin-bottom: 2px; }
+    .how-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2rem; }
+    .stack-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 3px 8px; }
+    .origin-note { background: var(--card-bg); border-left: 2px solid var(--red); padding: 12px 16px; margin-bottom: 2rem; font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .origin-note a { color: var(--charcoal); border-bottom: 1px solid var(--border); }
+    .origin-note a:hover { color: var(--red); border-color: var(--red); }
+    .links-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
+    .ext-link { font-family: var(--font-mono); font-size: 12px; color: var(--charcoal); border-bottom: 1px solid var(--charcoal); padding-bottom: 1px; display: inline-flex; align-items: center; gap: 6px; transition: color 0.15s, border-color 0.15s; }
+    .ext-link:hover { color: var(--red); border-color: var(--red); }
+    .changelog-item { display: flex; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .changelog-item:last-child { border-bottom: none; }
+    .changelog-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 80px; padding-top: 1px; }
+    .changelog-text { color: var(--charcoal); line-height: 1.5; }
+    footer { margin-top: 5rem; padding: 2rem 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-name { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .footer-links a:hover { color: var(--charcoal); }
+    @media (max-width: 600px) {
+      .project-title { font-size: 26px; }
+      .finding-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .result-key { min-width: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-inner">
+        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
+        <ul class="nav-links">
+          <li><a href="https://chamb.dev/writing/">writing</a></li>
+          <li><a href="https://chamb.dev/projects/" class="active">projects</a></li>
+          <li><a href="https://chamb.dev/resume.html">resume</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="breadcrumb">
+      <a href="https://chamb.dev">chamb.dev</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/">projects</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/compliance-platform.html">compliance-platform</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>security-baseline</span>
+    </div>
+
+    <header class="project-header">
+      <div class="project-eyebrow">Compliance Engineering Platform</div>
+      <h1 class="project-title">Cloud Security Baseline Automation</h1>
+      <div class="project-meta">
+        <div class="meta-item"><span class="status-dot"></span> Live</div>
+        <div class="meta-item">Continuous monitoring</div>
+        <span class="meta-tag">GuardDuty</span>
+        <span class="meta-tag">Security Hub</span>
+        <span class="meta-tag">AWS Config</span>
+      </div>
+    </header>
+
+    <hr class="divider">
+
+    <div class="prose" style="margin-bottom: 2rem;">
+      <p>Point-in-time security reviews are a liability. A quarterly scan tells you what your environment looked like on one day, four times a year. Everything that changed between those days is invisible until the next review or until something breaks.</p>
+      <p>This baseline replaces that model with continuous monitoring. GuardDuty, AWS Config, and Security Hub run constantly. Every configuration drift event is detected, enriched with resource context, and routed automatically. The security posture of the environment is visible in real time, not at the next scheduled review.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number">Under 2hr</div>
+        <div class="metric-label">Mean time to detect configuration drift</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">45 min</div>
+        <div class="metric-label">Manual triage per incident eliminated</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">24/7</div>
+        <div class="metric-label">Continuous coverage replacing quarterly reviews</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Try it. Inject a finding.</div>
+    <p class="demo-subtext">Select a security event and watch it flow through the detection, enrichment, and routing pipeline in real time.</p>
+
+    <div class="finding-grid">
+      <button class="finding-btn selected" onclick="selectFinding(this, 'recon')" id="btn-recon">
+        <span class="fb-label">Recon activity</span>
+        <span class="fb-sub">GuardDuty: port scan</span>
+      </button>
+      <button class="finding-btn" onclick="selectFinding(this, 'drift')" id="btn-drift">
+        <span class="fb-label">Config drift</span>
+        <span class="fb-sub">S3 ACL modified</span>
+      </button>
+      <button class="finding-btn" onclick="selectFinding(this, 'cred')" id="btn-cred">
+        <span class="fb-label">Credential abuse</span>
+        <span class="fb-sub">IAM key used from TOR</span>
+      </button>
+    </div>
+
+    <button class="run-btn" id="run-btn" onclick="runDetection()">Inject finding</button>
+
+    <div class="loading-state" id="loading">
+      <div class="spinner"></div>
+      <span id="loading-text">GuardDuty detecting event...</span>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-header">
+        <span class="result-badge" id="result-badge">FINDING DETECTED</span>
+        <span class="result-time" id="result-time"></span>
+      </div>
+      <div id="result-rows"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="live-feed-header">
+      <span class="live-label">Live event feed</span>
+      <span class="live-indicator"><span class="live-dot"></span>Monitoring active</span>
+    </div>
+    <div id="feed-list"></div>
+
+    <hr class="divider">
+
+    <div class="section-label">How it works</div>
+    <ul class="how-list">
+      <li class="how-item">
+        <span class="how-num">01</span>
+        <div class="how-content">
+          <div class="how-title">GuardDuty monitors all API activity</div>
+          <div class="how-desc">GuardDuty analyzes CloudTrail logs, VPC Flow Logs, and DNS logs continuously. It detects anomalies like reconnaissance activity, credential abuse, and unusual API call patterns without any manual tuning.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">02</span>
+        <div class="how-content">
+          <div class="how-title">AWS Config tracks every configuration change</div>
+          <div class="how-desc">Config records the state of every AWS resource continuously. When a resource drifts from its approved baseline, a Config rule fires within minutes and sends the change to Security Hub.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">03</span>
+        <div class="how-content">
+          <div class="how-title">EventBridge routes findings to Lambda for enrichment</div>
+          <div class="how-desc">Every Security Hub finding triggers an EventBridge rule. The rule invokes a Lambda that enriches the finding: who owns this resource, what environment is it in, what is the blast radius. The enriched finding routes to the right team automatically.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">04</span>
+        <div class="how-content">
+          <div class="how-title">CloudTrail provides the complete audit trail</div>
+          <div class="how-desc">Every API call, every configuration change, every access event is logged to CloudTrail and protected in S3 Object Lock. The complete history of every action taken in the environment is tamper-evident and available for forensic reconstruction.</div>
+        </div>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Stack</div>
+    <div class="stack-row">
+      <span class="stack-tag">GuardDuty</span>
+      <span class="stack-tag">AWS Config</span>
+      <span class="stack-tag">Security Hub</span>
+      <span class="stack-tag">CloudTrail</span>
+      <span class="stack-tag">EventBridge</span>
+      <span class="stack-tag">Lambda</span>
+      <span class="stack-tag">S3 Object Lock</span>
+      <span class="stack-tag">SNS</span>
+    </div>
+
+    <div class="origin-note">
+      Part of the <a href="https://chamb.dev/projects/compliance-platform.html">Compliance Engineering Platform</a>, built from the CloudTrail, Config, and Security Hub baseline developed across 11 labs in the GRC Engineering program.
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Changelog</div>
+    <div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">Interactive demo launched. Three finding scenarios live: recon activity, config drift, credential abuse.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">EventBridge enrichment Lambda extended to include resource owner lookup from tagging API.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 5, 2026</span>
+        <span class="changelog-text">Security Hub custom action added for one-click escalation to incident response workflow.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 3, 2026</span>
+        <span class="changelog-text">CloudWatch alarms added for Lambda error rate and Security Hub finding volume anomalies.</span>
+      </div>
+    </div>
+
+    <div class="links-row">
+      <a class="ext-link" href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">&#8599; GitHub repo</a>
+      <a class="ext-link" href="https://chamb.dev/projects/compliance-platform.html">&#8592; Back to platform</a>
+      <a class="ext-link" href="https://chamb.dev/projects/">&#8592; All projects</a>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; R.T.(R) ARRT · M.S. Cybersecurity</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://chamb.dev/resume.html">Resume</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const findings = {
+      recon: {
+        type: 'Recon:EC2/PortProbeUnprotectedPort',
+        source: 'GuardDuty',
+        severity: 'MEDIUM',
+        resource: 'EC2 Instance: i-0a3f8c2d1e9b047c',
+        owner: 'team: platform-engineering, env: production',
+        detail: 'Port probe detected on unprotected port 22 from external IP 185.220.101.34. 847 probe attempts in 4 minutes.',
+        action: 'Finding enriched and routed to platform-engineering. Security group review triggered.',
+        mttd: '4 minutes'
+      },
+      drift: {
+        type: 'ConfigChange:S3BucketPublicAccessEnabled',
+        source: 'AWS Config',
+        severity: 'HIGH',
+        resource: 'S3 Bucket: prod-app-assets-01',
+        owner: 'team: backend-engineering, env: production',
+        detail: 'S3 bucket ACL modified to allow public read access. Config rule NON_COMPLIANT. Change made by IAM user: deploy-bot at 14:23 UTC.',
+        action: 'Config rule violation sent to Security Hub. Lambda auto-reverted public ACL. Owner notified via SES.',
+        mttd: '8 minutes'
+      },
+      cred: {
+        type: 'UnauthorizedAccess:IAMUser/TorIPCaller',
+        source: 'GuardDuty',
+        severity: 'CRITICAL',
+        resource: 'IAM User: ci-deploy-prod',
+        owner: 'team: devops, env: production',
+        detail: 'AWS API calls made using IAM access key from a known TOR exit node (185.220.100.253). 14 API calls in 2 minutes across S3, EC2, and IAM.',
+        action: 'IAM key disabled automatically. Finding escalated to CRITICAL. Incident response workflow triggered.',
+        mttd: '2 minutes'
+      }
+    };
+
+    const feedSeed = [
+      { severity: 'resolved', text: 'S3 public ACL auto-reverted after Config rule violation', sub: 'AWS Config', time: '11 min ago' },
+      { severity: 'high', text: 'Unusual IAM role assumption pattern detected', sub: 'GuardDuty', time: '34 min ago' },
+      { severity: 'medium', text: 'EC2 instance communicating with known malicious IP', sub: 'GuardDuty', time: '1 hr ago' },
+      { severity: 'resolved', text: 'CloudTrail logging gap detected and auto-remediated', sub: 'AWS Config', time: '2 hr ago' },
+      { severity: 'high', text: 'Security group rule added opening port 3389 to 0.0.0.0/0', sub: 'AWS Config', time: '3 hr ago' },
+    ];
+
+    let selected = 'recon';
+    let running = false;
+
+    function renderFeed(extra) {
+      const list = document.getElementById('feed-list');
+      const items = extra ? [extra, ...feedSeed] : feedSeed;
+      list.innerHTML = items.slice(0, 6).map(item => `
+        <div class="feed-item">
+          <span class="feed-dot ${item.severity}"></span>
+          <div class="feed-content">
+            <div class="feed-main">${item.text}</div>
+            <div class="feed-sub">${item.sub} · ${item.time}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectFinding(el, key) {
+      document.querySelectorAll('.finding-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      selected = key;
+      document.getElementById('result-box').style.display = 'none';
+    }
+
+    function runDetection() {
+      if (running) return;
+      running = true;
+      document.getElementById('run-btn').disabled = true;
+      document.getElementById('result-box').style.display = 'none';
+      const loading = document.getElementById('loading');
+      const f = findings[selected];
+      document.getElementById('loading-text').textContent = f.source + ' detecting event...';
+      loading.style.display = 'flex';
+
+      setTimeout(() => { document.getElementById('loading-text').textContent = 'EventBridge routing to enrichment Lambda...'; }, 900);
+      setTimeout(() => { document.getElementById('loading-text').textContent = 'Enriching with resource context...'; }, 1800);
+
+      setTimeout(() => {
+        loading.style.display = 'none';
+        const severityColors = { CRITICAL: 'danger', HIGH: 'danger', MEDIUM: 'warning', LOW: '' };
+        document.getElementById('result-rows').innerHTML = `
+          <div class="result-row"><span class="result-key">Finding type</span><span class="result-val ${severityColors[f.severity] || ''}">${f.type}</span></div>
+          <div class="result-row"><span class="result-key">Source</span><span class="result-val">${f.source}</span></div>
+          <div class="result-row"><span class="result-key">Severity</span><span class="result-val ${severityColors[f.severity] || ''}">${f.severity}</span></div>
+          <div class="result-row"><span class="result-key">Resource</span><span class="result-val">${f.resource}</span></div>
+          <div class="result-row"><span class="result-key">Owner (enriched)</span><span class="result-val success">${f.owner}</span></div>
+          <div class="result-row"><span class="result-key">Detail</span><span class="result-val">${f.detail}</span></div>
+          <div class="result-row"><span class="result-key">Action taken</span><span class="result-val success">${f.action}</span></div>
+          <div class="result-row"><span class="result-key">MTTD</span><span class="result-val success">${f.mttd}</span></div>
+        `;
+        const now = new Date();
+        document.getElementById('result-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('result-box').style.display = 'block';
+        renderFeed({ severity: f.severity.toLowerCase(), text: f.type + ' detected and enriched', sub: f.source, time: 'just now' });
+        running = false;
+        document.getElementById('run-btn').disabled = false;
+      }, 2600);
+    }
+
+    renderFeed();
+  </script>
+</body>
+</html>
