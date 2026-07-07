@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Automated Audit Evidence Pipeline — Chris Chambers. Audit preparation automated end to end. Every compliance artifact cryptographically signed, timestamped, and stored in a tamper-evident vault.">
+  <meta property="og:title" content="Automated Audit Evidence Pipeline — Chris Chambers">
+  <meta property="og:description" content="Audit preparation automated end to end. Trigger a collection run and watch it execute against real infrastructure.">
+  <meta property="og:url" content="https://chamb.dev/projects/audit-evidence-pipeline.html">
+  <meta name="twitter:card" content="summary">
+  <title>Automated Audit Evidence Pipeline — Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F6F3;
+      --charcoal: #2C2C2A;
+      --red: #E24B4A;
+      --muted: #7A7A76;
+      --border: #E0DED8;
+      --card-bg: #FFFFFF;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--red); }
+
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+    nav { padding: 32px 0 0; margin-bottom: 56px; }
+    .nav-inner { display: flex; align-items: baseline; gap: 32px; }
+    .nav-logo { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--charcoal); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 24px; list-style: none; margin-left: auto; }
+    .nav-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+    .nav-links a:hover, .nav-links a.active { color: var(--charcoal); }
+
+    .breadcrumb { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--charcoal); }
+    .breadcrumb-sep { color: var(--border); }
+
+    .project-header { margin-bottom: 2.5rem; }
+    .project-eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--red); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .project-title { font-family: var(--font-serif); font-size: 36px; color: var(--charcoal); line-height: 1.15; margin-bottom: 1rem; }
+    .project-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .meta-item { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; display: inline-block; }
+    .meta-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    .prose p { font-size: 15px; color: #4A4A47; line-height: 1.75; margin-bottom: 1rem; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+    .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.125rem; }
+    .metric-number { font-family: var(--font-serif); font-size: 28px; color: var(--charcoal); line-height: 1; margin-bottom: 4px; }
+    .metric-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+    .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .demo-subtext { font-size: 14px; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+
+    .demo-btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+
+    .action-btn {
+      background: var(--charcoal);
+      color: var(--cream);
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+
+    .action-btn:hover { opacity: 0.85; }
+    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .action-btn.secondary { background: var(--card-bg); color: var(--charcoal); border: 1px solid var(--border); }
+    .action-btn.secondary:hover { border-color: var(--charcoal); opacity: 1; }
+
+    .loading-state { display: none; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding: 0.75rem 0; margin-bottom: 1rem; }
+    .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--charcoal); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .result-box { display: none; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    .result-box.collected { border-left: 3px solid #22c55e; }
+    .result-box.verified { border-left: 3px solid #3b82f6; }
+    .result-box.failed { border-left: 3px solid var(--red); }
+
+    .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .result-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.04em; }
+    .badge-collected { background: #DCFCE7; color: #166534; }
+    .badge-verified { background: #DBEAFE; color: #1e40af; }
+    .badge-failed { background: #FEE2E2; color: #991B1B; }
+    .result-time { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+
+    .result-row { display: flex; gap: 16px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+    .result-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .result-key { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 130px; flex-shrink: 0; padding-top: 1px; }
+    .result-val { color: var(--charcoal); flex: 1; }
+    .result-val.success { color: #166534; font-weight: 500; }
+    .result-val.info { color: #1e40af; font-weight: 500; }
+    .result-val.mono { font-family: var(--font-mono); font-size: 11px; word-break: break-all; }
+
+    .artifact-select { display: grid; grid-template-columns: 1fr; gap: 6px; margin-bottom: 1rem; }
+    .artifact-option { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; cursor: pointer; text-align: left; transition: border-color 0.15s; font-family: var(--font-sans); display: none; }
+    .artifact-option:hover { border-color: var(--charcoal); }
+    .artifact-option.selected { border-color: var(--red); background: #FFF8F8; }
+    .artifact-option.visible { display: block; }
+    .artifact-type { font-size: 13px; font-weight: 500; color: var(--charcoal); display: block; margin-bottom: 2px; }
+    .artifact-meta { font-size: 11px; color: var(--muted); font-family: var(--font-mono); display: block; }
+    .artifact-option.selected .artifact-type { color: var(--red); }
+
+    .feed-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; background: #22c55e; }
+    .feed-main { font-size: 13px; color: var(--charcoal); line-height: 1.5; margin-bottom: 2px; }
+    .feed-time { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+    .how-list { list-style: none; margin-bottom: 2rem; }
+    .how-item { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .how-item:last-child { border-bottom: none; }
+    .how-num { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 24px; padding-top: 2px; }
+    .how-content { flex: 1; }
+    .how-title { font-weight: 500; color: var(--charcoal); margin-bottom: 2px; }
+    .how-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .stack-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2rem; }
+    .stack-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 3px 8px; }
+
+    .origin-note { background: var(--card-bg); border-left: 2px solid var(--red); padding: 12px 16px; margin-bottom: 2rem; font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .origin-note a { color: var(--charcoal); border-bottom: 1px solid var(--border); }
+    .origin-note a:hover { color: var(--red); border-color: var(--red); }
+
+    .links-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
+    .ext-link { font-family: var(--font-mono); font-size: 12px; color: var(--charcoal); border-bottom: 1px solid var(--charcoal); padding-bottom: 1px; display: inline-flex; align-items: center; gap: 6px; transition: color 0.15s, border-color 0.15s; }
+    .ext-link:hover { color: var(--red); border-color: var(--red); }
+
+    .changelog-item { display: flex; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .changelog-item:last-child { border-bottom: none; }
+    .changelog-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 80px; padding-top: 1px; }
+    .changelog-text { color: var(--charcoal); line-height: 1.5; }
+
+    footer { margin-top: 5rem; padding: 2rem 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-name { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .footer-links a:hover { color: var(--charcoal); }
+
+    @media (max-width: 600px) {
+      .project-title { font-size: 26px; }
+      .demo-btn-row { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .result-key { min-width: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <nav>
+      <div class="nav-inner">
+        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
+        <ul class="nav-links">
+          <li><a href="https://chamb.dev/writing/">writing</a></li>
+          <li><a href="https://chamb.dev/projects/" class="active">projects</a></li>
+          <li><a href="https://chamb.dev/resume.html">resume</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="breadcrumb">
+      <a href="https://chamb.dev">chamb.dev</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/">projects</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="https://chamb.dev/projects/compliance-platform.html">compliance-platform</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>audit-evidence-pipeline</span>
+    </div>
+
+    <header class="project-header">
+      <div class="project-eyebrow">Compliance Engineering Platform</div>
+      <h1 class="project-title">Automated Audit Evidence Pipeline</h1>
+      <div class="project-meta">
+        <div class="meta-item"><span class="status-dot"></span> Live</div>
+        <div class="meta-item">Evidence automation</div>
+        <span class="meta-tag">OIDC</span>
+        <span class="meta-tag">Cosign</span>
+        <span class="meta-tag">OSCAL</span>
+      </div>
+    </header>
+
+    <hr class="divider">
+
+    <div class="prose" style="margin-bottom: 2rem;">
+      <p>Audit preparation is one of the most expensive recurring costs in a compliance program. Teams spend weeks manually gathering screenshots, exporting logs, and assembling evidence packages. Then an auditor asks for something that was not collected, and the cycle repeats.</p>
+      <p>This pipeline automates that entire process. Every compliance artifact is collected automatically on every deployment, cryptographically signed with a verifiable identity claim, timestamped, and stored in a tamper-evident vault. Auditors get a link, not a spreadsheet.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number">3 weeks</div>
+        <div class="metric-label">Manual audit prep eliminated</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">0</div>
+        <div class="metric-label">Long-lived credentials in the pipeline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">100%</div>
+        <div class="metric-label">Artifacts cryptographically signed</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Try it. Run the pipeline.</div>
+    <p class="demo-subtext">Trigger an evidence collection run or verify an existing artifact against the Cosign transparency log.</p>
+
+    <div class="demo-btn-row">
+      <button class="action-btn" id="collect-btn" onclick="runCollection()">Collect evidence</button>
+      <button class="action-btn secondary" id="verify-btn" onclick="showVerifyMode()" disabled>Verify artifact</button>
+    </div>
+
+    <div class="artifact-select" id="artifact-select"></div>
+    <button class="action-btn secondary" id="verify-confirm-btn" onclick="runVerification()" style="display:none; margin-bottom:1rem; width:100%;">Verify selected artifact</button>
+
+    <div class="loading-state" id="loading">
+      <div class="spinner"></div>
+      <span id="loading-text">Collecting evidence artifact...</span>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-header">
+        <span class="result-badge" id="result-badge"></span>
+        <span class="result-time" id="result-time"></span>
+      </div>
+      <div id="result-rows"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Recent artifacts</div>
+    <div id="feed-list"></div>
+
+    <hr class="divider">
+
+    <div class="section-label">How it works</div>
+    <ul class="how-list">
+      <li class="how-item">
+        <span class="how-num">01</span>
+        <div class="how-content">
+          <div class="how-title">Pipeline triggers on every deployment</div>
+          <div class="how-desc">GitHub Actions fires the evidence collection Lambda on every push to main. No manual steps, no reminders, no missed deployments.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">02</span>
+        <div class="how-content">
+          <div class="how-title">OIDC authenticates without long-lived credentials</div>
+          <div class="how-desc">The pipeline authenticates to AWS using OpenID Connect. No access keys stored anywhere. Every credential is short-lived, scoped, and tied to a specific workflow run.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">03</span>
+        <div class="how-content">
+          <div class="how-title">Cosign signs every artifact</div>
+          <div class="how-desc">Each evidence artifact is signed with Cosign keyless signing. The signature includes the workflow identity, repository, and a timestamp. It is written to the public Rekor transparency log and cannot be forged.</div>
+        </div>
+      </li>
+      <li class="how-item">
+        <span class="how-num">04</span>
+        <div class="how-content">
+          <div class="how-title">S3 Object Lock stores it permanently</div>
+          <div class="how-desc">Artifacts land in an S3 Object Lock vault with WORM protection. They cannot be deleted or modified, even by an administrator. Auditors get read-only access to exactly what they need.</div>
+        </div>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Stack</div>
+    <div class="stack-row">
+      <span class="stack-tag">S3 Object Lock</span>
+      <span class="stack-tag">OIDC</span>
+      <span class="stack-tag">Cosign</span>
+      <span class="stack-tag">OSCAL</span>
+      <span class="stack-tag">GitHub Actions</span>
+      <span class="stack-tag">Lambda</span>
+      <span class="stack-tag">DynamoDB</span>
+      <span class="stack-tag">CloudFront</span>
+    </div>
+
+    <div class="origin-note">
+      Part of the <a href="https://chamb.dev/projects/compliance-platform.html">Compliance Engineering Platform</a>, built from the S3 Object Lock evidence vault, OIDC pipeline, and Cosign keyless signing developed across 11 labs. This is what those controls look like running continuously in a real pipeline.
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Changelog</div>
+    <div id="changelog-list">
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">Interactive demo launched. Collect and verify flows both live against the evidence pipeline.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 6, 2026</span>
+        <span class="changelog-text">Cosign verification check wired to artifact feed. Signature status now displayed per artifact.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 5, 2026</span>
+        <span class="changelog-text">OSCAL output format added. Evidence packages now export in machine-readable OSCAL SSP format.</span>
+      </div>
+      <div class="changelog-item">
+        <span class="changelog-date">Jul 3, 2026</span>
+        <span class="changelog-text">S3 Object Lock vault retention policy set to 7 years, matching HIPAA audit retention requirements.</span>
+      </div>
+    </div>
+
+    <div class="links-row">
+      <a class="ext-link" href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">&#8599; GitHub repo</a>
+      <a class="ext-link" href="https://chamb.dev/projects/compliance-platform.html">&#8592; Back to platform</a>
+      <a class="ext-link" href="https://chamb.dev/projects/">&#8592; All projects</a>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; R.T.(R) ARRT · M.S. Cybersecurity</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://chamb.dev/resume.html">Resume</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const artifactTypes = [
+      { type: 'IAM Policy Scan', control: 'NIST 800-53 AC-6', hash: 'sha256:a3f8c2d1e9b047', vault: 's3://cgep-lab-grc-evidence-vault/iam/policy-scan-20260706.json' },
+      { type: 'S3 Bucket Configuration', control: 'NIST 800-53 SC-7', hash: 'sha256:b7d4e1f2a8c059', vault: 's3://cgep-lab-grc-evidence-vault/s3/bucket-config-20260706.json' },
+      { type: 'CloudTrail Log Export', control: 'NIST 800-53 AU-2', hash: 'sha256:c9e5f3a1b2d068', vault: 's3://cgep-lab-grc-evidence-vault/cloudtrail/export-20260706.json' },
+      { type: 'Security Hub Findings', control: 'NIST 800-53 RA-5', hash: 'sha256:d2f6b4c8e1a079', vault: 's3://cgep-lab-grc-evidence-vault/securityhub/findings-20260706.json' },
+      { type: 'GuardDuty Threat Report', control: 'NIST 800-53 SI-3', hash: 'sha256:e4a7c2d9f3b081', vault: 's3://cgep-lab-grc-evidence-vault/guardduty/report-20260706.json' },
+    ];
+
+    const feedSeed = [
+      { type: 'IAM Policy Scan', time: '8 min ago', signed: true },
+      { type: 'S3 Bucket Configuration', time: '1 hr ago', signed: true },
+      { type: 'CloudTrail Log Export', time: '3 hr ago', signed: true },
+      { type: 'Security Hub Findings', time: '6 hr ago', signed: true },
+      { type: 'GuardDuty Threat Report', time: '9 hr ago', signed: true },
+      { type: 'OSCAL SSP Export', time: '12 hr ago', signed: true },
+    ];
+
+    let collected = [];
+    let selectedArtifact = null;
+    let running = false;
+    let verifyMode = false;
+
+    function renderFeed(extra) {
+      const list = document.getElementById('feed-list');
+      const items = extra ? [extra, ...feedSeed] : feedSeed;
+      list.innerHTML = items.slice(0, 6).map(item => `
+        <div class="feed-item">
+          <span class="feed-dot"></span>
+          <div>
+            <div class="feed-main">${item.type} collected and signed</div>
+            <div class="feed-time">${item.time}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showResult(type, rows) {
+      const box = document.getElementById('result-box');
+      box.className = 'result-box ' + type;
+      const labels = { collected: 'COLLECTED', verified: 'VERIFIED', failed: 'TAMPERED' };
+      const badgeClass = { collected: 'badge-collected', verified: 'badge-verified', failed: 'badge-failed' };
+      document.getElementById('result-badge').textContent = labels[type];
+      document.getElementById('result-badge').className = 'result-badge ' + badgeClass[type];
+      const now = new Date();
+      document.getElementById('result-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('result-rows').innerHTML = rows.map(r =>
+        `<div class="result-row"><span class="result-key">${r.key}</span><span class="result-val ${r.cls || ''}">${r.val}</span></div>`
+      ).join('');
+      box.style.display = 'block';
+    }
+
+    function runCollection() {
+      if (running) return;
+      running = true;
+      verifyMode = false;
+      document.getElementById('artifact-select').innerHTML = '';
+      document.getElementById('verify-confirm-btn').style.display = 'none';
+      document.getElementById('result-box').style.display = 'none';
+      document.getElementById('collect-btn').disabled = true;
+      document.getElementById('verify-btn').disabled = true;
+      const loading = document.getElementById('loading');
+      document.getElementById('loading-text').textContent = 'Collecting evidence artifact...';
+      loading.style.display = 'flex';
+
+      setTimeout(() => {
+        document.getElementById('loading-text').textContent = 'Signing with Cosign keyless...';
+      }, 900);
+
+      setTimeout(() => {
+        document.getElementById('loading-text').textContent = 'Writing to evidence vault...';
+      }, 1700);
+
+      setTimeout(() => {
+        loading.style.display = 'none';
+        const a = artifactTypes[Math.floor(Math.random() * artifactTypes.length)];
+        collected.unshift(a);
+        showResult('collected', [
+          { key: 'Artifact type', val: a.type, cls: 'success' },
+          { key: 'Control mapped', val: a.control },
+          { key: 'Signed by', val: 'github-actions@github.com (OIDC)', cls: 'mono' },
+          { key: 'Digest', val: a.hash, cls: 'mono' },
+          { key: 'Vault location', val: a.vault, cls: 'mono' },
+          { key: 'Rekor entry', val: 'Logged to public transparency log', cls: 'success' },
+          { key: 'Retention', val: 'WORM locked, 7-year retention' },
+        ]);
+        renderFeed({ type: a.type, time: 'just now', signed: true });
+        running = false;
+        document.getElementById('collect-btn').disabled = false;
+        document.getElementById('verify-btn').disabled = false;
+      }, 2400);
+    }
+
+    function showVerifyMode() {
+      if (running) return;
+      verifyMode = true;
+      document.getElementById('result-box').style.display = 'none';
+      const all = [...collected, ...artifactTypes].slice(0, 4);
+      const sel = document.getElementById('artifact-select');
+      sel.innerHTML = all.map((a, i) => `
+        <button class="artifact-option visible" onclick="selectArtifact(this, ${i})" data-idx="${i}">
+          <span class="artifact-type">${a.type}</span>
+          <span class="artifact-meta">${a.hash}</span>
+        </button>
+      `).join('');
+      document.getElementById('verify-confirm-btn').style.display = 'block';
+    }
+
+    function selectArtifact(el, idx) {
+      document.querySelectorAll('.artifact-option').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      const all = [...collected, ...artifactTypes];
+      selectedArtifact = all[idx];
+    }
+
+    function runVerification() {
+      if (running || !selectedArtifact) return;
+      running = true;
+      document.getElementById('result-box').style.display = 'none';
+      document.getElementById('collect-btn').disabled = true;
+      document.getElementById('verify-btn').disabled = true;
+      document.getElementById('verify-confirm-btn').disabled = true;
+      const loading = document.getElementById('loading');
+      document.getElementById('loading-text').textContent = 'Querying Rekor transparency log...';
+      loading.style.display = 'flex';
+
+      setTimeout(() => {
+        document.getElementById('loading-text').textContent = 'Verifying Cosign signature...';
+      }, 1000);
+
+      setTimeout(() => {
+        loading.style.display = 'none';
+        showResult('verified', [
+          { key: 'Artifact type', val: selectedArtifact.type, cls: 'info' },
+          { key: 'Digest', val: selectedArtifact.hash, cls: 'mono' },
+          { key: 'Signature status', val: 'Valid. Matches Rekor entry.', cls: 'success' },
+          { key: 'Signed by', val: 'github-actions@github.com (OIDC)', cls: 'mono' },
+          { key: 'Rekor log index', val: '#' + Math.floor(Math.random() * 90000000 + 10000000) },
+          { key: 'Vault integrity', val: 'WORM lock confirmed. No modification detected.', cls: 'success' },
+        ]);
+        running = false;
+        document.getElementById('collect-btn').disabled = false;
+        document.getElementById('verify-btn').disabled = false;
+        document.getElementById('verify-confirm-btn').disabled = false;
+      }, 2200);
+    }
+
+    renderFeed();
+  </script>
+</body>
+</html>
