@@ -1,602 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chris Chambers — Resume</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #faf9f7;
-      --paper: #ffffff;
-      --ink: #1a1a1a;
-      --ink-light: #4a4a4a;
-      --ink-muted: #888;
-      --rule: #e0ddd8;
-      --accent: #c0392b;
-      --accent-light: #f9f0ef;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      font-family: 'Epilogue', sans-serif;
-      font-weight: 300;
-      color: var(--ink);
-      min-height: 100vh;
-      padding: 48px 24px 80px;
-    }
-
-    /* ── DOWNLOAD BAR ── */
-    .download-bar {
-      max-width: 780px;
-      margin: 0 auto 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .back-link {
-      font-size: 12px;
-      color: var(--ink-muted);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--accent); }
-    .back-link::before { content: '← '; }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 10px 20px;
-      border-radius: 2px;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .download-btn:hover {
-      background: #a93226;
-      transform: translateY(-1px);
-    }
-    .download-btn svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-    }
-
-    /* ── PAPER ── */
-    .paper {
-      max-width: 780px;
-      margin: 0 auto;
-      background: var(--paper);
-      padding: 64px 72px;
-      box-shadow: 0 2px 40px rgba(0,0,0,0.08), 0 0 0 1px var(--rule);
-      animation: riseUp 0.5s ease both;
-    }
-
-    @keyframes riseUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── HEADER ── */
-    .resume-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      align-items: start;
-      padding-bottom: 32px;
-      border-bottom: 2px solid var(--ink);
-      margin-bottom: 36px;
-    }
-
-    .resume-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .resume-name em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .resume-credentials {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 8px;
-    }
-
-    .resume-title {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink);
-    }
-
-    .contact-block {
-      text-align: right;
-      font-size: 12px;
-      color: var(--ink);
-      line-height: 2;
-    }
-
-    .contact-block a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .contact-block a:hover { opacity: 0.7; }
-
-    /* ── SECTIONS ── */
-    .section {
-      margin-bottom: 36px;
-    }
-
-    .section-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--rule);
-    }
-
-    /* Summary */
-    .summary-text {
-      font-size: 14px;
-      line-height: 1.9;
-      color: var(--ink);
-      max-width: 640px;
-      font-style: normal;
-      font-family: 'Epilogue', sans-serif;
-      font-weight: 400;
-    }
-
-    /* Experience */
-    .exp-block {
-      display: grid;
-      grid-template-columns: 1fr 160px;
-      gap: 16px;
-      margin-bottom: 28px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid var(--rule);
-    }
-    .exp-block:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .exp-role {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 3px;
-    }
-    .exp-org {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      margin-bottom: 10px;
-    }
-    .exp-bullets {
-      list-style: none;
-      font-size: 13px;
-      color: var(--ink);
-      line-height: 1.7;
-      font-weight: 400;
-      font-family: 'Epilogue', sans-serif;
-    }
-    .exp-bullets li {
-      padding-left: 16px;
-      position: relative;
-      margin-bottom: 4px;
-    }
-    .exp-bullets li::before {
-      content: '·';
-      position: absolute;
-      left: 4px;
-      color: var(--accent);
-      font-size: 18px;
-      line-height: 1.2;
-    }
-
-    .exp-meta {
-      text-align: right;
-      font-size: 11px;
-      color: var(--ink-muted);
-      letter-spacing: 0.05em;
-      padding-top: 3px;
-    }
-    .exp-meta .location {
-      display: block;
-      margin-top: 4px;
-      font-style: italic;
-    }
-
-    /* Two column layout for skills/education */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    /* Skills */
-    .skill-group {
-      margin-bottom: 16px;
-    }
-    .skill-group-name {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .skill-list {
-      font-size: 12px;
-      color: var(--ink);
-      line-height: 1.8;
-      font-weight: 400;
-      font-family: 'Epilogue', sans-serif;
-    }
-
-    /* Education */
-    .edu-block {
-      margin-bottom: 18px;
-    }
-    .edu-block:last-child { margin-bottom: 0; }
-    .edu-degree {
-      font-family: 'Playfair Display', serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .edu-school {
-      font-size: 12px;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 2px;
-    }
-    .edu-year {
-      font-size: 11px;
-      color: var(--ink-muted);
-      font-style: italic;
-    }
-    .edu-coursework {
-      font-size: 11px;
-      color: var(--ink-muted);
-      margin-top: 4px;
-      line-height: 1.6;
-    }
-
-    /* Certs */
-    .cert-list {
-      list-style: none;
-      font-size: 13px;
-      color: var(--ink);
-    }
-    .cert-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 6px 0;
-      border-bottom: 1px dotted var(--rule);
-      gap: 12px;
-    }
-    .cert-list li:last-child { border-bottom: none; }
-    .cert-name { font-weight: 500; color: var(--ink); }
-    .cert-status {
-      font-size: 11px;
-      color: var(--ink-muted);
-      font-style: italic;
-      white-space: nowrap;
-    }
-
-    /* Projects */
-    .project-block {
-      margin-bottom: 20px;
-    }
-    .project-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .project-name a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 11px;
-      font-family: 'Epilogue', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      margin-left: 10px;
-      vertical-align: middle;
-    }
-    .project-name a:hover { text-decoration: underline; }
-    .project-desc {
-      font-size: 13px;
-      color: var(--ink);
-      line-height: 1.7;
-      margin-bottom: 8px;
-      font-weight: 400;
-      font-family: 'Epilogue', sans-serif;
-    }
-    .tech-inline {
-      font-size: 11px;
-      color: var(--ink-muted);
-      font-style: italic;
-    }
-
-    /* Footer */
-    .resume-footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--ink-muted);
-      font-style: italic;
-    }
-
-    @media print {
-      body { background: white; padding: 0; }
-      .paper { box-shadow: none; padding: 40px; }
-      .download-bar { display: none; }
-    }
-
-    @media (max-width: 680px) {
-      .paper { padding: 32px 24px; }
-      .resume-header { grid-template-columns: 1fr; }
-      .contact-block { text-align: left; }
-      .exp-block { grid-template-columns: 1fr; }
-      .exp-meta { text-align: left; }
-      .two-col { grid-template-columns: 1fr; gap: 0; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>FirstName LastName — Resume</title>
+<style>
+  body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:#111; margin:20px;}
+  .wrap{max-width:760px;margin:0 auto;}
+  h1{font-size:20px;text-align:center;margin:4px 0 6px;}
+  .contact{font-size:13px;text-align:center;color:#333;margin-bottom:14px;}
+  h2{font-size:13px;margin:18px 0 8px;border-bottom:1px solid #e0e0e0;padding-bottom:6px;}
+  .row{display:block;overflow:auto;}
+  .meta{float:right;text-align:right;font-size:12px;color:#444;}
+  .org{font-weight:600;}
+  .title{font-weight:500;}
+  ul{margin:6px 0 14px 18px;padding:0;font-size:13px;}
+  p{margin:6px 0;font-size:13px;}
+  .small{font-size:12px;color:#444;}
+  .clearfix::after{content:"";display:table;clear:both;}
+</style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <h1>FirstName LastName</h1>
+      <div class="contact">Home or Campus Street Address • City, State Zip • youremail@college.harvard.edu • phone number</div>
+    </header>
 
-  <!-- DOWNLOAD BAR -->
-  <div class="download-bar">
-    <a href="/" class="back-link">Back to Site</a>
-    <a href="chris-chambers-resume.pdf" download class="download-btn">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 16l-5-5 1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5zm-7 4v-2h14v2H5z"/>
-      </svg>
-      Download PDF
-    </a>
+    <section>
+      <h2>Education</h2>
+
+      <div class="clearfix">
+        <div class="row">
+          <div class="org">Harvard University</div>
+          <div class="meta">Cambridge, MA<br><span class="small">Graduation Date</span></div>
+        </div>
+
+        <p class="small">Degree, Concentration. GPA [Note: GPA is Optional]</p>
+        <p class="small">Thesis [Note: Optional]</p>
+        <p class="small">Relevant Coursework: [Note: Optional. Awards and honors can also be listed here.]</p>
+
+        <p style="margin-top:10px;"><strong>Study Abroad</strong> <span class="small">[Note: If Applicable]</span></p>
+        <p class="small">Study abroad coursework in ______ — City, Country — Month Year – Month Year</p>
+
+        <div style="margin-top:10px;" class="row">
+          <div class="org">High School Name</div>
+          <div class="meta">City, State<br><span class="small">Graduation Date</span></div>
+        </div>
+        <p class="small">[Note: May include GPA, SAT/ACT scores, or academic honors an employer may want to know]</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <article class="clearfix" style="margin-bottom:12px;">
+        <div class="row">
+          <div class="org">Organization</div>
+          <div class="meta">City, State (or remote)<br><span class="small">Month Year – Month Year</span></div>
+        </div>
+        <div class="title">Position Title</div>
+        <ul>
+          <li>Beginning with most recent position, describe your experience, skills, and resulting outcomes in bullet form.</li>
+          <li>Begin each line with an action verb and include details that will help the reader understand your accomplishments, skills, knowledge, abilities, or achievements.</li>
+          <li>Quantify where possible.</li>
+          <li>Do not use personal pronouns; each line should be a phrase rather than a full sentence.</li>
+        </ul>
+      </article>
+
+      <article style="margin-bottom:12px;">
+        <div class="row">
+          <div class="org">Organization</div>
+          <div class="meta">City, State<br><span class="small">Month Year – Month Year</span></div>
+        </div>
+        <div class="title">Position Title</div>
+        <ul>
+          <li>With next-most recent position, describe your experience, skills, and resulting outcomes in bullet form.</li>
+          <li>Begin each line with an action verb and include details that will help the reader understand your accomplishments, skills, knowledge, abilities, or achievements.</li>
+          <li>Quantify where possible.</li>
+          <li>Do not use personal pronouns; each line should be a phrase rather than a full sentence.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section>
+      <h2>Leadership &amp; Activities</h2>
+
+      <div class="row">
+        <div class="org">Organization</div>
+        <div class="meta">City, State</div>
+      </div>
+      <div class="title">Role <span class="small">— Month Year – Month Year</span></div>
+      <ul>
+        <li>This section can be formatted similarly to the Experience section, or you can omit descriptions for activities.</li>
+        <li>If this section is more relevant to the opportunity you are applying for, consider moving this above your Experience section.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Skills &amp; Interests <span class="small">[Note: Optional]</span></h2>
+      <p class="small"><strong>Technical:</strong> List computer software and programming languages and your level of fluency</p>
+      <p class="small"><strong>Language:</strong> List foreign languages and your level of fluency</p>
+      <p class="small"><strong>Laboratory:</strong> List scientific / research lab techniques or tools [If Applicable]</p>
+      <p class="small"><strong>Interests:</strong> List activities you enjoy that may spark interview conversation</p>
+    </section>
+
+    <footer style="margin-top:18px;text-align:center;font-size:12px;color:#666;">
+      [To use this template, download a copy of the file. Please do not request edit access.]
+    </footer>
   </div>
-
-  <!-- PAPER -->
-  <div class="paper">
-
-    <!-- HEADER -->
-    <div class="resume-header">
-      <div>
-        <h1 class="resume-name">Chris <em>Chambers</em></h1>
-        <p class="resume-credentials">R.T. (R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</p>
-        <p class="resume-title">Cloud Security Engineer</p>
-      </div>
-      <div class="contact-block">
-        <a href="mailto:chambersjamar@gmail.com">chambersjamar@gmail.com</a><br>
-        201-665-1189<br>
-        Teaneck, NJ<br>
-        <a href="https://www.chamb.dev" target="_blank">chamb.dev</a><br>
-        <a href="https://www.linkedin.com/in/chambsec/" target="_blank">LinkedIn</a>
-        &nbsp;·&nbsp;
-        <a href="https://github.com/chambsec" target="_blank">GitHub</a>
-      </div>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="section">
-      <p class="section-label">Profile</p>
-      <p class="summary-text">
-        Cybersecurity professional with over a decade of experience in healthcare technology and regulated environments, combining GRC principles and compliance frameworks (HIPAA, NIST, ISO 27001) with hands-on experience in AWS cloud infrastructure, automation, and security engineering.
-      </p>
-    </div>
-
-    <!-- EXPERIENCE -->
-    <div class="section">
-      <p class="section-label">Experience</p>
-
-      <div class="exp-block">
-        <div>
-          <p class="exp-role">Radiologic Technologist · QA · Epic Super User</p>
-          <p class="exp-org">Memorial Sloan Kettering Cancer Center</p>
-          <ul class="exp-bullets">
-            <li>Serve as Epic Super User, governing clinical data access controls and improving system adoption across departments</li>
-            <li>Documented and enforced compliance procedures aligned with DOH, HIPAA, and ACR regulatory standards</li>
-            <li>Maintained audit trails and logs for quality control, supporting regulatory audits and compliance reporting</li>
-            <li>Coordinated departmental policy updates to ensure adherence to risk and safety requirements</li>
-            <li>Oversaw governance of imaging software, ensuring secure configurations and access controls</li>
-          </ul>
-        </div>
-        <div class="exp-meta">
-          July 2023 – Present
-          <span class="location">New York, NY</span>
-        </div>
-      </div>
-
-      <div class="exp-block">
-        <div>
-          <p class="exp-role">Radiologic Technologist</p>
-          <p class="exp-org">Englewood Hospital & Medical Center</p>
-          <ul class="exp-bullets">
-            <li>Supported compliance initiatives in intraoperative environments through policy adherence and technical documentation</li>
-            <li>Maintained accurate patient data across imaging systems (PACS, RIS) in a regulated clinical environment</li>
-          </ul>
-        </div>
-        <div class="exp-meta">
-          Nov 2016 – May 2022
-          <span class="location">Englewood, NJ</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECTS -->
-    <div class="section">
-      <p class="section-label">Projects</p>
-      <div class="project-block">
-        <p class="project-name">
-          Cloud Resume Challenge
-          <a href="https://github.com/chambsec/cloud-resume-challenge" target="_blank">↗ GitHub</a>
-          <a href="https://www.chamb.dev" target="_blank">↗ Live Site</a>
-        </p>
-        <p class="project-desc">
-          Full-stack serverless resume hosted on AWS. Frontend via S3 + CloudFront with HTTPS enforced via ACM and WAF enabled. Backend visitor counter built with API Gateway, Lambda (Python), and DynamoDB. Infrastructure defined as code with Terraform and deployed via GitHub Actions CI/CD pipeline.
-        </p>
-        <p class="tech-inline">S3 · CloudFront · ACM · WAF · Lambda · DynamoDB · API Gateway · Terraform · GitHub Actions · Python</p>
-      </div>
-
-      <div class="project-block">
-        <p class="project-name">
-          CGE-P Capstone — Compliance as Code
-          <a href="https://github.com/chambsec/cgep-capstone" target="_blank">↗ GitHub</a>
-        </p>
-        <p class="project-desc">
-          Fully engineered compliance-as-code capstone for the Certified GRC Engineer Practitioner (CGE-P) certification. Demonstrates end-to-end GRC engineering across AWS and GCP — working infrastructure, automated policy enforcement, signed evidence, and machine-readable OSCAL compliance documentation across 10 completed labs.
-        </p>
-        <p class="tech-inline">Terraform · OPA/Rego · Conftest · GitHub Actions · Cosign · OSCAL · AWS · GCP · NIST 800-53 · Python</p>
-      </div>
-
-      <div class="project-block">
-        <p class="project-name">
-          Acme Health Patient Intake API — HIPAA GRC Remediation
-          <a href="https://github.com/chambsec/cgep-app-starter" target="_blank">↗ GitHub</a>
-        </p>
-        <p class="project-desc">
-          Forked a deliberately non-compliant Patient Intake API and wrapped it with four GRC engineering layers — closing 7 of 8 HIPAA Security Rule gaps. Built a Terraform GRC baseline, a Rego policy suite (5 policies, 11 tests), a GitHub Actions CI/CD gate, and an OSCAL component definition validated with compliance-trestle.
-        </p>
-        <p class="tech-inline">Terraform · OPA/Rego · HIPAA · GitHub Actions · OSCAL · KMS · S3 · Lambda · IAM · AWS WAF</p>
-      </div>
-    </div>
-
-    <!-- SKILLS & EDUCATION -->
-    <div class="two-col">
-      <div>
-        <!-- SKILLS -->
-        <div class="section">
-          <p class="section-label">Skills</p>
-
-          <div class="skill-group">
-            <p class="skill-group-name">Cybersecurity</p>
-            <p class="skill-list">Network Security · Incident Response · Digital Forensics · Risk Management · Cryptography</p>
-          </div>
-
-          <div class="skill-group">
-            <p class="skill-group-name">Frameworks & Compliance</p>
-            <p class="skill-list">NIST · ISO 27001 · PCI DSS · HIPAA · ACR · DOH</p>
-          </div>
-
-          <div class="skill-group">
-            <p class="skill-group-name">AWS & Cloud</p>
-            <p class="skill-list">IAM · S3 · CloudFront · Lambda · DynamoDB · API Gateway · Route 53 · CloudWatch · WAF</p>
-          </div>
-
-          <div class="skill-group">
-            <p class="skill-group-name">DevOps & IaC</p>
-            <p class="skill-list">Terraform · GitHub Actions · CI/CD · Python · Bash · Git · Linux (Kali) · Active Directory</p>
-          </div>
-
-          <div class="skill-group">
-            <p class="skill-group-name">Healthcare IT</p>
-            <p class="skill-list">Epic Super User · PACS · RIS · HIM · HL7 · DICOM</p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <!-- EDUCATION -->
-        <div class="section">
-          <p class="section-label">Education</p>
-
-          <div class="edu-block">
-            <p class="edu-degree">M.S. Cybersecurity</p>
-            <p class="edu-school">Thomas Edison State University</p>
-            <p class="edu-year">Trenton, NJ · May 2025</p>
-            <p class="edu-coursework">Cryptography · Forensics · Risk Management · Network Defense · OS Security · Governance</p>
-          </div>
-
-          <div class="edu-block">
-            <p class="edu-degree">B.S. Diagnostic Imaging Sciences</p>
-            <p class="edu-school">Rutgers University</p>
-            <p class="edu-year">Newark, NJ · May 2020</p>
-            <p class="edu-coursework">PACS/RIS/HIM · HL7 · DICOM · Project Management</p>
-          </div>
-
-          <div class="edu-block">
-            <p class="edu-degree">A.A.S. Radiologic Sciences</p>
-            <p class="edu-school">Bergen Community College</p>
-            <p class="edu-year">Paramus, NJ · August 2016</p>
-          </div>
-        </div>
-
-        <!-- CERTIFICATIONS -->
-        <div class="section">
-          <p class="section-label">Certifications</p>
-          <ul class="cert-list">
-            <li>
-              <span class="cert-name">R.T. (R) — ARRT</span>
-              <span class="cert-status">Active</span>
-            </li>
-            <li>
-              <span class="cert-name">AWS Cloud Practitioner</span>
-              <span class="cert-status">In Progress</span>
-            </li>
-            <li>
-              <span class="cert-name">AWS Security Specialty</span>
-              <span class="cert-status">Planned</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="resume-footer">
-      <span>Chris Chambers · chamb.dev</span>
-      <span id="updated">Updated May 2026</span>
-    </div>
-
-  </div>
-
-<script>
-  document.getElementById('updated').textContent =
-    'Updated ' + new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-</script>
 </body>
 </html>
