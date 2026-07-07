@@ -531,7 +531,7 @@
 
     <div class="prose" style="margin-bottom: 2rem;">
       <p>Most cloud security incidents don't start with a sophisticated attacker. They start with a misconfigured S3 bucket, an overpermissioned IAM role, or a security group open to the entire internet. Someone made a change, nobody caught it, and the damage was done.</p>
-      <p>This pipeline catches those misconfigurations at the moment they are made -- before code ships, before infrastructure deploys, before anything reaches production. Policy violations block the pull request automatically. No manual review required.</p>
+      <p>This pipeline catches those misconfigurations at the moment they are made. Before code ships, before infrastructure deploys, before anything reaches production. Policy violations block the pull request automatically. No manual review required.</p>
     </div>
 
     <div class="metrics-grid">
@@ -551,7 +551,7 @@
 
     <hr class="divider">
 
-    <div class="section-label">Try it -- run a policy scan</div>
+    <div class="section-label">Try it. Run a policy scan</div>
     <p class="demo-subtext">Select a misconfigured infrastructure template and watch the pipeline evaluate it against the NIST 800-53 policy set in real time.</p>
 
     <div class="template-grid">
@@ -597,7 +597,7 @@
         <span class="how-num">01</span>
         <div class="how-content">
           <div class="how-title">Engineer opens a pull request</div>
-          <div class="how-desc">Any IaC change -- Terraform, CloudFormation, or raw policy -- triggers the pipeline on every PR.</div>
+          <div class="how-desc">Any IaC change (Terraform, CloudFormation, or raw policy) triggers the pipeline on every PR.</div>
         </div>
       </li>
       <li class="how-item">
@@ -611,7 +611,7 @@
         <span class="how-num">03</span>
         <div class="how-content">
           <div class="how-title">Violations block the merge</div>
-          <div class="how-desc">Any policy failure returns a detailed report -- which rule fired, which resource, which control reference -- and the PR cannot merge until it is resolved.</div>
+          <div class="how-desc">Any policy failure returns a detailed report showing which rule fired, which resource, which control reference, and the PR cannot merge until it is resolved.</div>
         </div>
       </li>
       <li class="how-item">
@@ -639,7 +639,7 @@
     </div>
 
     <div class="origin-note">
-      Part of the <a href="https://chamb.dev/projects/compliance-platform.html">Compliance Engineering Platform</a> -- built from the OPA/Rego policy library and Conftest gate developed across 11 labs. This is what those controls look like running in a real deployment pipeline.
+      Part of the <a href="https://chamb.dev/projects/compliance-platform.html">Compliance Engineering Platform</a>, built from the OPA/Rego policy library and Conftest gate developed across 11 labs. This is what those controls look like running in a real deployment pipeline.
     </div>
 
     <hr class="divider">
@@ -687,7 +687,7 @@
     const templates = {
       s3: {
         status: 'blocked',
-        resource: 'S3 Bucket -- prod-data-lake-01',
+        resource: 'S3 Bucket: prod-data-lake-01',
         rule: 'S3 buckets must not have public ACLs enabled',
         severity: 'CRITICAL',
         control: 'NIST 800-53 SC-7, AC-3',
@@ -696,7 +696,7 @@
       },
       iam: {
         status: 'blocked',
-        resource: 'IAM Role -- app-service-role',
+        resource: 'IAM Role: app-service-role',
         rule: 'IAM policies must not use wildcard actions on sensitive services',
         severity: 'HIGH',
         control: 'NIST 800-53 AC-6, IA-2',
@@ -705,7 +705,7 @@
       },
       sg: {
         status: 'blocked',
-        resource: 'Security Group -- web-tier-sg',
+        resource: 'Security Group: web-tier-sg',
         rule: 'Security groups must not allow unrestricted inbound access from 0.0.0.0/0',
         severity: 'HIGH',
         control: 'NIST 800-53 SC-7, CM-7',
@@ -715,11 +715,11 @@
     };
 
     const feedSeed = [
-      { status: 'blocked', text: 'IAM role -- wildcard action on S3 and EC2', time: '14 min ago' },
-      { status: 'passed',  text: 'Lambda function -- encryption at rest, least-privilege role confirmed', time: '1 hr ago' },
-      { status: 'blocked', text: 'Security group -- port 22 open to 0.0.0.0/0', time: '3 hr ago' },
-      { status: 'passed',  text: 'S3 bucket -- private ACL, versioning enabled, MFA delete on', time: '5 hr ago' },
-      { status: 'blocked', text: 'RDS instance -- public accessibility enabled', time: '8 hr ago' },
+      { status: 'blocked', text: 'IAM role, wildcard action on S3 and EC2', time: '14 min ago' },
+      { status: 'passed',  text: 'Lambda function, encryption at rest, least-privilege role confirmed', time: '1 hr ago' },
+      { status: 'blocked', text: 'Security group, port 22 open to 0.0.0.0/0', time: '3 hr ago' },
+      { status: 'passed',  text: 'S3 bucket, private ACL, versioning enabled, MFA delete on', time: '5 hr ago' },
+      { status: 'blocked', text: 'RDS instance, public accessibility enabled', time: '8 hr ago' },
     ];
 
     let selected = 's3';
@@ -732,7 +732,7 @@
         <div class="feed-item">
           <span class="feed-dot ${item.status}"></span>
           <div>
-            <div class="feed-main">${item.status === 'blocked' ? 'Blocked' : 'Passed'} -- ${item.text}</div>
+            <div class="feed-main">${item.status === 'blocked' ? 'Blocked' : 'Passed'}: ${item.text}</div>
             <div class="feed-time">${item.time}</div>
           </div>
         </div>
