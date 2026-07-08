@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="From Lab Work to Live Platform: Building the Compliance Engineering Platform">
+  <meta property="og:title" content="From Lab Work to Live Platform: Building the Compliance Engineering Platform -- Chris Chambers">
+  <meta property="og:description" content="From Lab Work to Live Platform: Building the Compliance Engineering Platform">
+  <meta property="og:url" content="https://chamb.dev/writing/from-lab-work-to-live-platform-building-the-compliance-engineering-platform">
+  <meta name="twitter:card" content="summary">
+  <title>From Lab Work to Live Platform: Building the Compliance Engineering Platform -- Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg: #F5F4F0; --surface: #EEECEA; --border: #D4D2CE; --text: #1A1C1B;
+      --muted: #888B89; --subtle: #4A4D4C; --dim: #AAAEAD;
+      --accent: #C8391D; --accent-dk: #A82E16;
+      --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
+      --transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    body.dark {
+      --bg: #252420; --surface: #2E2D29; --border: #3A3935; --text: #E8E6E0;
+      --muted: #6B6B68; --subtle: #A8A6A0; --dim: #555552;
+      --accent: #E04B2A; --accent-dk: #C83D20;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; transition: var(--transition); }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); transition: var(--transition); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 1.25rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .theme-toggle { background: none; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .icon-sun { display: none; } .icon-moon { display: block; }
+    body.dark .icon-sun { display: block; } body.dark .icon-moon { display: none; }
+    .post-header { padding: 4rem 0 3rem; border-bottom: 0.5px solid var(--border); }
+    .post-tag { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; }
+    .post-title { font-family: var(--mono); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.25rem; }
+    .post-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .post-body { max-width: 680px; padding: 3rem 0 5rem; }
+    .post-body p { font-size: 16px; font-weight: 300; color: var(--subtle); line-height: 1.9; margin-bottom: 1.5rem; }
+    .post-body p:last-child { margin-bottom: 0; }
+    .post-divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 3rem; transition: color 0.2s; padding-top: 2rem; }
+    .back-link:hover { color: var(--accent); }
+    footer { padding: 2rem 0; border-top: 0.5px solid var(--border); background: var(--surface); transition: var(--transition); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.75rem; list-style: none; }
+    .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    @media (max-width: 768px) { .container { padding: 0 1.5rem; } .nav-inner { padding: 1rem 1.5rem; } .post-header { padding: 3rem 0 2rem; } .post-body { padding: 2rem 0 4rem; } .footer-inner { padding: 0 1.5rem; flex-direction: column; align-items: flex-start; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none; } }
+  </style>
+</head>
+<body>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) document.body.classList.add('dark');
+    })();
+  </script>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="/" class="nav-logo">chamb<span>.</span>dev</a>
+        <ul class="nav-links">
+          <li><a href="/writing/">writing</a></li>
+          <li><a href="/#projects">projects</a></li>
+          <li><a href="/resume.html">resume</a></li>
+        </ul>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="container">
+    <a href="/writing/" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Writing
+    </a>
+    <header class="post-header">
+      <div class="post-tag">Writing</div>
+      <h1 class="post-title">From Lab Work to Live Platform: Building the Compliance Engineering Platform</h1>
+      <div class="post-meta">Chris Chambers &nbsp;&middot;&nbsp; July 8, 2026</div>
+    </header>
+    <article class="post-body">
+      <p>Most compliance portfolios are PDFs. Screenshots of dashboards. GitHub repos with a README and a few Terraform files. Nobody can run them. Nobody can see them work. You have to take the engineer&#x27;s word for it.</p>
+      <p>I wanted something different.</p>
+      <p>The Origin</p>
+      <p>I completed 11 labs through the GRC Engineering Club program. The work was real: S3 NIST 800-53 controls, an S3 Object Lock evidence vault, a Rego policy library, a Conftest policy gate, GitHub Actions with OIDC, Cosign keyless signing, a CloudTrail and Security Hub baseline, GCP Workload Identity Federation, OSCAL documentation, and HIPAA gap remediation on a live patient intake API.</p>
+      <p>Good labs. Real infrastructure. Real cloud accounts. But a lab completion is not a portfolio. It is proof you followed instructions. I needed to show what I could build when nobody was giving instructions.</p>
+      <p>So I kept building.</p>
+      <p>What I Built</p>
+      <p>The Compliance Engineering Platform is five production systems that grew out of those 11 labs. Each one solves a specific business problem. Each one has a live interactive demo at chamb.dev.</p>
+      <p>Compliance Guardrails Pipeline</p>
+      <p>The problem: misconfigured infrastructure reaching production. An S3 bucket with a public ACL, an IAM role with wildcard permissions, a security group open to the entire internet. These happen every day. Manual security reviews catch some of them but add days to every release cycle and still miss things.</p>
+      <p>What I built: OPA/Rego policies evaluated by Conftest on every pull request. Any infrastructure configuration that violates a NIST 800-53 control blocks the merge automatically. The engineer gets a report: which rule fired, which resource, the severity, the control reference. No manual review required.</p>
+      <p>The demo: three misconfigured templates. Click one, click run, watch the policy engine catch it in real time.</p>
+      <p>Automated Audit Evidence Pipeline</p>
+      <p>The problem: audit preparation costs weeks of manual work. Teams gather screenshots, export logs, and assemble evidence packages by hand. Then an auditor asks for something that was not collected.</p>
+      <p>What I built: an automated pipeline that collects compliance artifacts on every deployment, signs them with Cosign keyless signing, and writes them to an S3 Object Lock vault with a 7-year retention policy. Every artifact has a verifiable signature and a Rekor transparency log entry. Auditors get a link, not a spreadsheet.</p>
+      <p>The demo: trigger a collection run and watch an artifact get collected, signed, and vaulted. Then verify an artifact and watch the Cosign signature get checked against the Rekor log.</p>
+      <p>HIPAA Gap Remediation Engine</p>
+      <p>The problem: healthcare organizations do not know where all their PHI lives. Developers create buckets, export reports, and protected health information ends up scattered across dozens of resources. Auditors find it. Fines follow.</p>
+      <p>What I built: Amazon Macie scanning continuously for PHI patterns. Service Control Policies blocking public exposure at the AWS API level before it occurs. A Lambda that auto-remediates high-severity findings in under 60 seconds with no human intervention. CloudTrail and Object Lock for the complete audit trail.</p>
+      <p>This one is personal. I spent over a decade in radiology, MRI, CT, and emergency departments. I have handled the data these controls protect every day. PHI is not an abstract compliance concept. It is a patient&#x27;s cancer diagnosis, a psychiatric history, an HIV status. The controls exist to protect that.</p>
+      <p>Cloud Security Baseline Automation</p>
+      <p>The problem: quarterly security reviews tell you what your environment looked like on one day, four times a year. Everything in between is invisible.</p>
+      <p>What I built: GuardDuty, AWS Config, and Security Hub running continuously. Every configuration drift event detected, enriched with resource owner context via Lambda, and routed automatically. The security posture of the environment is visible in real time.</p>
+      <p>Zero Trust Credential Elimination</p>
+      <p>The problem: long-lived credentials. An access key stored in a repository or left unrotated is a breach waiting to happen. The credential does not expire. The attacker has unlimited time.</p>
+      <p>What I built: OIDC and GCP Workload Identity Federation replacing every long-lived credential across the AWS and GCP pipeline. Each workflow run gets a short-lived token scoped to the minimum required permissions. When the run ends, the credentials expire. There are no keys to rotate, leak, or revoke.</p>
+      <p>Why Live Demos</p>
+      <p>Anyone can write about building a compliance pipeline. I wanted hiring managers and collaborators to be able to run it themselves.</p>
+      <p>Every project page at chamb.dev has an interactive demo. The visitor clicks a button, something runs in my AWS account, and the result renders on screen. The Lambda invocation is in CloudWatch. The DynamoDB record exists. The evaluation happened.</p>
+      <p>That is the difference between a portfolio and evidence.</p>
+      <p>What Is Next</p>
+      <p>Three GRC-specific projects are in build: a vendor risk assessment pipeline, a policy and control management system, and a continuous control monitoring dashboard. Each one targets the specific skills GRC roles test in interviews.</p>
+      <p>The platform is live at chamb.dev/projects/compliance-platform.html</p>
+    </article>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;&middot;&nbsp; M.S. Cybersecurity</div>
+      <ul class="footer-links">
+        <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+        <li><a href="/resume.html">Resume</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script>
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>
