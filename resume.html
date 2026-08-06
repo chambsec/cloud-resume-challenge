@@ -1,162 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chris Chambers — Cloud Security Engineer. R.T.(R) ARRT · M.S. Cybersecurity.">
-  <meta property="og:title" content="Chris Chambers — Resume">
-  <meta property="og:url" content="https://chamb.dev/resume.html">
-  <title>Chris Chambers — Resume</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --cream: #F7F6F3;
-      --charcoal: #2C2C2A;
-      --red: #E24B4A;
-      --muted: #7A7A76;
-      --border: #E0DED8;
-      --card-bg: #FFFFFF;
-      --font-serif: 'DM Serif Display', Georgia, serif;
-      --font-sans: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'Space Mono', monospace;
-    }
-    html { font-size: 16px; }
-    body { background: var(--cream); color: var(--charcoal); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: none; }
-    a:hover { color: var(--red); }
-    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Chris Chambers — Cloud Security Engineer. R.T.(R) ARRT · M.S. Cybersecurity.">
+<meta property="og:title" content="Chris Chambers — Resume">
+<meta property="og:url" content="https://chamb.dev/resume.html">
+<title>Resume — chamb.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F5F4F0;--surface:#EEECEA;--border:#D4D2CE;
+  --text:#1A1C1B;--muted:#888B89;--subtle:#2E2C28;--dim:#AAAEAD;
+  --accent:#C8391D;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-width:900px}
+a{color:inherit;text-decoration:none}
+body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted:#6B6B68;--subtle:#A8A6A0;--dim:#555552;--accent:#E04B2A}
+.masthead{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:2px solid var(--text)}
+.mast-left{display:flex;flex-direction:column;gap:3px}
+.mast-name{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.02em}
+.mast-cred{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.mast-nav{display:flex;gap:2rem;align-items:center;list-style:none}
+.mast-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;transition:color 0.15s}
+.mast-nav a:hover,.mast-nav a.active{color:var(--accent)}
+.theme-btn{background:none;border:0.5px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;transition:all 0.15s}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-    nav { padding: 32px 0 0; margin-bottom: 48px; }
-    .nav-inner { display: flex; align-items: baseline; gap: 32px; }
-    .nav-logo { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--charcoal); letter-spacing: -0.02em; }
-    .nav-links { display: flex; gap: 24px; list-style: none; margin-left: auto; }
-    .nav-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
-    .nav-links a:hover { color: var(--charcoal); }
+.resume-wrap{max-width:820px;margin:0 auto;padding:0 2.5rem}
+.page-header{padding:2.5rem 0 0;border-bottom:0.5px solid var(--border)}
+.page-eyebrow{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem}
+.resume-name{font-size:2.4rem;font-weight:600;letter-spacing:-0.025em;color:var(--text);margin-bottom:0.5rem}
+.resume-title{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.06em;margin-bottom:1rem}
+.resume-contact{display:flex;flex-wrap:wrap;gap:1.25rem;margin-bottom:1.5rem}
+.resume-contact a,.resume-contact span{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.02em}
+.resume-contact a:hover{color:var(--accent)}
+.download-row{padding-bottom:1.75rem}
+.download-btn{font-family:var(--mono);font-size:10px;color:var(--text);border:1px solid var(--accent);padding:8px 16px;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.06em;transition:all 0.15s}
+.download-btn:hover{background:var(--accent);color:var(--bg)}
 
-    .resume-header { margin-bottom: 2.5rem; }
-    .resume-name { font-family: var(--font-serif); font-size: 40px; color: var(--charcoal); line-height: 1.1; margin-bottom: 0.25rem; }
-    .resume-title { font-family: var(--font-mono); font-size: 13px; color: var(--red); letter-spacing: 0.04em; margin-bottom: 1rem; }
-    .resume-contact { display: flex; flex-wrap: wrap; gap: 16px; }
-    .resume-contact a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-    .resume-contact a:hover { color: var(--charcoal); }
+.section{padding:2rem 0;border-bottom:0.5px solid var(--border)}
+.section:last-of-type{border-bottom:none}
+.section-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:0.5px solid var(--border)}
+.profile-text{font-size:14px;font-weight:300;color:var(--subtle);line-height:1.85;max-width:640px}
 
-    .download-row { margin-bottom: 2rem; }
-    .download-btn { font-family: var(--font-mono); font-size: 12px; color: var(--charcoal); border: 1px solid var(--border); border-radius: 3px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 6px; transition: border-color 0.15s; }
-    .download-btn:hover { border-color: var(--charcoal); color: var(--charcoal); }
+.job{margin-bottom:1.75rem}
+.job:last-child{margin-bottom:0}
+.job-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:4px;flex-wrap:wrap}
+.job-title{font-size:14px;font-weight:500;color:var(--text)}
+.job-dates{font-family:var(--mono);font-size:9px;color:var(--dim);white-space:nowrap}
+.job-org{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:0.75rem}
+.job-bullets{list-style:none}
+.job-bullets li{font-size:12.5px;font-weight:300;color:var(--subtle);line-height:1.75;padding:3px 0 3px 16px;position:relative}
+.job-bullets li::before{content:'·';position:absolute;left:2px;color:var(--accent)}
 
-    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+.project{margin-bottom:1.75rem;padding-bottom:1.75rem;border-bottom:0.5px solid var(--border)}
+.project:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.project-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:6px;flex-wrap:wrap}
+.project-name{font-size:14px;font-weight:500;color:var(--text)}
+.project-links{display:flex;gap:12px}
+.project-link{font-family:var(--mono);font-size:9px;color:var(--accent)}
+.project-link:hover{text-decoration:underline}
+.project-desc{font-size:12.5px;font-weight:300;color:var(--subtle);line-height:1.75;margin-bottom:0.6rem}
+.project-outcome{font-family:var(--mono);font-size:10px;color:var(--accent);padding-left:10px;border-left:2px solid var(--accent);margin-bottom:0.75rem;line-height:1.6}
+.project-subsystems{list-style:none;margin-bottom:0.75rem}
+.project-subsystems li{font-size:12px;font-weight:300;color:var(--subtle);line-height:1.7;padding:2px 0 2px 16px;position:relative}
+.project-subsystems li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:10px}
+.tag-row{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-family:var(--mono);font-size:7.5px;color:var(--muted);border:0.5px solid var(--border);padding:2px 7px}
 
-    .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.skill-group-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.4rem}
+.skill-list{font-size:12px;font-weight:300;color:var(--subtle);line-height:1.75}
 
-    .profile-text { font-size: 15px; color: #4A4A47; line-height: 1.75; }
+.edu-item{margin-bottom:1.25rem}
+.edu-item:last-child{margin-bottom:0}
+.edu-degree{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.edu-school{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:3px}
+.edu-detail{font-size:11.5px;font-weight:300;color:var(--subtle)}
 
-    .job { margin-bottom: 2rem; }
-    .job:last-child { margin-bottom: 0; }
-    .job-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 0.25rem; flex-wrap: wrap; }
-    .job-title { font-size: 15px; font-weight: 500; color: var(--charcoal); }
-    .job-dates { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
-    .job-org { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 0.75rem; }
-    .job-bullets { list-style: none; }
-    .job-bullets li { font-size: 14px; color: #4A4A47; line-height: 1.65; padding: 3px 0 3px 16px; position: relative; }
-    .job-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--red); }
+.cert-list{list-style:none}
+.cert-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:12.5px}
+.cert-item:last-child{border-bottom:none}
+.cert-name{color:var(--text);font-weight:500;flex:1}
+.cert-status{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.06em;text-transform:uppercase}
+.cert-status.active{color:var(--accent)}
 
-    .project { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
-    .project:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-    .project-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 0.375rem; flex-wrap: wrap; }
-    .project-name { font-size: 15px; font-weight: 500; color: var(--charcoal); }
-    .project-links { display: flex; gap: 12px; flex-shrink: 0; }
-    .project-link { font-family: var(--font-mono); font-size: 11px; color: var(--red); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: border-color 0.15s; }
-    .project-link:hover { border-color: var(--red); color: var(--red); }
-    .project-desc { font-size: 14px; color: #4A4A47; line-height: 1.7; margin-bottom: 0.75rem; }
-    .project-outcome { font-size: 13px; color: var(--charcoal); line-height: 1.6; margin-bottom: 0.875rem; padding-left: 12px; border-left: 2px solid var(--red); }
-    .project-subsystems { list-style: none; margin-bottom: 0.875rem; }
-    .project-subsystems li { font-size: 13px; color: #4A4A47; line-height: 1.6; padding: 2px 0 2px 16px; position: relative; }
-    .project-subsystems li::before { content: '→'; position: absolute; left: 0; color: var(--red); font-size: 11px; top: 4px; }
-    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
-    .tag { font-family: var(--font-mono); font-size: 10px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
+.footer{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.5rem;background:var(--surface);border-top:2px solid var(--text);margin-top:2.5rem}
+.footer-left{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.08em}
+.footer-links{display:flex;gap:1.75rem;list-style:none}
+.footer-links a{font-family:var(--mono);font-size:8px;color:var(--muted);transition:color 0.15s}
+.footer-links a:hover{color:var(--accent)}
+.footer-badge{font-family:var(--mono);font-size:7px;color:var(--dim);border:0.5px solid var(--border);padding:2px 8px;letter-spacing:0.1em}
 
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .skill-group-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-bottom: 0.375rem; }
-    .skill-list { font-size: 13px; color: #4A4A47; line-height: 1.7; }
-
-    .edu-item { margin-bottom: 1.25rem; }
-    .edu-item:last-child { margin-bottom: 0; }
-    .edu-degree { font-size: 14px; font-weight: 500; color: var(--charcoal); margin-bottom: 2px; }
-    .edu-school { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-    .edu-detail { font-size: 13px; color: #4A4A47; }
-
-    .cert-list { list-style: none; }
-    .cert-item { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-    .cert-item:last-child { border-bottom: none; }
-    .cert-name { color: var(--charcoal); font-weight: 500; flex: 1; }
-    .cert-status { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-    .cert-status.active { color: #166534; }
-
-    footer { margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border); }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-name { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-    .footer-links { display: flex; gap: 20px; list-style: none; }
-    .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-    .footer-links a:hover { color: var(--charcoal); }
-
-    @media (max-width: 600px) {
-      .resume-name { font-size: 30px; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .job-top { flex-direction: column; gap: 4px; }
-      .project-top { flex-direction: column; gap: 6px; }
-    }
-
-    @media print {
-      body { background: white; font-size: 13px; }
-      nav, .download-row, footer { display: none; }
-      .container { max-width: 100%; padding: 0; }
-      .divider { margin: 1rem 0; }
-    }
-  </style>
+@media print{
+  .masthead,.theme-btn,.download-row,.footer{display:none}
+  body{background:#fff;min-width:0}
+  .resume-wrap{max-width:100%;padding:0}
+}
+</style>
 </head>
 <body>
-  <div class="container">
+<script>(function(){const s=localStorage.getItem('chamb-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d))document.body.classList.add('dark')})();</script>
+<header class="masthead">
+  <div class="mast-left">
+    <a href="/" class="mast-name">Chris Chambers</a>
+    <div class="mast-cred">R.T.(R) ARRT &nbsp;·&nbsp; Cloud Security Engineer</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:2rem">
+    <ul class="mast-nav">
+      <li><a href="/writing/">Writing</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/resume.html" class="active">Resume</a></li>
+    </ul>
+    <button class="theme-btn" onclick="toggleTheme()">&#9680;</button>
+  </div>
+</header>
 
-    <nav>
-      <div class="nav-inner">
-        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
-        <ul class="nav-links">
-          <li><a href="https://chamb.dev/writing/">writing</a></li>
-          <li><a href="https://chamb.dev/projects/">projects</a></li>
-          <li><a href="https://chamb.dev/resume.html">resume</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <header class="resume-header">
-      <h1 class="resume-name">Chris Chambers</h1>
-      <div class="resume-title">Cloud Security Engineer &nbsp;·&nbsp; R.T.(R) ARRT &nbsp;·&nbsp; M.S. Cybersecurity</div>
-      <div class="resume-contact">
-        <a href="mailto:chambersjamar@gmail.com">chambersjamar@gmail.com</a>
-        <a href="tel:2016651189">201-665-1189</a>
-        <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">Teaneck, NJ</span>
-        <a href="https://chamb.dev">chamb.dev</a>
-        <a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </header>
-
-    <div class="download-row">
-      <a class="download-btn" href="https://chamb.dev/chris-chambers-resume.pdf" target="_blank" rel="noopener">&#8599; Download PDF</a>
+<div class="resume-wrap">
+  <div class="page-header">
+    <div class="page-eyebrow">chamb.dev &nbsp;/&nbsp; resume</div>
+    <h1 class="resume-name">Chris Chambers</h1>
+    <div class="resume-title">Cloud Security Engineer &nbsp;·&nbsp; R.T.(R) ARRT &nbsp;·&nbsp; M.S. Cybersecurity</div>
+    <div class="resume-contact">
+      <a href="mailto:chambersjamar@gmail.com">chambersjamar@gmail.com</a>
+      <a href="tel:2016651189">201-665-1189</a>
+      <span>Teaneck, NJ</span>
+      <a href="https://chamb.dev">chamb.dev</a>
+      <a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
     </div>
+    <div class="download-row">
+      <a class="download-btn" href="/chris-chambers-resume.pdf" target="_blank" rel="noopener">&#8595; Download Resume</a>
+    </div>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Profile</div>
     <p class="profile-text">Cloud security engineer with over a decade of clinical healthcare experience across radiology, MRI, CT, and emergency departments, combined with hands-on compliance automation and AWS infrastructure engineering. Built the Compliance Engineering Platform: five production systems covering policy-as-code enforcement, automated audit evidence collection, HIPAA gap remediation, continuous security monitoring, and zero trust credential elimination. Brings a perspective on regulated data protection that is grounded in the clinical environments the controls are built to protect.</p>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Experience</div>
-
     <div class="job">
       <div class="job-top">
         <div class="job-title">Radiologic Technologist · QA · Epic Super User</div>
@@ -171,7 +159,6 @@
         <li>Oversee governance of imaging software, ensuring secure configurations and access controls</li>
       </ul>
     </div>
-
     <div class="job">
       <div class="job-top">
         <div class="job-title">Radiologic Technologist</div>
@@ -183,23 +170,22 @@
         <li>Maintained accurate patient data across imaging systems (PACS, RIS) in a regulated clinical environment</li>
       </ul>
     </div>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Projects</div>
-
     <div class="project">
       <div class="project-top">
         <div class="project-name">Compliance Engineering Platform</div>
         <div class="project-links">
-          <a class="project-link" href="https://chamb.dev/projects/compliance-platform.html">↗ Live platform</a>
+          <a class="project-link" href="/projects/compliance-platform.html">↗ Live platform</a>
           <a class="project-link" href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">↗ GitHub</a>
         </div>
       </div>
       <p class="project-desc">End-to-end compliance automation platform across AWS and GCP. Five production systems built from 11 labs covering policy-as-code enforcement, automated evidence collection, HIPAA gap remediation, continuous security monitoring, and zero trust credential elimination. Every system has a live interactive demo.</p>
-      <div class="project-outcome">14 HIPAA control gaps identified and closed before audit. 94% reduction in policy violations reaching production. Audit prep reduced from 3 weeks manual to automated same-day collection. Mean time to detect configuration drift dropped from weeks to under 2 hours.</div>
+      <div class="project-outcome">14 HIPAA control gaps identified and closed before audit · 94% reduction in policy violations reaching production · audit prep reduced from 3 weeks manual to same-day automated collection · mean time to detect configuration drift dropped from weeks to under 2 hours</div>
       <ul class="project-subsystems">
-        <li>Compliance guardrails pipeline: OPA/Rego policy gates blocking IaC misconfigurations at pull request time. Every violation mapped to NIST 800-53 control reference.</li>
+        <li>Compliance guardrails pipeline: OPA/Rego policy gates blocking IaC misconfigurations at pull request time. Every violation mapped to a NIST 800-53 control reference.</li>
         <li>Automated audit evidence pipeline: OIDC-authenticated collection, Cosign keyless signing, S3 Object Lock WORM vault with 7-year retention.</li>
         <li>HIPAA gap remediation engine: Macie PHI detection, SCP-enforced public exposure prevention, Lambda auto-remediation in under 60 seconds.</li>
         <li>Cloud security baseline automation: GuardDuty, Config, and Security Hub continuous monitoring replacing quarterly point-in-time reviews.</li>
@@ -224,7 +210,6 @@
         <span class="tag">HIPAA</span>
       </div>
     </div>
-
     <div class="project">
       <div class="project-top">
         <div class="project-name">Cloud Resume Challenge</div>
@@ -234,7 +219,7 @@
         </div>
       </div>
       <p class="project-desc">Full-stack serverless resume deployed on AWS. S3 and CloudFront frontend with ACM certificate and WAF protection. Lambda and DynamoDB visitor counter. Infrastructure defined as code with Terraform and deployed via GitHub Actions CI/CD pipeline.</p>
-      <div class="project-outcome">Production site live at chamb.dev. Zero-downtime deploys with CloudFront cache invalidation on every push to main.</div>
+      <div class="project-outcome">Production site live at chamb.dev · zero-downtime deploys with CloudFront cache invalidation on every push to main</div>
       <div class="tag-row">
         <span class="tag">S3</span>
         <span class="tag">CloudFront</span>
@@ -248,9 +233,9 @@
         <span class="tag">Python</span>
       </div>
     </div>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Skills</div>
     <div class="skills-grid">
       <div>
@@ -278,30 +263,27 @@
         <div class="skill-list">Incident Response · Digital Forensics · Network Security · Cryptography · Zero Trust · Vulnerability Management</div>
       </div>
     </div>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Education</div>
-
     <div class="edu-item">
       <div class="edu-degree">M.S. Cybersecurity</div>
       <div class="edu-school">Thomas Edison State University &nbsp;·&nbsp; Trenton, NJ &nbsp;·&nbsp; May 2025</div>
       <div class="edu-detail">Cryptography · Forensics · Risk Management · Network Defense · OS Security · Governance</div>
     </div>
-
     <div class="edu-item">
       <div class="edu-degree">B.S. Diagnostic Imaging Sciences</div>
       <div class="edu-school">Rutgers University &nbsp;·&nbsp; Newark, NJ &nbsp;·&nbsp; May 2020</div>
       <div class="edu-detail">PACS/RIS/HIM · HL7 · DICOM · Project Management</div>
     </div>
-
     <div class="edu-item">
       <div class="edu-degree">A.A.S. Radiologic Sciences</div>
       <div class="edu-school">Bergen Community College &nbsp;·&nbsp; Paramus, NJ &nbsp;·&nbsp; August 2016</div>
     </div>
+  </div>
 
-    <hr class="divider">
-
+  <div class="section">
     <div class="section-label">Certifications</div>
     <ul class="cert-list">
       <li class="cert-item">
@@ -317,18 +299,19 @@
         <span class="cert-status">Planned</span>
       </li>
     </ul>
-
-    <footer>
-      <div class="footer-inner">
-        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; chamb.dev</span>
-        <ul class="footer-links">
-          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://chamb.dev/projects/">Projects</a></li>
-        </ul>
-      </div>
-    </footer>
-
   </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">© 2026 Chris Chambers &nbsp;·&nbsp; R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank">X</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+  <div class="footer-badge">Powered by OAM</div>
+</footer>
+<script>function toggleTheme(){const d=document.body.classList.toggle('dark');localStorage.setItem('chamb-theme',d?'dark':'light')}</script>
 </body>
 </html>
