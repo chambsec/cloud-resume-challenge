@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imaging Systems Monitoring — Imaging Systems Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F7F6F3;
+    --charcoal: #2C2C2A;
+    --red: #E24B4A;
+    --muted: #7A7A76;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+    --green: #22c55e;
+    --green-bg: #DCFCE7;
+    --green-text: #166534;
+    --amber: #D97706;
+    --amber-bg: #FEF9C3;
+    --amber-text: #854D0E;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--cream); color:var(--charcoal); }
+  body{ font-family:'DM Sans', system-ui, sans-serif; padding: 32px 20px 60px; -webkit-font-smoothing: antialiased; }
+  .wrap{ max-width: 980px; margin: 0 auto; }
+
+  .breadcrumb{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a{ color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover{ color: var(--red); }
+  .breadcrumb-sep{ color: var(--border); }
+
+  .eyebrow{ font-family:'Space Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-text); margin-bottom: 10px; }
+  h1{ font-family:'DM Serif Display', Georgia, serif; font-weight: 400; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sub{ color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 640px; margin: 0 0 28px; }
+
+  .top-row{ display: flex; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+  .uptime-card{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; min-width: 180px; }
+  .uptime-label{ font-family:'Space Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .uptime-value{ font-family:'DM Sans', sans-serif; font-weight: 700; font-size: 26px; color: var(--green-text); }
+  .uptime-value.warn{ color: var(--amber-text); }
+  .uptime-sub{ font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 26px; }
+  @media (max-width: 680px){ .grid{ grid-template-columns: 1fr; } }
+
+  .tile{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .tile-head{ display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .dot{ width: 9px; height: 9px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .dot.warn{ background: var(--amber); }
+  .dot.down{ background: var(--red); animation: pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.4; } }
+  .tile-label{ font-family:'DM Sans', sans-serif; font-weight: 700; font-size: 13px; }
+  .tile-sub{ font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .tile-metric{ font-family:'Space Mono', monospace; font-size: 12px; color: var(--charcoal); margin-bottom: 12px; min-height: 16px; }
+  .tile-status{ font-family:'Space Mono', monospace; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--green); background: var(--green-bg); color: var(--green-text); display: inline-block; margin-bottom: 12px; }
+  .tile-status.warn{ border-color: var(--amber); background: var(--amber-bg); color: var(--amber-text); }
+  .tile-status.down{ border-color: var(--red); background: #FBE7E6; color: var(--red); }
+
+  button{ font-family:'DM Sans', sans-serif; font-weight: 700; font-size: 12px; background: var(--green); color: #0a1512; border: none; padding: 9px 14px; border-radius: 7px; cursor: pointer; width: 100%; }
+  button.resolve{ background: var(--red); color: #FFFFFF; }
+  button:active{ transform: translateY(1px); }
+
+  .panel{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .panel-title{ font-family:'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .log{ font-family:'Space Mono', monospace; font-size: 12px; height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .log-row{ color: var(--muted); }
+  .log-row .t{ color: #A5A39C; margin-right: 8px; }
+  .log-row.ok .t{ color: var(--green-text); }
+  .log-row.warn{ color: var(--amber-text); }
+  .log-row.err{ color: var(--red); }
+
+  .note{ margin-top: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="https://chamb.dev">chamb.dev</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/">projects</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/imaging-systems.html">imaging-systems</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>monitoring</span>
+  </div>
+  <div class="eyebrow">Imaging Systems Portfolio</div>
+  <h1>Imaging Systems Monitoring</h1>
+  <p class="sub">This is the daily view, not the quarterly one. Four services, glanced at continuously, with an alert the moment one of them stops behaving.</p>
+
+  <div class="top-row">
+    <div class="uptime-card">
+      <div class="uptime-label">30-Day Uptime</div>
+      <div class="uptime-value" id="uptimeValue">99.97%</div>
+      <div class="uptime-sub" id="uptimeSub">All services nominal</div>
+    </div>
+  </div>
+
+  <div class="grid" id="tileGrid"></div>
+
+  <div class="panel">
+    <div class="panel-title">Alert Log</div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="note">Simulates the kind of status board a PACS admin actually watches shift to shift, not the forecasting work above it. Backup failures and queue backups here are the incidents that get caught at 7am instead of from an angry phone call at noon.</div>
+</div>
+
+<script>
+  const tiles = [
+    { id: 'pacs', label: 'PACS_MAIN', sub: 'Radiology Archive', okMetric: '112 TB / 150 TB used', warnMetric: '142 TB / 150 TB used (95%)', warnAlert: 'PACS_MAIN approaching capacity, 95% used' },
+    { id: 'cvis', label: 'CVIS_MAIN', sub: 'Cardiovascular Archive', okMetric: '38 TB / 60 TB used', warnMetric: '54 TB / 60 TB used (90%)', warnAlert: 'CVIS_MAIN approaching capacity, 90% used' },
+    { id: 'mirth', label: 'HL7 Interface Engine', sub: 'Mirth Connect, port 6661', okMetric: '0 messages queued', warnMetric: '14 messages queued', warnAlert: 'HL7 channel backing up, 14 messages queued' },
+    { id: 'backup', label: 'Nightly Backup', sub: 'Archive + DB snapshot', okMetric: 'Last run 12:14 AM, verified', downMetric: 'Last run FAILED, 3 attempts', downAlert: 'Nightly backup failed after 3 attempts' }
+  ];
+
+  const state = {};
+  tiles.forEach(function(t){ state[t.id] = 'ok'; });
+
+  const grid = document.getElementById('tileGrid');
+  const logEl = document.getElementById('log');
+  const uptimeValue = document.getElementById('uptimeValue');
+  const uptimeSub = document.getElementById('uptimeSub');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function timestamp(){
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function log(msg, cls){
+    const row = document.createElement('div');
+    row.className = 'log-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="t">' + timestamp() + '</span>' + msg;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function statusLabel(s){ return s === 'ok' ? 'Healthy' : s === 'warn' ? 'Warning' : 'Down'; }
+
+  function metricFor(t){
+    const s = state[t.id];
+    if (s === 'ok') return t.okMetric;
+    if (s === 'warn') return t.warnMetric || t.okMetric;
+    if (s === 'down') return t.downMetric || t.okMetric;
+    return t.okMetric;
+  }
+
+  function renderUptime(){
+    const downCount = tiles.filter(function(t){ return state[t.id] === 'down'; }).length;
+    const warnCount = tiles.filter(function(t){ return state[t.id] === 'warn'; }).length;
+    const base = 99.97;
+    const value = (base - downCount * 0.18 - warnCount * 0.03).toFixed(2);
+    uptimeValue.textContent = value + '%';
+    uptimeValue.className = 'uptime-value' + (downCount > 0 ? ' warn' : warnCount > 0 ? ' warn' : '');
+    uptimeSub.textContent = downCount > 0
+      ? downCount + ' service' + (downCount > 1 ? 's' : '') + ' down'
+      : warnCount > 0
+        ? warnCount + ' service' + (warnCount > 1 ? 's' : '') + ' in warning'
+        : 'All services nominal';
+  }
+
+  function renderTiles(){
+    grid.innerHTML = '';
+    tiles.forEach(function(t){
+      const s = state[t.id];
+      const el = document.createElement('div');
+      el.className = 'tile';
+      const btnLabel = s === 'ok' ? 'Simulate issue' : 'Resolve';
+      const btnClass = s === 'ok' ? '' : 'resolve';
+      el.innerHTML =
+        '<div class="tile-head"><span class="dot ' + (s !== 'ok' ? s : '') + '"></span><span class="tile-label">' + t.label + '</span></div>' +
+        '<div class="tile-sub">' + t.sub + '</div>' +
+        '<div class="tile-status ' + (s !== 'ok' ? s : '') + '">' + statusLabel(s) + '</div>' +
+        '<div class="tile-metric">' + metricFor(t) + '</div>' +
+        '<button class="' + btnClass + '" data-id="' + t.id + '">' + btnLabel + '</button>';
+      grid.appendChild(el);
+    });
+
+    grid.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        toggle(btn.getAttribute('data-id'));
+      });
+    });
+  }
+
+  function toggle(id){
+    const t = tiles.find(function(x){ return x.id === id; });
+    if (state[id] === 'ok'){
+      const nextState = t.downAlert ? 'down' : 'warn';
+      state[id] = nextState;
+      const alertMsg = nextState === 'down' ? t.downAlert : t.warnAlert;
+      log(alertMsg, nextState === 'down' ? 'err' : 'warn');
+    } else {
+      state[id] = 'ok';
+      log(t.label + ' resolved, back to normal', 'ok');
+    }
+    renderTiles();
+    renderUptime();
+  }
+
+  log('Monitoring initialized, all services healthy', 'ok');
+  renderTiles();
+  renderUptime();
+</script>
+</body>
+</html>

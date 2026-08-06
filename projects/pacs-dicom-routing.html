@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PACS / DICOM Routing — Imaging Systems Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #10151c;
+    --panel: #182029;
+    --border: #2b3542;
+    --ink: #e7ecf1;
+    --ink-dim: #8b97a6;
+    --teal: #3ecfc0;
+    --amber: #eba238;
+    --red: #e2555b;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); }
+  body{ font-family:'Inter', sans-serif; padding: 32px 20px 60px; -webkit-font-smoothing: antialiased; }
+  .wrap{ max-width: 980px; margin: 0 auto; }
+
+  .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+  h1{ font-family:'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sub{ color: var(--ink-dim); font-size: 15px; line-height: 1.55; max-width: 640px; margin: 0 0 32px; }
+
+  .stage-scroll{ overflow-x: auto; padding-bottom: 6px; }
+  .stage3{
+    display: grid;
+    grid-template-columns: 190px 1fr 200px;
+    grid-template-rows: auto auto;
+    row-gap: 26px;
+    align-items: center;
+    min-width: 660px;
+    margin-bottom: 10px;
+  }
+
+  .node{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .node-icon{ width: 30px; height: 30px; color: var(--teal); margin-bottom: 4px; }
+  .node-icon svg{ width: 100%; height: 100%; }
+  .node-label{ font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.03em; }
+  .node-sub{ font-size: 11px; color: var(--ink-dim); }
+  .ae-badge{
+    margin-top: 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    transition: all 0.2s ease;
+  }
+  .ae-badge.broken{ border-color: var(--red); color: var(--red); }
+
+  #node-modality{ grid-row: 1 / span 2; grid-column: 1; }
+  .unverified-tray{ margin-top: 10px; display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; min-height: 14px; }
+  .u-item{ width: 10px; height: 10px; background: var(--red); border-radius: 2px; animation: pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.45; } }
+
+  .lane-track{ position: relative; height: 2px; }
+  .lane-label{ position: absolute; top: -20px; left: 0; font-family:'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink-dim); letter-spacing: 0.04em; }
+  .track-line{ width: 100%; height: 2px; background-image: linear-gradient(90deg, var(--border) 0 6px, transparent 6px 12px); background-size: 12px 2px; }
+  .track-line.dead{ background-image: linear-gradient(90deg, var(--red) 0 6px, transparent 6px 12px); opacity: 0.5; }
+  .packet{ position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 12px; height: 12px; background: var(--teal); border-radius: 3px; box-shadow: 0 0 10px rgba(62,207,192,0.7); }
+  .packet.travel{ animation: travel 0.9s linear forwards; }
+  @keyframes travel{ from{ left: 0%; } to{ left: 100%; } }
+
+  .controls{ display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 28px 0; }
+  button{ font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; background: var(--teal); color: #0a1512; border: none; padding: 11px 18px; border-radius: 7px; cursor: pointer; }
+  button:active{ transform: translateY(1px); }
+  button.secondary{ background: transparent; color: var(--ink); border: 1px solid var(--border); }
+  button.secondary.broken{ border-color: var(--red); color: var(--red); }
+  .unverified-count{ font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-dim); }
+
+  .panels{ display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; }
+  @media (max-width: 720px){ .panels{ grid-template-columns: 1fr; } }
+  .panel{ background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .panel-title{ font-family:'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 10px; }
+  .dicom-body{ font-family:'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; color: var(--ink-dim); }
+  .dicom-body .field{ color: var(--teal); }
+  .dicom-body .accepted{ color: var(--teal); font-weight: 600; }
+  .dicom-body .rejected{ color: var(--red); font-weight: 600; }
+
+  .log{ font-family:'IBM Plex Mono', monospace; font-size: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .log-row{ color: var(--ink-dim); }
+  .log-row .t{ color: #56626f; margin-right: 8px; }
+  .log-row.ok .t{ color: var(--teal); }
+  .log-row.warn{ color: var(--amber); }
+  .log-row.err{ color: var(--red); }
+
+  .note{ margin-top: 24px; font-size: 12px; color: var(--ink-dim); border-top: 1px solid var(--border); padding-top: 14px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .packet.travel{ animation-duration: 0.01s; }
+    .u-item{ animation: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Imaging Systems Portfolio</div>
+  <h1>PACS / DICOM Routing</h1>
+  <p class="sub">A modality finishes an exam and sends its images on. Radiology studies go to the general PACS. Cardiology studies, echo and cath, go to a separate cardiovascular archive. Break the modality's AE title configuration and watch which lane actually stops.</p>
+
+  <div class="stage-scroll">
+    <div class="stage3">
+      <div class="node" id="node-modality">
+        <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="11" rx="1.5"/><circle cx="12" cy="10.5" r="2.5"/><path d="M8 19h8"/></svg></div>
+        <div class="node-label">MODALITY01</div>
+        <div class="node-sub">CT / CR / US / XA</div>
+        <div class="ae-badge" id="aeBadge">Called AE: PACS_MAIN</div>
+        <div class="unverified-tray" id="unverifiedTray"></div>
+      </div>
+
+      <div class="lane-track" id="lanePacs">
+        <div class="lane-label">Radiology</div>
+        <div class="track-line" id="linePacs"></div>
+      </div>
+      <div class="node" id="node-pacs">
+        <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+        <div class="node-label">PACS_MAIN</div>
+        <div class="node-sub">Radiology Archive</div>
+      </div>
+
+      <div class="lane-track" id="laneCvis">
+        <div class="lane-label">Cardiology</div>
+        <div class="track-line" id="lineCvis"></div>
+      </div>
+      <div class="node" id="node-cvis">
+        <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 21 10.5c0 5.6-9 9.5-9 9.5z"/></svg></div>
+        <div class="node-label">CVIS_MAIN</div>
+        <div class="node-sub">Cardiovascular Archive</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="sendBtn">Perform Exam</button>
+    <button class="secondary" id="breakBtn">Misconfigure AE Title</button>
+    <span class="unverified-count" id="unverifiedCount">0 unverified</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-title">DICOM Association</div>
+      <div class="dicom-body" id="dicomBody">No exams sent yet. Click Perform Exam to generate one.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">PACS Activity Log</div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <div class="note">Simulates the routing built in the companion Orthanc lab. In a real department, an AE title mismatch after a server migration or IP change is one of the most common reasons a modality silently stops sending studies, and cardiology systems are often administered separately from general radiology, so one outage does not always take down the other.</div>
+</div>
+
+<script>
+  const exams = [
+    { code: "71046", name: "CHEST 2 VIEWS", modality: "CR", cardio: false },
+    { code: "74177", name: "CT ABDOMEN PELVIS W CONTRAST", modality: "CT", cardio: false },
+    { code: "70551", name: "MRI BRAIN W WO CONTRAST", modality: "MR", cardio: false },
+    { code: "93306", name: "ECHOCARDIOGRAM TRANSTHORACIC", modality: "US", cardio: true },
+    { code: "93458", name: "CARDIAC CATH LEFT HEART", modality: "XA", cardio: true }
+  ];
+
+  let broken = false;
+  let unverified = [];
+
+  const aeBadge = document.getElementById('aeBadge');
+  const breakBtn = document.getElementById('breakBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const linePacs = document.getElementById('linePacs');
+  const lanePacs = document.getElementById('lanePacs');
+  const laneCvis = document.getElementById('laneCvis');
+  const unverifiedTray = document.getElementById('unverifiedTray');
+  const unverifiedCount = document.getElementById('unverifiedCount');
+  const dicomBody = document.getElementById('dicomBody');
+  const logEl = document.getElementById('log');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function timestamp(){
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function log(msg, cls){
+    const row = document.createElement('div');
+    row.className = 'log-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="t">' + timestamp() + '</span>' + msg;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function renderDicom(exam, calledAe, accepted, imageCount){
+    const lines = [];
+    lines.push('A-ASSOCIATE-RQ');
+    lines.push('<span class="field">Calling AE Title:</span> MODALITY01');
+    lines.push('<span class="field">Called AE Title:</span>  ' + calledAe);
+    lines.push('<span class="field">Modality:</span>          ' + exam.modality);
+    lines.push('<span class="field">Study:</span>             ' + exam.code + ' ' + exam.name);
+    lines.push('');
+    if (accepted){
+      lines.push('<span class="accepted">Result: Accepted</span>');
+      lines.push('C-STORE: ' + imageCount + ' images transferred');
+      lines.push('Routed to: ' + calledAe);
+    } else {
+      lines.push('<span class="rejected">Result: Rejected</span>');
+      lines.push('Reason: Called AE Title not recognized');
+    }
+    dicomBody.innerHTML = lines.join('\n');
+  }
+
+  function spawnPacket(track, onDone){
+    const p = document.createElement('div');
+    p.className = 'packet travel';
+    track.appendChild(p);
+    p.addEventListener('animationend', function(){
+      p.remove();
+      if (onDone) onDone();
+    });
+  }
+
+  function renderUnverified(){
+    unverifiedTray.innerHTML = '';
+    unverified.forEach(function(){
+      const u = document.createElement('div');
+      u.className = 'u-item';
+      unverifiedTray.appendChild(u);
+    });
+    unverifiedCount.textContent = unverified.length + ' unverified';
+  }
+
+  function setBroken(state){
+    broken = state;
+    aeBadge.textContent = broken ? 'Called AE: PACSMAIN_OLD' : 'Called AE: PACS_MAIN';
+    aeBadge.classList.toggle('broken', broken);
+    breakBtn.textContent = broken ? 'Fix AE Title' : 'Misconfigure AE Title';
+    breakBtn.classList.toggle('broken', broken);
+    linePacs.classList.toggle('dead', broken);
+  }
+
+  function performExam(){
+    const exam = exams[Math.floor(Math.random()*exams.length)];
+    const imageCount = 20 + Math.floor(Math.random()*180);
+
+    if (exam.cardio){
+      renderDicom(exam, 'CVIS_MAIN', true, imageCount);
+      log(exam.name + ' performed on MODALITY01', 'ok');
+      spawnPacket(laneCvis, function(){
+        log('Routed to CVIS_MAIN, cardiovascular archive', 'ok');
+      });
+      return;
+    }
+
+    log(exam.name + ' performed on MODALITY01', 'ok');
+
+    if (broken){
+      renderDicom(exam, 'PACSMAIN_OLD', false, 0);
+      log('Association rejected, Called AE PACSMAIN_OLD not recognized', 'err');
+      unverified.push(exam);
+      renderUnverified();
+      log('Study held as unverified on MODALITY01', 'warn');
+      return;
+    }
+
+    renderDicom(exam, 'PACS_MAIN', true, imageCount);
+    spawnPacket(lanePacs, function(){
+      log('Routed to PACS_MAIN, radiology archive', 'ok');
+    });
+  }
+
+  function flushUnverified(){
+    if (unverified.length === 0) return;
+    log('Resending ' + unverified.length + ' unverified study' + (unverified.length > 1 ? 'ies' : ''), 'ok');
+    const toFlush = unverified.slice();
+    unverified = [];
+    renderUnverified();
+    let i = 0;
+    function next(){
+      if (i >= toFlush.length) return;
+      spawnPacket(lanePacs, function(){
+        log('Routed to PACS_MAIN, radiology archive', 'ok');
+        i++;
+        setTimeout(next, 250);
+      });
+    }
+    next();
+  }
+
+  sendBtn.addEventListener('click', performExam);
+  breakBtn.addEventListener('click', function(){
+    if (!broken){
+      setBroken(true);
+      log('AE title configuration changed on MODALITY01', 'err');
+    } else {
+      setBroken(false);
+      log('AE title configuration corrected on MODALITY01', 'ok');
+      flushUnverified();
+    }
+  });
+
+  log('MODALITY01 online, Called AE PACS_MAIN and CVIS_MAIN configured', 'ok');
+</script>
+</body>
+</html>

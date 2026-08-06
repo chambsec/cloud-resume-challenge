@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Coordination — Imaging Systems Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F7F6F3;
+    --charcoal: #2C2C2A;
+    --red: #E24B4A;
+    --muted: #7A7A76;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+    --card-bg-sub: #FBFAF8;
+    --green-border: #22c55e;
+    --green: #166534;
+    --danger-red: #B91C1C;
+    --font-serif: 'DM Serif Display', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--cream); color:var(--charcoal); }
+  body{ font-family: var(--font-sans), sans-serif; padding: 32px 20px 60px; -webkit-font-smoothing: antialiased; }
+  .wrap{ max-width: 1080px; margin: 0 auto; }
+
+  .breadcrumb{
+    font-family: var(--font-mono), monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a{ color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover{ color: var(--red); }
+  .breadcrumb-sep{ color: var(--border); }
+
+  .eyebrow{ font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+  h1{ font-family: var(--font-serif), serif; font-weight: 400; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sub{ color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 680px; margin: 0 0 24px; }
+
+  .controls{ display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  button{ font-family: var(--font-sans), sans-serif; font-weight: 700; font-size: 12px; background: var(--red); color: var(--cream); border: none; padding: 10px 14px; border-radius: 7px; cursor: pointer; }
+  button.danger{ background: var(--danger-red); color: #FFFFFF; }
+  button:active{ transform: translateY(1px); }
+  button.small{ width: 100%; padding: 7px 10px; font-size: 11px; margin-top: 10px; }
+
+  .stats{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+  @media (max-width: 640px){ .stats{ grid-template-columns: 1fr; } }
+  .stat{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label{ font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .stat-value{ font-family: var(--font-sans), sans-serif; font-weight: 700; font-size: 22px; }
+
+  .board-scroll{ overflow-x: auto; padding-bottom: 6px; margin-bottom: 22px; }
+  .board{ display: grid; grid-template-columns: repeat(4, 230px); gap: 14px; min-width: 960px; }
+  .column{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-height: 120px; }
+  .column-head{ font-family: var(--font-sans), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; }
+
+  .card{ background: var(--card-bg-sub); border: 1px solid var(--border); border-radius: 8px; padding: 10px 11px; margin-bottom: 10px; }
+  .card-type{ font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 20px; display: inline-block; margin-bottom: 6px; border: 1px solid var(--green-border); color: var(--green); }
+  .card-type.incident{ border-color: var(--red); color: var(--red); }
+  .card-title{ font-family: var(--font-sans), sans-serif; font-weight: 600; font-size: 12.5px; margin-bottom: 3px; }
+  .card-sub{ font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+
+  .panel{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .panel-title{ font-family: var(--font-sans), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .log{ font-family: var(--font-mono), monospace; font-size: 12px; height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .log-row{ color: var(--muted); }
+  .log-row .t{ color: var(--muted); margin-right: 8px; }
+  .log-row.ok .t{ color: var(--green); }
+  .log-row.err{ color: var(--red); }
+
+  .note{ margin-top: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="https://chamb.dev">chamb.dev</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/">projects</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/imaging-systems.html">imaging-systems</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>vendor-coordination</span>
+  </div>
+  <div class="eyebrow">Imaging Systems Portfolio</div>
+  <h1>Vendor Coordination &amp; Incident Tracking</h1>
+  <p class="sub">Planned changes move left to right through notification, a maintenance window, and verification. Unplanned incidents skip straight to the middle of the board, because nobody schedules an outage.</p>
+
+  <div class="controls">
+    <button id="newChange">New Vendor Change Request</button>
+    <button class="danger" id="newIncident">Log Incident</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Open Changes</div><div class="stat-value" id="statChanges">0</div></div>
+    <div class="stat"><div class="stat-label">Open Incidents</div><div class="stat-value" id="statIncidents">0</div></div>
+    <div class="stat"><div class="stat-label">Average MTTR</div><div class="stat-value" id="statMttr">—</div></div>
+  </div>
+
+  <div class="board-scroll">
+    <div class="board" id="board"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Coordination Log</div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="note">Changes model the liaison work between a vendor like McKesson, the infrastructure team, and Clinical/Business IT before anything touches a production system. Incidents model the unplanned side, logged the moment they happen and timed until resolution to produce a real MTTR figure.</div>
+</div>
+
+<script>
+  const stages = ['requested', 'scheduled', 'in_progress', 'verified'];
+  const stageLabels = { requested: 'Requested', scheduled: 'Scheduled', in_progress: 'In Progress', verified: 'Verified' };
+
+  const changePool = [
+    { title: 'Paragon Security Patch', vendor: 'McKesson' },
+    { title: 'PACS Firmware Update', vendor: 'Fujifilm' },
+    { title: 'Network Switch Firmware', vendor: 'Cisco' },
+    { title: 'Mirth Connect Upgrade', vendor: 'NextGen Healthcare' },
+    { title: 'Windows Server Cumulative Update', vendor: 'Microsoft' }
+  ];
+  const incidentPool = [
+    { title: 'PACS_MAIN unplanned outage', system: 'PACS_MAIN' },
+    { title: 'HL7 channel unresponsive', system: 'Mirth HL7 Engine' },
+    { title: 'CVIS_MAIN connectivity loss', system: 'CVIS_MAIN' },
+    { title: 'Nightly backup failure', system: 'Backup Job' }
+  ];
+
+  let cards = [
+    { id: 1, kind: 'change', title: 'Paragon Quarterly Patch', sub: 'McKesson', stage: 'requested' },
+    { id: 2, kind: 'change', title: 'PACS Storage Expansion', sub: 'NetApp', stage: 'scheduled' },
+    { id: 3, kind: 'change', title: 'Mirth Connect Version Upgrade', sub: 'NextGen Healthcare', stage: 'in_progress' }
+  ];
+  let nextId = 4;
+  let mttrSamples = [];
+
+  const board = document.getElementById('board');
+  const logEl = document.getElementById('log');
+  const statChanges = document.getElementById('statChanges');
+  const statIncidents = document.getElementById('statIncidents');
+  const statMttr = document.getElementById('statMttr');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function timestamp(){
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function log(msg, cls){
+    const row = document.createElement('div');
+    row.className = 'log-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="t">' + timestamp() + '</span>' + msg;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function changeTransitionMsg(title, fromStage){
+    if (fromStage === 'requested') return title + ' scheduled, Clinical/Business IT notified';
+    if (fromStage === 'scheduled') return title + ' maintenance window opened';
+    if (fromStage === 'in_progress') return title + ' verified and closed out';
+    return title + ' updated';
+  }
+
+  function advance(id){
+    const c = cards.find(function(x){ return x.id === id; });
+    const idx = stages.indexOf(c.stage);
+    if (c.kind === 'change'){
+      log(changeTransitionMsg(c.title, c.stage), 'ok');
+      c.stage = stages[idx + 1];
+    } else {
+      const minutes = 20 + Math.floor(Math.random() * 130);
+      mttrSamples.push(minutes);
+      log(c.title + ' resolved, ' + minutes + ' min to resolution', 'ok');
+      c.stage = 'verified';
+    }
+    render();
+  }
+
+  function addChange(){
+    const p = changePool[Math.floor(Math.random() * changePool.length)];
+    const c = { id: nextId++, kind: 'change', title: p.title, sub: p.vendor, stage: 'requested' };
+    cards.push(c);
+    log(c.title + ' requested from ' + c.sub, 'ok');
+    render();
+  }
+
+  function addIncident(){
+    const p = incidentPool[Math.floor(Math.random() * incidentPool.length)];
+    const c = { id: nextId++, kind: 'incident', title: p.title, sub: p.system, stage: 'in_progress' };
+    cards.push(c);
+    log(c.title + ' logged on ' + c.sub, 'err');
+    render();
+  }
+
+  function render(){
+    board.innerHTML = '';
+    stages.forEach(function(stage){
+      const col = document.createElement('div');
+      col.className = 'column';
+      const stageCards = cards.filter(function(c){ return c.stage === stage; });
+      col.innerHTML = '<div class="column-head"><span>' + stageLabels[stage] + '</span><span>' + stageCards.length + '</span></div>';
+      stageCards.forEach(function(c){
+        const card = document.createElement('div');
+        card.className = 'card';
+        const btnLabel = stage === 'verified' ? '' : (c.kind === 'incident' ? 'Resolve' : 'Advance');
+        card.innerHTML =
+          '<div class="card-type' + (c.kind === 'incident' ? ' incident' : '') + '">' + c.kind + '</div>' +
+          '<div class="card-title">' + c.title + '</div>' +
+          '<div class="card-sub">' + c.sub + '</div>' +
+          (btnLabel ? '<button class="small" data-id="' + c.id + '">' + btnLabel + '</button>' : '');
+        col.appendChild(card);
+      });
+      board.appendChild(col);
+    });
+
+    board.querySelectorAll('button[data-id]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        advance(parseInt(btn.getAttribute('data-id'), 10));
+      });
+    });
+
+    const openChanges = cards.filter(function(c){ return c.kind === 'change' && c.stage !== 'verified'; }).length;
+    const openIncidents = cards.filter(function(c){ return c.kind === 'incident' && c.stage !== 'verified'; }).length;
+    statChanges.textContent = openChanges;
+    statIncidents.textContent = openIncidents;
+    if (mttrSamples.length > 0){
+      const avg = Math.round(mttrSamples.reduce(function(a,b){ return a + b; }, 0) / mttrSamples.length);
+      statMttr.textContent = avg + ' min';
+    } else {
+      statMttr.textContent = '—';
+    }
+  }
+
+  document.getElementById('newChange').addEventListener('click', addChange);
+  document.getElementById('newIncident').addEventListener('click', addIncident);
+
+  log('Board initialized, 3 changes in flight', 'ok');
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HL7 Interface Engine — Imaging Systems Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #10151c;
+    --panel: #182029;
+    --panel-2: #1d2631;
+    --border: #2b3542;
+    --ink: #e7ecf1;
+    --ink-dim: #8b97a6;
+    --teal: #3ecfc0;
+    --amber: #eba238;
+    --red: #e2555b;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); }
+  body{
+    font-family: 'Inter', sans-serif;
+    padding: 32px 20px 60px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap{ max-width: 980px; margin: 0 auto; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 4vw, 38px);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .sub{
+    color: var(--ink-dim);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 620px;
+    margin: 0 0 32px;
+  }
+
+  .stage-scroll{ overflow-x: auto; padding-bottom: 6px; }
+  .stage{
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: 640px;
+    margin-bottom: 28px;
+  }
+  .node{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    width: 190px;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .node-icon{ width: 30px; height: 30px; color: var(--teal); margin-bottom: 4px; }
+  .node-icon svg{ width: 100%; height: 100%; }
+  .node-label{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+  .node-sub{ font-size: 11px; color: var(--ink-dim); }
+
+  .status-badge{
+    margin-top: 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    transition: all 0.2s ease;
+  }
+  .status-badge.stopped{ border-color: var(--red); color: var(--red); }
+
+  .queue-tray{
+    margin-top: 10px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 14px;
+  }
+  .q-item{
+    width: 10px; height: 10px;
+    background: var(--amber);
+    border-radius: 2px;
+    animation: pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.45; } }
+
+  .track{
+    flex: 1;
+    min-width: 90px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .track-line{
+    width: 100%;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--border) 0 6px, transparent 6px 12px);
+    background-size: 12px 2px;
+  }
+  .track-line.dead{ background-image: linear-gradient(90deg, var(--red) 0 6px, transparent 6px 12px); opacity: 0.5; }
+  .packet{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 12px; height: 12px;
+    background: var(--teal);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(62,207,192,0.7);
+  }
+  .packet.travel{ animation: travel 0.9s linear forwards; }
+  @keyframes travel{ from{ left: 0%; } to{ left: 100%; } }
+
+  .controls{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  button{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    background: var(--teal);
+    color: #0a1512;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  button:active{ transform: translateY(1px); }
+  button.secondary{
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+  button.secondary.stopped{ border-color: var(--red); color: var(--red); }
+  .queue-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-dim);
+  }
+
+  .panels{
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+  }
+  @media (max-width: 720px){ .panels{ grid-template-columns: 1fr; } }
+
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .panel-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 10px;
+  }
+  .hl7-body{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--ink-dim);
+  }
+  .hl7-body .seg{ color: var(--teal); font-weight: 600; }
+
+  .log{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    height: 220px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .log-row{ color: var(--ink-dim); }
+  .log-row .t{ color: #56626f; margin-right: 8px; }
+  .log-row.ok .t{ color: var(--teal); }
+  .log-row.warn{ color: var(--amber); }
+  .log-row.err{ color: var(--red); }
+
+  .note{
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--ink-dim);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .packet.travel{ animation-duration: 0.01s; }
+    .q-item{ animation: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Imaging Systems Portfolio</div>
+  <h1>HL7 Interface Engine</h1>
+  <p class="sub">Order messages moving from RIS to PACS through an interface engine channel. Send a few orders, then stop the channel mid shift and watch what happens to a hospital that depends on it.</p>
+
+  <div class="stage-scroll">
+    <div class="stage">
+      <div class="node" id="node-ris">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+        </div>
+        <div class="node-label">RIS</div>
+        <div class="node-sub">Order Source</div>
+      </div>
+
+      <div class="track" id="track1"><div class="track-line" id="line1"></div></div>
+
+      <div class="node" id="node-engine">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 12h5M8 15h3"/></svg>
+        </div>
+        <div class="node-label">Interface Engine</div>
+        <div class="node-sub">Mirth Connect Channel</div>
+        <div class="status-badge" id="statusBadge">RUNNING</div>
+        <div class="queue-tray" id="queueTray"></div>
+      </div>
+
+      <div class="track" id="track2"><div class="track-line" id="line2"></div></div>
+
+      <div class="node" id="node-pacs">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+        </div>
+        <div class="node-label">PACS</div>
+        <div class="node-sub">Image Archive</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="sendBtn">Send ORM Order</button>
+    <button class="secondary" id="toggleBtn">Stop Channel</button>
+    <span class="queue-count" id="queueCount">0 queued</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-title">Raw HL7 Message</div>
+      <div class="hl7-body" id="hl7Body">No messages sent yet. Click Send ORM Order to generate one.</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Channel Activity Log</div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <div class="note">Simulates the channel built in the companion Orthanc and Mirth Connect lab. In production this port 6661 listener is what a radiology order actually travels through on its way from RIS to PACS.</div>
+</div>
+
+<script>
+  const exams = [
+    { code: "71046", name: "CHEST 2 VIEWS" },
+    { code: "74177", name: "CT ABDOMEN PELVIS W CONTRAST" },
+    { code: "93306", name: "ECHOCARDIOGRAM TRANSTHORACIC" },
+    { code: "93458", name: "CARDIAC CATH LEFT HEART" },
+    { code: "70551", name: "MRI BRAIN W WO CONTRAST" }
+  ];
+  const patients = [
+    { last: "DOE", first: "JOHN" },
+    { last: "MARTIN", first: "SARA" },
+    { last: "NGUYEN", first: "KEVIN" },
+    { last: "WILLIAMS", first: "EMILY" }
+  ];
+  const physicians = [
+    { last: "SMITH", first: "ROBERT" },
+    { last: "PATEL", first: "ANITA" },
+    { last: "CHEN", first: "MICHAEL" }
+  ];
+
+  let orderSeq = 10041;
+  let running = true;
+  let queue = [];
+
+  const statusBadge = document.getElementById('statusBadge');
+  const toggleBtn = document.getElementById('toggleBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const line1 = document.getElementById('line1');
+  const line2 = document.getElementById('line2');
+  const track1 = document.getElementById('track1');
+  const track2 = document.getElementById('track2');
+  const queueTray = document.getElementById('queueTray');
+  const queueCount = document.getElementById('queueCount');
+  const hl7Body = document.getElementById('hl7Body');
+  const logEl = document.getElementById('log');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function timestamp(){
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function hl7Timestamp(){
+    const d = new Date();
+    return d.getFullYear().toString() + pad(d.getMonth()+1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds());
+  }
+
+  function log(msg, cls){
+    const row = document.createElement('div');
+    row.className = 'log-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="t">' + timestamp() + '</span>' + msg;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function buildMessage(){
+    orderSeq++;
+    const exam = exams[Math.floor(Math.random()*exams.length)];
+    const pt = patients[Math.floor(Math.random()*patients.length)];
+    const md = physicians[Math.floor(Math.random()*physicians.length)];
+    const mrn = 40000 + Math.floor(Math.random()*9000);
+    const ts = hl7Timestamp();
+    const orderId = 'ORD' + orderSeq;
+    return {
+      raw: [
+        'MSH|^~\\&|RIS|SPUH|MIRTH|SPUH|' + ts + '||ORM^O01|MSG' + orderSeq + '|P|2.3',
+        'PID|1||MRN' + mrn + '^^^SPUH^MR||' + pt.last + '^' + pt.first,
+        'ORC|NW|' + orderId + '|||||^^^' + ts,
+        'OBR|1|' + orderId + '||' + exam.code + '^' + exam.name + '^CPT4|||' + ts + '|||||||||' + md.last + '^' + md.first
+      ].join('\n')
+    };
+  }
+
+  function renderMessage(raw){
+    const lines = raw.split('\n').map(function(line){
+      const seg = line.slice(0,3);
+      return '<span class="seg">' + seg + '</span>' + line.slice(3);
+    });
+    hl7Body.innerHTML = lines.join('\n');
+  }
+
+  function spawnPacket(track, onDone){
+    const p = document.createElement('div');
+    p.className = 'packet travel';
+    track.appendChild(p);
+    p.addEventListener('animationend', function(){
+      p.remove();
+      if (onDone) onDone();
+    });
+  }
+
+  function renderQueue(){
+    queueTray.innerHTML = '';
+    queue.forEach(function(){
+      const q = document.createElement('div');
+      q.className = 'q-item';
+      queueTray.appendChild(q);
+    });
+    queueCount.textContent = queue.length + ' queued';
+  }
+
+  function setRunning(state){
+    running = state;
+    statusBadge.textContent = running ? 'RUNNING' : 'STOPPED';
+    statusBadge.classList.toggle('stopped', !running);
+    toggleBtn.textContent = running ? 'Stop Channel' : 'Start Channel';
+    toggleBtn.classList.toggle('stopped', !running);
+    line2.classList.toggle('dead', !running);
+  }
+
+  function sendOrder(){
+    const msg = buildMessage();
+    renderMessage(msg.raw);
+    log('ORM^O01 sent from RIS', 'ok');
+
+    spawnPacket(track1, function(){
+      if (running){
+        log('Channel routed message to PACS', 'ok');
+        spawnPacket(track2, function(){
+          log('Message archived in PACS', 'ok');
+        });
+      } else {
+        queue.push(msg);
+        renderQueue();
+        log('Message queued, channel unavailable', 'warn');
+      }
+    });
+  }
+
+  function flushQueue(){
+    if (queue.length === 0) return;
+    log('Flushing ' + queue.length + ' queued message' + (queue.length > 1 ? 's' : ''), 'ok');
+    const toFlush = queue.slice();
+    queue = [];
+    renderQueue();
+    let i = 0;
+    function next(){
+      if (i >= toFlush.length) return;
+      spawnPacket(track2, function(){
+        log('Queued message routed to PACS', 'ok');
+        i++;
+        setTimeout(next, 250);
+      });
+    }
+    next();
+  }
+
+  sendBtn.addEventListener('click', sendOrder);
+  toggleBtn.addEventListener('click', function(){
+    if (running){
+      setRunning(false);
+      log('Channel stopped, listener down on port 6661', 'err');
+    } else {
+      setRunning(true);
+      log('Channel restarted', 'ok');
+      flushQueue();
+    }
+  });
+
+  log('Channel initialized and listening on port 6661', 'ok');
+</script>
+</body>
+</html>

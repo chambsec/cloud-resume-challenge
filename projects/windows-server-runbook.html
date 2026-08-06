@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows Server Runbook — Imaging Systems Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F7F6F3;
+    --charcoal: #2C2C2A;
+    --red: #E24B4A;
+    --red-dark: #B91C1C;
+    --muted: #7A7A76;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+    --green: #22c55e;
+    --green-dark: #166534;
+    --amber: #854D0E;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--cream); color:var(--charcoal); }
+  body{ font-family:'DM Sans', system-ui, sans-serif; padding: 32px 20px 60px; -webkit-font-smoothing: antialiased; }
+  .wrap{ max-width: 1000px; margin: 0 auto; }
+
+  .breadcrumb{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a{ color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover{ color: var(--red); }
+  .breadcrumb-sep{ color: var(--border); }
+
+  .eyebrow{ font-family:'Space Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+  h1{ font-family:'DM Serif Display', Georgia, serif; font-weight: 400; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sub{ color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 680px; margin: 0 0 24px; }
+
+  .controls{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .checkbox-row{ display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .checkbox-row input{ width: 15px; height: 15px; accent-color: var(--red); }
+  button{ font-family:'DM Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; background: var(--red); color: var(--cream); border: none; padding: 10px 16px; border-radius: 7px; cursor: pointer; }
+  button.secondary{ background: transparent; color: var(--charcoal); border: 1px solid var(--border); }
+  button:disabled{ opacity: 0.4; cursor: not-allowed; }
+  button:active{ transform: translateY(1px); }
+
+  .layout{ display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 780px){ .layout{ grid-template-columns: 1fr; } }
+
+  .steps{ display: flex; flex-direction: column; gap: 10px; }
+  .step{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; }
+  .step.current{ border-color: var(--red); }
+  .step.failed{ border-color: var(--red-dark); border-width: 2px; }
+  .step-num{ flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+  .step-num.current{ border-color: var(--red); color: var(--red); }
+  .step-num.done{ background: var(--green); border-color: var(--green); color: #0a1512; font-weight: 700; }
+  .step-num.failed{ background: var(--red-dark); border-color: var(--red-dark); color: var(--cream); font-weight: 700; }
+  .step-body{ flex: 1; }
+  .step-title{ font-family:'DM Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+  .step-desc{ font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .step-result{ margin-top: 6px; font-family: 'Space Mono', monospace; font-size: 11.5px; }
+  .step-result.ok{ color: var(--green-dark); }
+  .step-result.err{ color: var(--red); }
+
+  .panel{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .panel-title{ font-family:'DM Sans', system-ui, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .log{ font-family:'Space Mono', monospace; font-size: 12px; height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .log-row{ color: var(--muted); }
+  .log-row .t{ color: var(--muted); margin-right: 8px; }
+  .log-row.ok .t{ color: var(--green-dark); }
+  .log-row.err{ color: var(--red); }
+  .log-row.warn{ color: var(--amber); }
+
+  .note{ margin-top: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="breadcrumb">
+    <a href="https://chamb.dev">chamb.dev</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/">projects</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="https://chamb.dev/projects/imaging-systems.html">imaging-systems</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>server-runbook</span>
+  </div>
+  <div class="eyebrow">Imaging Systems Portfolio</div>
+  <h1>Windows Server Patch Runbook</h1>
+  <p class="sub">A patch cycle for a PACS-dependent Windows Server, run in order, with a rollback point taken before anything changes. Run it clean, or check the box and watch what happens when verification fails.</p>
+
+  <div class="controls">
+    <label class="checkbox-row"><input type="checkbox" id="failToggle"> Simulate a failed post-patch verification this run</label>
+    <button id="runBtn">Run Next Step</button>
+    <button class="secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="layout">
+    <div class="steps" id="steps"></div>
+    <div class="panel">
+      <div class="panel-title">Change Log</div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <div class="note">The rollback point in step 2 is what makes step 5 survivable. A patch cycle without a tested rollback path is a bet, not a procedure, and that distinction is most of what separates a runbook from a checklist.</div>
+</div>
+
+<script>
+  const baseSteps = [
+    { title: 'Pre-Change Verification', desc: 'Confirm last successful backup, current patch level, and an approved change ticket.', okLog: 'Pre-change verification complete, backup confirmed, ticket CHG-1042 approved' },
+    { title: 'Create Rollback Point', desc: 'System snapshot taken before any changes are applied.', okLog: 'Rollback snapshot created on PACS_MAIN' },
+    { title: 'Open Maintenance Window', desc: 'Clinical/Business IT notified, PACS_MAIN placed in maintenance mode.', okLog: 'Maintenance window opened, Clinical/Business IT notified' },
+    { title: 'Apply Cumulative Update', desc: 'Windows Server cumulative update installed, server rebooted.', okLog: 'Cumulative update KB5041234 applied, server rebooted' },
+    { title: 'Post-Patch Verification', desc: 'Confirm the PACS service starts and run a smoke test against a known study.', okLog: 'Post-patch smoke test passed, PACS_MAIN responding on port 4242', failLog: 'Post-patch smoke test FAILED, PACS_MAIN unresponsive on port 4242' },
+    { title: 'Close Maintenance Window', desc: 'Stakeholders notified, change ticket closed, patch log updated.', okLog: 'Maintenance window closed, CHG-1042 marked complete' }
+  ];
+  const rollbackStep = { title: 'Rollback Executed', desc: 'PACS_MAIN restored from the pre-patch snapshot created in step 2. Change rescheduled.', okLog: 'Rollback complete, PACS_MAIN restored to pre-patch state, CHG-1042 rescheduled' };
+
+  let statuses = [];
+  let displaySteps = [];
+  let currentIndex = 0;
+  let failed = false;
+  let started = false;
+
+  const stepsEl = document.getElementById('steps');
+  const logEl = document.getElementById('log');
+  const runBtn = document.getElementById('runBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const failToggle = document.getElementById('failToggle');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function timestamp(){
+    const d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function log(msg, cls){
+    const row = document.createElement('div');
+    row.className = 'log-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="t">' + timestamp() + '</span>' + msg;
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function reset(){
+    displaySteps = baseSteps.slice();
+    statuses = displaySteps.map(function(){ return { state: 'pending', result: null }; });
+    currentIndex = 0;
+    failed = false;
+    started = false;
+    failToggle.disabled = false;
+    logEl.innerHTML = '';
+    log('Runbook reset, ready to start', 'ok');
+    render();
+  }
+
+  function runNext(){
+    if (failed || currentIndex >= displaySteps.length) return;
+    started = true;
+    failToggle.disabled = true;
+
+    const step = displaySteps[currentIndex];
+    const willFail = failToggle.checked && step.failLog && currentIndex === 4;
+
+    if (willFail){
+      statuses[currentIndex] = { state: 'failed', result: step.failLog };
+      log(step.failLog, 'err');
+      displaySteps.push(rollbackStep);
+      statuses.push({ state: 'done', result: rollbackStep.okLog });
+      log(rollbackStep.okLog, 'warn');
+      failed = true;
+      currentIndex = displaySteps.length;
+    } else {
+      statuses[currentIndex] = { state: 'done', result: step.okLog };
+      log(step.okLog, 'ok');
+      currentIndex++;
+    }
+    render();
+  }
+
+  function render(){
+    stepsEl.innerHTML = '';
+    displaySteps.forEach(function(step, i){
+      const st = statuses[i] || { state: 'pending', result: null };
+      const isCurrent = i === currentIndex && !failed;
+      const div = document.createElement('div');
+      div.className = 'step' + (isCurrent ? ' current' : '') + (st.state === 'failed' ? ' failed' : '');
+      const numClass = st.state === 'done' ? 'done' : st.state === 'failed' ? 'failed' : (isCurrent ? 'current' : '');
+      const numContent = st.state === 'done' ? '✓' : st.state === 'failed' ? '✕' : (i + 1);
+      div.innerHTML =
+        '<div class="step-num ' + numClass + '">' + numContent + '</div>' +
+        '<div class="step-body">' +
+          '<div class="step-title">' + step.title + '</div>' +
+          '<div class="step-desc">' + step.desc + '</div>' +
+          (st.result ? '<div class="step-result ' + (st.state === 'failed' ? 'err' : 'ok') + '">' + st.result + '</div>' : '') +
+        '</div>';
+      stepsEl.appendChild(div);
+    });
+
+    runBtn.disabled = failed || currentIndex >= displaySteps.length;
+    runBtn.textContent = currentIndex >= displaySteps.length ? 'Runbook complete' : (failed ? 'Rolled back' : 'Run Next Step');
+  }
+
+  runBtn.addEventListener('click', runNext);
+  resetBtn.addEventListener('click', reset);
+  reset();
+</script>
+</body>
+</html>
