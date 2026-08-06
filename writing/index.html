@@ -69,52 +69,57 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
   <p class="page-desc">Technical analysis, cloud architecture, and the intersection of healthcare IT and cloud security. Everything here comes from something I actually built, debugged, or shipped.</p>
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filter('all',this)">All</button>
+    <button class="filter-btn" onclick="filter('writing',this)">Writing</button>
     <button class="filter-btn" onclick="filter('personal',this)">Personal</button>
     <button class="filter-btn" onclick="filter('academic',this)">Academic</button>
-    <button class="filter-btn" onclick="filter('builder',this)">Builder</button>
-    <button class="filter-btn" onclick="filter('grc',this)">GRC</button>
-    <button class="filter-btn" onclick="filter('architecture',this)">Architecture</button>
-    <button class="filter-btn" onclick="filter('compliance',this)">Compliance</button>
-    <button class="filter-btn" onclick="filter('security',this)">Security</button>
   </div>
 </div>
-<div class="post-count" id="post-count">4 posts</div>
+<div class="post-count" id="post-count">5 posts</div>
 <div class="post-list" id="post-list">
-  <div class="post-row" data-tag="grc" onclick="location.href='/writing/compliance-platform.html'">
+  <div class="post-row" data-tag="writing" onclick="location.href='/writing/the-other-side-of-the-pacs/'">
     <div class="post-num">01</div>
     <div class="post-main">
-      <div class="post-tag">GRC</div>
-      <div class="post-title">The Compliance Engineering Platform</div>
-      <div class="post-desc">Five production systems. Live interactive demos. Built from 11 GRC Engineering labs — policy-as-code, HIPAA gap remediation, tamper-evident evidence vaults, and zero trust credential elimination.</div>
+      <div class="post-tag">Writing</div>
+      <div class="post-title">The Other Side of the PACS</div>
+      <div class="post-desc">For ten years, my relationship with PACS was one-directional — hit send and trust the images landed. This month I built the black box: a real PACS, a real HL7 interface engine, and six demos of the job.</div>
     </div>
-    <div class="post-date">Jul 2026</div>
+    <div class="post-date">Aug 6, 2026</div>
   </div>
-  <div class="post-row" data-tag="builder" onclick="location.href='/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure.html'">
+  <div class="post-row" data-tag="writing" onclick="location.href='/writing/from-lab-work-to-live-platform-building-the-compliance-engineering-platform/'">
     <div class="post-num">02</div>
     <div class="post-main">
-      <div class="post-tag">Builder</div>
+      <div class="post-tag">Writing</div>
+      <div class="post-title">From Lab Work to Live Platform: Building the Compliance Engineering Platform</div>
+      <div class="post-desc">Most compliance portfolios are PDFs nobody can run. Eleven GRC Engineering labs became five production systems with live interactive demos — because a lab completion is proof you followed instructions, not proof you can build.</div>
+    </div>
+    <div class="post-date">Jul 8, 2026</div>
+  </div>
+  <div class="post-row" data-tag="personal" onclick="location.href='/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure/'">
+    <div class="post-num">03</div>
+    <div class="post-main">
+      <div class="post-tag">Personal</div>
       <div class="post-title">From Cloud Resume Challenge to Personal Brand Infrastructure</div>
       <div class="post-desc">What started as a learning exercise became a fully autonomous publishing platform with a private Command Center, EventBridge scheduling, and zero manual deploys.</div>
     </div>
-    <div class="post-date">Jun 2026</div>
+    <div class="post-date">Jun 24, 2026</div>
   </div>
-  <div class="post-row" data-tag="academic" onclick="location.href='/writing/invisible-infrastructure-behind-modern-healthcare.html'">
-    <div class="post-num">03</div>
+  <div class="post-row" data-tag="academic" onclick="location.href='/writing/invisible-infrastructure-modern-healthcare/'">
+    <div class="post-num">04</div>
     <div class="post-main">
       <div class="post-tag">Academic</div>
       <div class="post-title">The Invisible Infrastructure Behind Modern Healthcare</div>
       <div class="post-desc">A vast majority of Americans are uninformed on how their local healthcare network operates. The supply chain that ensures reliable patient care is invisible by design.</div>
     </div>
-    <div class="post-date">Jun 2026</div>
+    <div class="post-date">Jun 20, 2026</div>
   </div>
-  <div class="post-row" data-tag="personal" onclick="location.href='/writing/from-clinical-to-cloud.html'">
-    <div class="post-num">04</div>
+  <div class="post-row" data-tag="personal" onclick="location.href='/writing/from-clinical-to-cloud/'">
+    <div class="post-num">05</div>
     <div class="post-main">
       <div class="post-tag">Personal</div>
       <div class="post-title">From Clinical to Cloud</div>
       <div class="post-desc">Ten years in clinical healthcare. One pandemic. The decision to move to the infrastructure layer — and why the two worlds are closer than they look.</div>
     </div>
-    <div class="post-date">Jun 2026</div>
+    <div class="post-date">Jun 19, 2026</div>
   </div>
 </div>
 <footer class="footer">

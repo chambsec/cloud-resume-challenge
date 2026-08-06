@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Other Side of the PACS">
+  <meta property="og:title" content="The Other Side of the PACS -- Chris Chambers">
+  <meta property="og:description" content="The Other Side of the PACS">
+  <meta property="og:url" content="https://chamb.dev/writing/the-other-side-of-the-pacs">
+  <meta name="twitter:card" content="summary">
+  <title>The Other Side of the PACS -- Chris Chambers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg: #F5F4F0; --surface: #EEECEA; --border: #D4D2CE; --text: #1A1C1B;
+      --muted: #888B89; --subtle: #4A4D4C; --dim: #AAAEAD;
+      --accent: #C8391D; --accent-dk: #A82E16;
+      --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
+      --transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    body.dark {
+      --bg: #252420; --surface: #2E2D29; --border: #3A3935; --text: #E8E6E0;
+      --muted: #6B6B68; --subtle: #A8A6A0; --dim: #555552;
+      --accent: #E04B2A; --accent-dk: #C83D20;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; transition: var(--transition); }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); transition: var(--transition); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 1.25rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .theme-toggle { background: none; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .icon-sun { display: none; } .icon-moon { display: block; }
+    body.dark .icon-sun { display: block; } body.dark .icon-moon { display: none; }
+    .post-header { padding: 4rem 0 3rem; border-bottom: 0.5px solid var(--border); }
+    .post-tag { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; }
+    .post-title { font-family: var(--mono); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.25rem; }
+    .post-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .post-body { max-width: 680px; padding: 3rem 0 5rem; }
+    .post-body p { font-size: 16px; font-weight: 300; color: var(--subtle); line-height: 1.9; margin-bottom: 1.5rem; }
+    .post-body p:last-child { margin-bottom: 0; }
+    .post-divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 3rem; transition: color 0.2s; padding-top: 2rem; }
+    .back-link:hover { color: var(--accent); }
+    footer { padding: 2rem 0; border-top: 0.5px solid var(--border); background: var(--surface); transition: var(--transition); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.75rem; list-style: none; }
+    .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    @media (max-width: 768px) { .container { padding: 0 1.5rem; } .nav-inner { padding: 1rem 1.5rem; } .post-header { padding: 3rem 0 2rem; } .post-body { padding: 2rem 0 4rem; } .footer-inner { padding: 0 1.5rem; flex-direction: column; align-items: flex-start; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none; } }
+  </style>
+</head>
+<body>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) document.body.classList.add('dark');
+    })();
+  </script>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="/" class="nav-logo">chamb<span>.</span>dev</a>
+        <ul class="nav-links">
+          <li><a href="/writing/">writing</a></li>
+          <li><a href="/#projects">projects</a></li>
+          <li><a href="/resume.html">resume</a></li>
+        </ul>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="container">
+    <a href="/writing/" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Writing
+    </a>
+    <header class="post-header">
+      <div class="post-tag">Writing</div>
+      <h1 class="post-title">The Other Side of the PACS</h1>
+      <div class="post-meta">Chris Chambers &nbsp;&middot;&nbsp; August 6, 2026</div>
+    </header>
+    <article class="post-body">
+      <p>For ten years, my relationship with PACS was one-directional. I&#x27;d finish a study, hit send, and trust that the images landed somewhere a radiologist could read them. What happened between those two points was invisible to me, a black box that occasionally broke and became someone else&#x27;s problem to fix.</p>
+      <p>This month I built the black box.</p>
+      <p>## Why this, why now</p>
+      <p>I&#x27;ve spent the last few months building GRC and cloud security projects aimed at compliance engineering roles. Somewhere in that process I kept running into Imaging Systems Administrator postings, and I kept having the same reaction: I already know this world. Not the infrastructure side, but the side that infrastructure exists to serve. I know what it looks like when a modality can&#x27;t reach the PACS. I know what a department does when the system goes down mid-shift. I&#x27;ve lived on the other end of every interface I was about to start building.</p>
+      <p>So instead of another generic systems admin project, I decided to build the actual thing: a real PACS, a real interface engine, and a set of demos that show what the daily and quarterly rhythms of that job actually look like.</p>
+      <p>## What&#x27;s actually running</p>
+      <p>Underneath everything is Orthanc, an open source PACS, and Mirth Connect, an open source HL7 interface engine, both running in Docker. I uploaded real DICOM studies and confirmed they routed correctly. I built an HL7 channel that listens for order messages and returns a proper acknowledgment. This part isn&#x27;t a simulation. It&#x27;s the same category of software that sits inside a real radiology department, configured by me, doing the job it&#x27;s meant to do.</p>
+      <p>Building that channel is also where I got the best story of the whole project, and I didn&#x27;t have to invent it.</p>
+      <p>## The failure that taught me the most</p>
+      <p>Mirth Connect&#x27;s newer versions replaced the old dedicated MLLP connector with a generic TCP Listener and a pluggable transmission mode architecture. I didn&#x27;t know that going in. I wrote the channel configuration the way older documentation described, and it failed. Not with an error. Not with a logged exception. It just didn&#x27;t work, and nothing in the interface told me why.</p>
+      <p>Diagnosing it meant going past the UI and into the server&#x27;s own source, reading the actual class and field names the newer architecture expected. Two smaller traps were buried in there too: the connector wants its start-of-message and end-of-message bytes as raw hex, not the `0x`-prefixed form that looks correct but silently parses into the wrong bytes, and getting a standard HL7 acknowledgment back requires an explicit response generation setting that isn&#x27;t obvious from the defaults.</p>
+      <p>None of that is the kind of thing you learn from a tutorial. It&#x27;s the kind of thing you learn from an afternoon of genuine, unglamorous troubleshooting, the exact skill an Imaging Systems Administrator gets hired for.</p>
+      <p>## Six demos, six different parts of the job</p>
+      <p>Once the real lab was running, I built six interactive demos that each isolate one piece of what the role actually involves:</p>
+      <p>**HL7 interface routing** shows an order message traveling from RIS to PACS through the interface engine, and what happens to that traffic when the channel goes down mid-shift instead of gracefully failing.</p>
+      <p>**DICOM routing** shows the same idea on the image side, with one detail that matters more than it looks: radiology studies and cardiology studies don&#x27;t always go to the same place. Echo and cath studies often route to a separate cardiovascular archive, administered separately from the general PACS. It&#x27;s a small detail, but it&#x27;s the kind of thing that only someone who&#x27;s actually worked in imaging would think to model.</p>
+      <p>**Storage forecasting** answers a question every PACS environment eventually asks: when do we run out of room, and what&#x27;s actually driving the growth.</p>
+      <p>**A monitoring dashboard** is the daily counterpart to that quarterly question, the status board an admin actually watches shift to shift.</p>
+      <p>**Vendor coordination and incident tracking** models the liaison work between a vendor, the infrastructure team, and clinical IT, plus the unplanned side: incidents, logged and timed to produce a real mean time to resolution.</p>
+      <p>**A Windows Server patch runbook** walks through a disciplined change cycle, including what a rollback actually looks like when a patch doesn&#x27;t go as planned.</p>
+      <p>## Why I built it this way</p>
+      <p>Anyone can write &quot;experience troubleshooting clinical interfaces&quot; on a resume. It reads the same regardless of whether it&#x27;s true. What doesn&#x27;t read the same is a working demo someone can click through in thirty seconds, or a real lab they can ask me to walk through live, or a specific, slightly embarrassing story about a config file that failed silently until I went digging through source code to find out why.</p>
+      <p>Ten years on one side of the PACS taught me what the job needs to protect. Building this taught me what it actually takes to protect it.</p>
+      <p>All six demos are live at [chamb.dev/projects/imaging-systems.html](https://chamb.dev/projects/imaging-systems.html). The source, including the config that broke and the fix that resolved it, is on GitHub.</p>
+    </article>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;&middot;&nbsp; M.S. Cybersecurity</div>
+      <ul class="footer-links">
+        <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+        <li><a href="/resume.html">Resume</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script>
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>
