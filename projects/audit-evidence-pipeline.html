@@ -11,20 +11,20 @@
   <title>Automated Audit Evidence Pipeline — Chris Chambers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream: #F7F6F3;
-      --charcoal: #2C2C2A;
-      --red: #E24B4A;
-      --muted: #7A7A76;
-      --border: #E0DED8;
-      --card-bg: #FFFFFF;
-      --font-serif: 'DM Serif Display', Georgia, serif;
-      --font-sans: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'Space Mono', monospace;
+      --cream: #FFFFFF;
+      --charcoal: #1F2328;
+      --red: #C8391D;
+      --muted: #636C76;
+      --border: #D0D7DE;
+      --card-bg: #F6F8FA;
+      --font-serif: 'Inter', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     html { font-size: 16px; }
@@ -59,7 +59,7 @@
     .project-title { font-family: var(--font-serif); font-size: 36px; color: var(--charcoal); line-height: 1.15; margin-bottom: 1rem; }
     .project-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
     .meta-item { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; display: inline-block; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1F883D; display: inline-block; }
     .meta-tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
 
     .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
@@ -101,29 +101,29 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .result-box { display: none; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 1.5rem; }
-    .result-box.collected { border-left: 3px solid #22c55e; }
+    .result-box.collected { border-left: 3px solid #1F883D; }
     .result-box.verified { border-left: 3px solid #3b82f6; }
     .result-box.failed { border-left: 3px solid var(--red); }
 
     .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
     .result-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.04em; }
-    .badge-collected { background: #DCFCE7; color: #166534; }
+    .badge-collected { background: #DAFBE1; color: #1A7F37; }
     .badge-verified { background: #DBEAFE; color: #1e40af; }
-    .badge-failed { background: #FEE2E2; color: #991B1B; }
+    .badge-failed { background: #FFEBE9; color: #CF222E; }
     .result-time { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-left: auto; }
 
     .result-row { display: flex; gap: 16px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
     .result-row:last-child { border-bottom: none; padding-bottom: 0; }
     .result-key { font-family: var(--font-mono); font-size: 11px; color: var(--muted); min-width: 130px; flex-shrink: 0; padding-top: 1px; }
     .result-val { color: var(--charcoal); flex: 1; }
-    .result-val.success { color: #166534; font-weight: 500; }
+    .result-val.success { color: #1A7F37; font-weight: 500; }
     .result-val.info { color: #1e40af; font-weight: 500; }
     .result-val.mono { font-family: var(--font-mono); font-size: 11px; word-break: break-all; }
 
     .artifact-select { display: grid; grid-template-columns: 1fr; gap: 6px; margin-bottom: 1rem; }
     .artifact-option { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; cursor: pointer; text-align: left; transition: border-color 0.15s; font-family: var(--font-sans); display: none; }
     .artifact-option:hover { border-color: var(--charcoal); }
-    .artifact-option.selected { border-color: var(--red); background: #FFF8F8; }
+    .artifact-option.selected { border-color: var(--red); background: #FFEBE9; }
     .artifact-option.visible { display: block; }
     .artifact-type { font-size: 13px; font-weight: 500; color: var(--charcoal); display: block; margin-bottom: 2px; }
     .artifact-meta { font-size: 11px; color: var(--muted); font-family: var(--font-mono); display: block; }
@@ -131,7 +131,7 @@
 
     .feed-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
     .feed-item:last-child { border-bottom: none; }
-    .feed-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; background: #22c55e; }
+    .feed-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; background: #1F883D; }
     .feed-main { font-size: 13px; color: var(--charcoal); line-height: 1.5; margin-bottom: 2px; }
     .feed-time { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 
@@ -172,21 +172,68 @@
       .metrics-grid { grid-template-columns: repeat(2, 1fr); }
       .result-key { min-width: 90px; }
     }
+
+    .topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+    .topnav-brand{font-family:var(--font-mono);font-weight:700;font-size:15px;color:var(--charcoal)}
+    .topnav-links{display:flex;gap:1.75rem;list-style:none}
+    .topnav-links a{font-size:13px;color:var(--muted);transition:color .15s}
+    .topnav-links a:hover{color:#0969DA}
+    .page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+    .profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+    .profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+    .profile-handle{font-family:var(--font-mono);font-size:14px;color:var(--muted)}
+    .profile-bio{font-size:13px;color:var(--muted);line-height:1.55}
+    .profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+    .profile-meta li{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+    .profile-meta a{color:#0969DA}
+    .profile-meta a:hover{text-decoration:underline}
+    .cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+    .cred-pill{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);background:var(--card-bg);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+    .btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+    .btn-primary{background:#1F883D;color:#fff;border-color:#1F883D}
+    .btn-primary:hover{opacity:.9}
+    .btn-secondary{background:var(--card-bg);color:var(--charcoal)}
+    .btn-secondary:hover{background:var(--border)}
+    .main-col{flex:1;min-width:0}
+    .site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+    .footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+    .footer-links a{font-size:12.5px;color:var(--muted)}
+    .footer-links a:hover{color:#0969DA}
+    .footer-oam{font-family:var(--font-mono);font-size:10.5px;color:var(--muted)}
+    @media (max-width:800px){ .page-wrap{flex-direction:column} .profile-sidebar{width:100%;flex:1 1 auto} }
+
   </style>
 </head>
 <body>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+</nav>
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+<div class="main-col">
   <div class="container">
-
-    <nav>
-      <div class="nav-inner">
-        <a class="nav-logo" href="https://chamb.dev">chamb.dev</a>
-        <ul class="nav-links">
-          <li><a href="https://chamb.dev/writing/">writing</a></li>
-          <li><a href="https://chamb.dev/projects/" class="active">projects</a></li>
-          <li><a href="https://chamb.dev/resume.html">resume</a></li>
-        </ul>
-      </div>
-    </nav>
 
     <div class="breadcrumb">
       <a href="https://chamb.dev">chamb.dev</a>
@@ -343,18 +390,18 @@
       <a class="ext-link" href="https://chamb.dev/projects/">&#8592; All projects</a>
     </div>
 
-    <footer>
-      <div class="footer-inner">
-        <span class="footer-name">Chris Chambers &nbsp;·&nbsp; R.T.(R) ARRT · M.S. Cybersecurity</span>
-        <ul class="footer-links">
-          <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://chamb.dev/resume.html">Resume</a></li>
-        </ul>
-      </div>
-    </footer>
-
   </div>
+</div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
+</footer>
 
   <script>
     const artifactTypes = [
