@@ -6,163 +6,258 @@
 <title>Projects — chamb.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --text:#1F2328;--muted:#636C76;--subtle:#424A53;--dim:#818B98;
+  --accent-green:#1F883D;--accent-blue:#0969DA;--accent-red:#C8391D;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --tag-grc-fg:#1F883D;--tag-grc-bg:#DAFBE1;
+  --tag-builder-fg:#0969DA;--tag-builder-bg:#DDF4FF;
+  --tag-personal-fg:#BC4C00;--tag-personal-bg:#FFF1E5;
+  --tag-academic-fg:#8250DF;--tag-academic-bg:#FBEFFF;
+  --tag-healthcare-fg:#CF222E;--tag-healthcare-bg:#FFEBE9;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F5F4F0;--surface:#EEECEA;--border:#D4D2CE;--text:#1A1C1B;--muted:#888B89;--subtle:#2E2C28;--dim:#AAAEAD;--accent:#C8391D;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-width:900px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted:#6B6B68;--subtle:#A8A6A0;--dim:#555552;--accent:#E04B2A}
-.masthead{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:2px solid var(--text)}
-.mast-left{display:flex;flex-direction:column;gap:3px}
-.mast-name{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.02em}
-.mast-cred{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.mast-nav{display:flex;gap:2rem;align-items:center;list-style:none}
-.mast-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;transition:color 0.15s}
-.mast-nav a.active{color:var(--accent)}
-.mast-nav a:hover{color:var(--text)}
-.theme-btn{background:none;border:0.5px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;transition:all 0.15s}
-.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
-.page-header{padding:2.5rem 2.5rem 1.75rem;border-bottom:1px solid var(--text)}
-.page-eyebrow{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem}
-.page-title{font-size:2.2rem;font-weight:600;letter-spacing:-0.025em;color:var(--text);margin-bottom:0.75rem}
-.page-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;max-width:520px}
-.project-list{padding:0 2.5rem}
-.project-item{display:grid;grid-template-columns:60px 1fr 240px;gap:3rem;padding:2.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.1s}
-.project-item:hover .pi-name{color:var(--accent)}
-.pi-num{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:0.08em;padding-top:3px}
-.pi-name{font-size:1.3rem;font-weight:600;color:var(--text);letter-spacing:-0.01em;line-height:1.2;margin-bottom:0.75rem;transition:color 0.15s}
-.pi-desc{font-size:13px;font-weight:300;color:var(--subtle);line-height:1.8;margin-bottom:1rem;max-width:480px}
-.pi-tags{display:flex;flex-wrap:wrap;gap:4px}
-.pi-tag{font-family:var(--mono);font-size:8px;color:var(--muted);border:0.5px solid var(--border);padding:2px 7px}
-.pi-outcome{font-family:var(--mono);font-size:9px;color:var(--accent);margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border)}
-.pi-outcome-label{color:var(--dim);display:block;margin-bottom:3px;font-size:8px;letter-spacing:0.1em;text-transform:uppercase}
-.pi-outcome-value{font-size:13px;font-weight:500}
-.pi-links{display:flex;flex-direction:column;gap:6px}
-.pi-link{font-family:var(--mono);font-size:9px;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color 0.15s}
-.pi-link:hover{color:var(--accent)}
-.pi-status{font-family:var(--mono);font-size:8px;padding:2px 8px;border:0.5px solid;display:inline-block;margin-bottom:1rem}
-.pi-status.live{color:var(--accent);border-color:var(--accent)}
-.pi-status.public{color:var(--muted);border-color:var(--border)}
-.footer{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.5rem;background:var(--surface);border-top:2px solid var(--text);margin-top:1px}
-.footer-left{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.08em}
-.footer-links{display:flex;gap:1.75rem;list-style:none}
-.footer-links a{font-family:var(--mono);font-size:8px;color:var(--muted);transition:color 0.15s}
-.footer-links a:hover{color:var(--accent)}
-.footer-badge{font-family:var(--mono);font-size:7px;color:var(--dim);border:0.5px solid var(--border);padding:2px 8px;letter-spacing:0.1em}
+.tag-pill{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:2em;font-weight:500}
+.tag-grc{color:var(--tag-grc-fg);background:var(--tag-grc-bg)}
+.tag-builder{color:var(--tag-builder-fg);background:var(--tag-builder-bg)}
+.tag-personal{color:var(--tag-personal-fg);background:var(--tag-personal-bg)}
+.tag-academic{color:var(--tag-academic-fg);background:var(--tag-academic-bg)}
+.tag-healthcare{color:var(--tag-healthcare-fg);background:var(--tag-healthcare-bg)}
+
+/* nav */
+.topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+.topnav-brand{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--text)}
+.topnav-links{display:flex;gap:1.75rem;list-style:none}
+.topnav-links a{font-size:13px;color:var(--subtle);transition:color .15s}
+.topnav-links a:hover{color:var(--accent-blue)}
+
+/* layout */
+.page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+
+/* sidebar */
+.profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+.profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+.profile-handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.profile-bio{font-size:13px;color:var(--subtle);line-height:1.55}
+.profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.profile-meta li{font-size:12.5px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.profile-meta a{color:var(--accent-blue)}
+.profile-meta a:hover{text-decoration:underline}
+.cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+.cred-pill{font-family:var(--mono);font-size:10.5px;color:var(--subtle);background:var(--surface);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+.btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+.btn-primary{background:var(--accent-green);color:#fff;border-color:var(--accent-green)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:var(--surface);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+
+/* main column */
+.main-col{flex:1;min-width:0}
+.page-title{font-size:22px;font-weight:600;letter-spacing:-0.01em;margin-bottom:.4rem}
+.page-desc{font-size:13px;color:var(--subtle);line-height:1.55;max-width:560px;margin-bottom:1.5rem}
+
+/* project grid (reuses pin-card pattern) */
+.pin-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.pin-card{border:1px solid var(--border);border-radius:6px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.pin-card-head{display:flex;align-items:center;gap:8px}
+.pin-name{font-size:13.5px;font-weight:600;color:var(--accent-blue)}
+.pin-badge{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
+.pin-desc{font-size:12.5px;color:var(--subtle);line-height:1.55;flex:1}
+.pin-outcome{font-size:12px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
+.dot-green{background:var(--accent-green)}
+.dot-lang{background:var(--dim)}
+.pin-lang{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.pin-tags{display:flex;flex-wrap:wrap;gap:5px}
+.pin-tag{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
+.pin-links{display:flex;gap:1rem;margin-top:.25rem}
+.pin-links a{font-size:11.5px;color:var(--accent-blue)}
+.pin-links a:hover{text-decoration:underline}
+
+/* footer */
+.site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+.footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+.footer-links a{font-size:12.5px;color:var(--subtle)}
+.footer-links a:hover{color:var(--accent-blue)}
+.footer-oam{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+
+@media (max-width:800px){
+  .page-wrap{flex-direction:column}
+  .profile-sidebar{width:100%;flex:1 1 auto}
+  .pin-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<script>(function(){const s=localStorage.getItem('chamb-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d))document.body.classList.add('dark')})();</script>
-<header class="masthead">
-  <div class="mast-left">
-    <a href="/" class="mast-name">Chris Chambers</a>
-    <div class="mast-cred">R.T.(R) ARRT &nbsp;·&nbsp; Cloud Security Engineer</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:2rem">
-    <ul class="mast-nav">
-      <li><a href="/writing/">Writing</a></li>
-      <li><a href="/projects/" class="active">Projects</a></li>
-      <li><a href="/resume.html">Resume</a></li>
-    </ul>
-    <button class="theme-btn" onclick="toggleTheme()">&#9680;</button>
-  </div>
-</header>
-<div class="page-header">
-  <div class="page-eyebrow">chamb.dev &nbsp;/&nbsp; projects</div>
-  <h1 class="page-title">Projects</h1>
-  <p class="page-desc">Production systems built and operated by Chris Chambers. Every project here is live, real, and documented. No tutorials. No demos built for the sake of a portfolio.</p>
-</div>
-<div class="project-list">
-  <div class="project-item" onclick="location.href='/projects/imaging-systems.html'">
-    <div class="pi-num">01</div>
-    <div class="pi-main">
-      <div class="pi-name">PACS / HL7 Interface Lab</div>
-      <div class="pi-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems. Orthanc as the DICOM server, Mirth Connect as the RIS-to-PACS bridge, routing real ADT, ORM, and ORU messages.</div>
-      <div class="pi-tags"><span class="pi-tag">Orthanc</span><span class="pi-tag">Mirth Connect</span><span class="pi-tag">DICOM</span><span class="pi-tag">HL7</span><span class="pi-tag">Docker</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status live">Live demo</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">Six interactive demos, real lab</span></div>
-      <div class="pi-links"><a href="/projects/imaging-systems.html" class="pi-link">View project ↗</a><a href="https://github.com/chambsec/pacs-hl7-lab" target="_blank" class="pi-link">GitHub ↗</a></div>
-    </div>
-  </div>
-  <div class="project-item" onclick="location.href='/projects/compliance-platform.html'">
-    <div class="pi-num">02</div>
-    <div class="pi-main">
-      <div class="pi-name">Compliance Engineering Platform</div>
-      <div class="pi-desc">Five production systems built from 11 GRC Engineering labs across AWS and GCP. Policy-as-code gates at pull request time, automated audit evidence collection with Cosign signing, HIPAA gap remediation on a live patient intake API, continuous security baseline monitoring, and zero trust credential elimination across CI/CD pipelines.</div>
-      <div class="pi-tags"><span class="pi-tag">OPA/Rego</span><span class="pi-tag">Cosign</span><span class="pi-tag">OSCAL</span><span class="pi-tag">GuardDuty</span><span class="pi-tag">OIDC</span><span class="pi-tag">Terraform</span><span class="pi-tag">NIST 800-53</span><span class="pi-tag">HIPAA</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status live">Live demo</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">94% policy violation reduction</span></div>
-      <div class="pi-links"><a href="/projects/compliance-platform.html" class="pi-link">View project ↗</a><a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" class="pi-link">GitHub ↗</a></div>
-    </div>
-  </div>
-  <div class="project-item" onclick="location.href='https://github.com/chambsec/cloud-resume-challenge'">
-    <div class="pi-num">03</div>
-    <div class="pi-main">
-      <div class="pi-name">Cloud Resume Challenge</div>
-      <div class="pi-desc">Full-stack serverless resume on AWS. Static site on S3 served through CloudFront, visitor counter via Lambda and DynamoDB, infrastructure as code with Terraform, CI/CD pipeline through GitHub Actions. The project that started everything else on this page.</div>
-      <div class="pi-tags"><span class="pi-tag">S3</span><span class="pi-tag">CloudFront</span><span class="pi-tag">Lambda</span><span class="pi-tag">DynamoDB</span><span class="pi-tag">Terraform</span><span class="pi-tag">GitHub Actions</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status live">Live</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">Full AWS serverless stack</span></div>
-      <div class="pi-links"><a href="https://github.com/chambsec/cloud-resume-challenge" target="_blank" class="pi-link">GitHub ↗</a><a href="https://chamb.dev" target="_blank" class="pi-link">Live site ↗</a></div>
-    </div>
-  </div>
-  <div class="project-item" onclick="location.href='https://github.com/chambsec/grc-engineering-capstone'">
-    <div class="pi-num">04</div>
-    <div class="pi-main">
-      <div class="pi-name">GRC Engineering Capstone</div>
-      <div class="pi-desc">End-to-end compliance-as-code implementation across AWS and GCP. Closed 7 of 8 HIPAA Security Rule control gaps with cryptographically signed OSCAL evidence bundles. Terraform IaC, OPA policy validation, automated remediation workflows, and a complete audit trail from code to artifact.</div>
-      <div class="pi-tags"><span class="pi-tag">Terraform</span><span class="pi-tag">OPA</span><span class="pi-tag">OSCAL</span><span class="pi-tag">GCP</span><span class="pi-tag">AWS</span><span class="pi-tag">HIPAA</span><span class="pi-tag">Cosign</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status public">Public</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">7 of 8 HIPAA gaps closed</span></div>
-      <div class="pi-links"><a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" class="pi-link">GitHub ↗</a></div>
-    </div>
-  </div>
-  <div class="project-item" onclick="location.href='https://github.com/chambsec/chamb-dev'">
-    <div class="pi-num">05</div>
-    <div class="pi-main">
-      <div class="pi-name">Personal Brand Infrastructure</div>
-      <div class="pi-desc">The platform that runs chamb.dev. A private Command Center built in React, an autonomous publishing pipeline using EventBridge and Lambda, an AI-powered LinkedIn content engine with Bedrock, automatic graphic generation, X thread posting, and a complete content management system. Write once, deploy everywhere, zero manual steps.</div>
-      <div class="pi-tags"><span class="pi-tag">Lambda</span><span class="pi-tag">EventBridge</span><span class="pi-tag">DynamoDB</span><span class="pi-tag">React</span><span class="pi-tag">Bedrock</span><span class="pi-tag">Cognito</span><span class="pi-tag">CloudFront</span><span class="pi-tag">API Gateway</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status live">Live</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">Zero manual deploys</span></div>
-      <div class="pi-links"><a href="https://github.com/chambsec/chamb-dev" target="_blank" class="pi-link">GitHub ↗</a></div>
-    </div>
-  </div>
-  <div class="project-item" onclick="location.href='https://github.com/chambsec/finops-visibility-dashboard'">
-    <div class="pi-num">06</div>
-    <div class="pi-main">
-      <div class="pi-name">FinOps Visibility Dashboard</div>
-      <div class="pi-desc">AWS and Stripe cost aggregation in a single view. EventBridge fires an hourly Lambda that hits the Cost Explorer API and the Stripe API, writes a snapshot to DynamoDB, and a React frontend shows net margin and trend lines in one place. Hourly polling because Cost Explorer lags actual spend by hours regardless of polling frequency.</div>
-      <div class="pi-tags"><span class="pi-tag">Cost Explorer</span><span class="pi-tag">DynamoDB</span><span class="pi-tag">Stripe API</span><span class="pi-tag">EventBridge</span><span class="pi-tag">Lambda</span><span class="pi-tag">React</span><span class="pi-tag">API Gateway</span></div>
-    </div>
-    <div class="pi-meta">
-      <div class="pi-status public">Public</div>
-      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">4 tabs replaced by 1 dashboard</span></div>
-      <div class="pi-links"><a href="https://github.com/chambsec/finops-visibility-dashboard" target="_blank" class="pi-link">GitHub ↗</a><a href="https://finops.chamb.dev" target="_blank" class="pi-link">Live demo ↗</a></div>
-    </div>
-  </div>
-</div>
-<footer class="footer">
-  <div class="footer-left">© 2026 Chris Chambers &nbsp;·&nbsp; R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
-  <ul class="footer-links">
-    <li><a href="https://github.com/chambsec" target="_blank">GitHub</a></li>
-    <li><a href="https://linkedin.com/in/chambsec" target="_blank">LinkedIn</a></li>
-    <li><a href="https://x.com/chambsec" target="_blank">X</a></li>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
     <li><a href="/resume.html">Resume</a></li>
   </ul>
-  <div class="footer-badge">Powered by OAM</div>
+</nav>
+
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+
+  <div class="main-col">
+    <h1 class="page-title">Projects</h1>
+    <p class="page-desc">Production systems built and operated by Chris Chambers. Every project here is live, real, and documented. No tutorials. No demos built for the sake of a portfolio.</p>
+
+    <div class="pin-grid">
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">pacs-hl7-lab</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems. Orthanc as the DICOM server, Mirth Connect as the RIS-to-PACS bridge, routing real ADT, ORM, and ORU messages.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>Six interactive demos, real lab</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>HTML</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Orthanc</span>
+          <span class="pin-tag">Mirth Connect</span>
+          <span class="pin-tag">DICOM</span>
+          <span class="pin-tag">HL7</span>
+        </div>
+        <div class="pin-links">
+          <a href="/projects/imaging-systems.html">View project ↗</a>
+          <a href="https://github.com/chambsec/pacs-hl7-lab" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">compliance-platform</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">Five production systems built from 11 GRC Engineering labs across AWS and GCP. Policy-as-code gates at pull request time, automated audit evidence collection with Cosign signing, HIPAA gap remediation on a live patient intake API, continuous security baseline monitoring, and zero trust credential elimination across CI/CD pipelines.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>94% policy violation reduction</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Python</div>
+        <div class="pin-tags">
+          <span class="pin-tag">OPA/Rego</span>
+          <span class="pin-tag">Cosign</span>
+          <span class="pin-tag">OSCAL</span>
+          <span class="pin-tag">NIST 800-53</span>
+        </div>
+        <div class="pin-links">
+          <a href="/projects/compliance-platform.html">View project ↗</a>
+          <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">cloud-resume-challenge</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">Full-stack serverless resume on AWS. Static site on S3 served through CloudFront, visitor counter via Lambda and DynamoDB, infrastructure as code with Terraform, CI/CD pipeline through GitHub Actions. The project that started everything else on this page.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>Full AWS serverless stack</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>HTML</div>
+        <div class="pin-tags">
+          <span class="pin-tag">S3</span>
+          <span class="pin-tag">CloudFront</span>
+          <span class="pin-tag">Lambda</span>
+          <span class="pin-tag">DynamoDB</span>
+          <span class="pin-tag">Terraform</span>
+          <span class="pin-tag">GitHub Actions</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/cloud-resume-challenge" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://chamb.dev" target="_blank" rel="noopener">Live site ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">grc-engineering-capstone</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">End-to-end compliance-as-code implementation across AWS and GCP. Closed 7 of 8 HIPAA Security Rule control gaps with cryptographically signed OSCAL evidence bundles. Terraform IaC, OPA policy validation, automated remediation workflows, and a complete audit trail from code to artifact.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>7 of 8 HIPAA gaps closed</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Python</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Terraform</span>
+          <span class="pin-tag">OPA</span>
+          <span class="pin-tag">OSCAL</span>
+          <span class="pin-tag">HIPAA</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">chamb-dev</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">The platform that runs chamb.dev. A private Command Center built in React, an autonomous publishing pipeline using EventBridge and Lambda, an AI-powered LinkedIn content engine with Bedrock, automatic graphic generation, X thread posting, and a complete content management system. Write once, deploy everywhere, zero manual steps.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>Zero manual deploys</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>JavaScript</div>
+        <div class="pin-tags">
+          <span class="pin-tag">React</span>
+          <span class="pin-tag">Lambda</span>
+          <span class="pin-tag">EventBridge</span>
+          <span class="pin-tag">Bedrock</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/chamb-dev" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">finops-visibility-dashboard</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">AWS and Stripe cost aggregation in a single view. An hourly Lambda hits Cost Explorer and the Stripe API, writes a snapshot to DynamoDB, and a React frontend shows net margin and trend lines.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>4 tabs replaced by 1 dashboard</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Python</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Lambda</span>
+          <span class="pin-tag">DynamoDB</span>
+          <span class="pin-tag">EventBridge</span>
+          <span class="pin-tag">Cost Explorer</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/finops-visibility-dashboard" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://finops.chamb.dev" target="_blank" rel="noopener">Live demo ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
 </footer>
-<script>function toggleTheme(){const d=document.body.classList.toggle('dark');localStorage.setItem('chamb-theme',d?'dark':'light')}</script>
 </body>
 </html>

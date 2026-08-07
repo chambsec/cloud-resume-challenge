@@ -8,256 +8,286 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#F5F4F0;--surface:#EEECEA;--border:#D4D2CE;
-  --text:#1A1C1B;--muted:#888B89;--subtle:#2E2C28;--dim:#AAAEAD;
-  --accent:#C8391D;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --text:#1F2328;--muted:#636C76;--subtle:#424A53;--dim:#818B98;
+  --accent-green:#1F883D;--accent-blue:#0969DA;--accent-red:#C8391D;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --tag-grc-fg:#1F883D;--tag-grc-bg:#DAFBE1;
+  --tag-builder-fg:#0969DA;--tag-builder-bg:#DDF4FF;
+  --tag-personal-fg:#BC4C00;--tag-personal-bg:#FFF1E5;
+  --tag-academic-fg:#8250DF;--tag-academic-bg:#FBEFFF;
+  --tag-healthcare-fg:#CF222E;--tag-healthcare-bg:#FFEBE9;
 }
-body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-width:900px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted:#6B6B68;--subtle:#A8A6A0;--dim:#555552;--accent:#E04B2A}
-.masthead{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:2px solid var(--text)}
-.mast-left{display:flex;flex-direction:column;gap:3px}
-.mast-name{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.02em}
-.mast-cred{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.mast-nav{display:flex;gap:2rem;align-items:center;list-style:none}
-.mast-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;transition:color 0.15s}
-.mast-nav a:hover{color:var(--text)}
-.theme-btn{background:none;border:0.5px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;transition:all 0.15s}
-.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ticker-wrap{border-bottom:0.5px solid var(--border);padding:5px 0;overflow:hidden;background:var(--surface)}
-.ticker{display:flex;gap:4rem;padding:0 2.5rem;animation:scroll 35s linear infinite;width:max-content}
-.ticker:hover{animation-play-state:paused}
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ticker-item{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.06em;white-space:nowrap;flex-shrink:0}
-.ticker-item em{color:var(--accent);font-style:normal;margin-right:8px}
-.section-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);padding:7px 2.5rem;border-bottom:0.5px solid var(--border);border-top:0.5px solid var(--border);background:var(--surface)}
-.editorial{display:grid;grid-template-columns:3fr 1px 1.5fr;border-bottom:1px solid var(--text)}
-.col-divider{background:var(--border)}
-.featured{padding:2.5rem 2.5rem 2rem;border-bottom:0.5px solid var(--border)}
-.feat-kicker{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;display:flex;align-items:center;gap:12px}
-.feat-kicker::after{content:'';flex:1;height:0.5px;background:var(--accent);opacity:0.35}
-.feat-title{font-size:2.6rem;font-weight:600;line-height:1.05;letter-spacing:-0.03em;color:var(--text);margin-bottom:1.25rem;max-width:540px}
-.feat-deck{font-size:15px;font-weight:300;color:var(--subtle);line-height:1.85;max-width:500px;margin-bottom:1.75rem}
-.feat-byline{display:flex;gap:1.25rem;align-items:center;padding-top:1.25rem;border-top:0.5px solid var(--border)}
-.feat-tag{font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:0.1em;border:0.5px solid var(--accent);padding:3px 8px}
-.feat-date{font-family:var(--mono);font-size:8px;color:var(--dim)}
-.feat-link{font-family:var(--mono);font-size:9px;color:var(--accent);margin-left:auto}
-.secondary-stories{padding:0 2.5rem}
-.story{padding:1.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer}
-.story:last-child{border-bottom:none}
-.story:hover .s-title{color:var(--accent)}
-.s-kicker{font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.s-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:6px;transition:color 0.15s}
-.s-desc{font-size:12px;font-weight:300;color:var(--subtle);line-height:1.7;margin-bottom:8px}
-.s-meta{display:flex;gap:1rem;align-items:center}
-.s-tag{font-family:var(--mono);font-size:7px;color:var(--muted);border:0.5px solid var(--border);padding:2px 6px;letter-spacing:0.08em}
-.s-date{font-family:var(--mono);font-size:8px;color:var(--dim)}
-.sidebar{padding:0;background:var(--bg)}
-.sb-block{padding:1.5rem;border-bottom:0.5px solid var(--border)}
-.sb-block:last-child{border-bottom:none}
-.sb-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:0.5px solid var(--border)}
-.sb-post{padding:0.65rem 0;border-bottom:0.5px solid var(--border);cursor:pointer}
-.sb-post:last-child{border-bottom:none}
-.sb-post:hover .sbp-title{color:var(--accent)}
-.sbp-tag{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.sbp-title{font-size:11px;font-weight:400;color:var(--text);line-height:1.45;margin:3px 0;transition:color 0.15s}
-.sbp-date{font-family:var(--mono);font-size:7px;color:var(--dim)}
-.stack-grid{display:flex;flex-wrap:wrap;gap:4px}
-.s-chip{font-family:var(--mono);font-size:8px;color:var(--muted);border:0.5px solid var(--border);padding:2px 7px;background:var(--bg)}
-.cred-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:0.5px solid var(--border)}
-.cred-row:last-child{border-bottom:none}
-.cred-label{font-family:var(--mono);font-size:9px;color:var(--subtle)}
-.cred-value{font-family:var(--mono);font-size:8px;color:var(--muted)}
-.projects-band{border-bottom:1px solid var(--text)}
-.projects-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-.proj-cell{padding:1.75rem 2.5rem;border-right:0.5px solid var(--border);cursor:pointer;transition:background 0.15s}
-.proj-cell:last-child{border-right:none}
-.proj-cell:hover{background:var(--surface)}
-.proj-cell:hover .pc-name{color:var(--accent)}
-.pc-num{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:0.1em;margin-bottom:0.75rem}
-.pc-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:0.5rem;transition:color 0.15s}
-.pc-desc{font-size:11px;font-weight:300;color:var(--subtle);line-height:1.65;margin-bottom:0.75rem}
-.pc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:0.5rem}
-.pc-tag{font-family:var(--mono);font-size:7px;color:var(--muted);border:0.5px solid var(--border);padding:1px 5px}
-.pc-outcome{font-family:var(--mono);font-size:8px;color:var(--accent);padding-top:0.5rem;border-top:0.5px solid var(--border)}
-.about-band{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;border-bottom:0.5px solid var(--border)}
-.about-divider{background:var(--border)}
-.about-cell{padding:2rem 2.5rem}
-.about-cell-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem}
-.about-cell-text{font-size:13px;font-weight:300;color:var(--subtle);line-height:1.85}
-.about-cell-text strong{color:var(--text);font-weight:500}
-.footer{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.5rem;background:var(--surface);border-top:2px solid var(--text)}
-.footer-left{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.08em}
-.footer-links{display:flex;gap:1.75rem;list-style:none}
-.footer-links a{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.06em;transition:color 0.15s}
-.footer-links a:hover{color:var(--accent)}
-.footer-badge{font-family:var(--mono);font-size:7px;color:var(--dim);border:0.5px solid var(--border);padding:2px 8px;letter-spacing:0.1em}
+.tag-pill{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:2em;font-weight:500}
+.tag-grc{color:var(--tag-grc-fg);background:var(--tag-grc-bg)}
+.tag-builder{color:var(--tag-builder-fg);background:var(--tag-builder-bg)}
+.tag-personal{color:var(--tag-personal-fg);background:var(--tag-personal-bg)}
+.tag-academic{color:var(--tag-academic-fg);background:var(--tag-academic-bg)}
+.tag-healthcare{color:var(--tag-healthcare-fg);background:var(--tag-healthcare-bg)}
+
+/* nav */
+.topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+.topnav-brand{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--text)}
+.topnav-links{display:flex;gap:1.75rem;list-style:none}
+.topnav-links a{font-size:13px;color:var(--subtle);transition:color .15s}
+.topnav-links a:hover{color:var(--accent-blue)}
+
+/* layout */
+.page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+
+/* sidebar */
+.profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+.profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+.profile-handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.profile-bio{font-size:13px;color:var(--subtle);line-height:1.55}
+.profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.profile-meta li{font-size:12.5px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.profile-meta a{color:var(--accent-blue)}
+.profile-meta a:hover{text-decoration:underline}
+.cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+.cred-pill{font-family:var(--mono);font-size:10.5px;color:var(--subtle);background:var(--surface);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+.btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+.btn-primary{background:var(--accent-green);color:#fff;border-color:var(--accent-green)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:var(--surface);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+
+/* main column */
+.main-col{flex:1;min-width:0}
+.tab-row{display:flex;gap:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.tab{font-size:13px;font-weight:500;color:var(--muted);padding:.6rem 0;border-bottom:2px solid transparent;display:flex;align-items:center;gap:5px}
+.tab.active{color:var(--text);border-bottom-color:var(--accent-red)}
+.section-title{font-size:14px;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+
+/* pinned grid */
+.pin-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem}
+.pin-card{border:1px solid var(--border);border-radius:6px;padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+.pin-card-head{display:flex;align-items:center;gap:8px}
+.pin-name{font-size:13.5px;font-weight:600;color:var(--accent-blue)}
+.pin-badge{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
+.pin-desc{font-size:12.5px;color:var(--subtle);line-height:1.55;flex:1}
+.pin-outcome{font-size:12px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
+.dot-green{background:var(--accent-green)}
+.dot-lang{background:var(--dim)}
+.pin-lang{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.pin-tags{display:flex;flex-wrap:wrap;gap:5px}
+.pin-tag{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
+.pin-links{display:flex;gap:1rem;margin-top:.25rem}
+.pin-links a{font-size:11.5px;color:var(--accent-blue)}
+.pin-links a:hover{text-decoration:underline}
+
+/* writing list */
+.writing-list{list-style:none;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.writing-item{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border-bottom:1px solid var(--border)}
+.writing-item:last-child{border-bottom:none}
+.writing-icon{font-size:16px;flex:0 0 20px}
+.writing-body{flex:1;min-width:0}
+.writing-title{font-size:13px;font-weight:500;color:var(--accent-blue)}
+.writing-title:hover{text-decoration:underline}
+.writing-meta{display:flex;align-items:center;gap:8px;margin-top:4px}
+.writing-date{font-family:var(--mono);font-size:11px;color:var(--dim);white-space:nowrap}
+
+/* footer */
+.site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+.footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+.footer-links a{font-size:12.5px;color:var(--subtle)}
+.footer-links a:hover{color:var(--accent-blue)}
+.footer-oam{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+
+@media (max-width:800px){
+  .page-wrap{flex-direction:column}
+  .profile-sidebar{width:100%;flex:1 1 auto}
+  .pin-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<script>(function(){const s=localStorage.getItem('chamb-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d))document.body.classList.add('dark')})();</script>
-<header class="masthead">
-  <div class="mast-left">
-    <div class="mast-name">Chris Chambers</div>
-    <div class="mast-cred">R.T.(R) ARRT &nbsp;·&nbsp; Cloud Security Engineer</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:2rem">
-    <ul class="mast-nav">
-      <li><a href="/writing/">Writing</a></li>
-      <li><a href="/projects/">Projects</a></li>
-      <li><a href="/resume.html">Resume</a></li>
-    </ul>
-    <button class="theme-btn" onclick="toggleTheme()">&#9680;</button>
-  </div>
-</header>
-<div class="ticker-wrap">
-  <div class="ticker">
-    <div class="ticker-item"><em>New</em>Compliance Engineering Platform — five production systems now live</div>
-    <div class="ticker-item"><em>Latest</em>From Cloud Resume Challenge to Personal Brand Infrastructure</div>
-    <div class="ticker-item"><em>Stack</em>Lambda · DynamoDB · CloudFront · EventBridge · Terraform · OPA/Rego · Bedrock</div>
-    <div class="ticker-item"><em>Published</em>The Invisible Infrastructure Behind Modern Healthcare</div>
-    <div class="ticker-item"><em>New</em>Compliance Engineering Platform — five production systems now live</div>
-    <div class="ticker-item"><em>Latest</em>From Cloud Resume Challenge to Personal Brand Infrastructure</div>
-    <div class="ticker-item"><em>Stack</em>Lambda · DynamoDB · CloudFront · EventBridge · Terraform · OPA/Rego · Bedrock</div>
-    <div class="ticker-item"><em>Published</em>The Invisible Infrastructure Behind Modern Healthcare</div>
-  </div>
-</div>
-<div class="section-label">Writing &nbsp;·&nbsp; Technical analysis, cloud architecture, and the intersection of healthcare IT and cloud security</div>
-<div class="editorial">
-  <div>
-    <div class="featured">
-      <div class="feat-kicker">Featured &nbsp;·&nbsp; GRC Engineering</div>
-      <h1 class="feat-title">The Compliance Engineering Platform</h1>
-      <p class="feat-deck">Five production systems. Live interactive demos. Built from 11 GRC Engineering labs across AWS and GCP — policy-as-code, HIPAA gap remediation, tamper-evident evidence vaults, and zero trust credential elimination. Then kept building until it was something worth showing.</p>
-      <div class="feat-byline">
-        <span class="feat-tag">GRC</span>
-        <span class="feat-date">Jul 2026</span>
-        <a href="/projects/compliance-platform.html" class="feat-link">Read full writeup ↗</a>
-      </div>
-    </div>
-    <div class="secondary-stories">
-      <div class="story" onclick="location.href='/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure.html'">
-        <div class="s-kicker">Builder</div>
-        <div class="s-title">From Cloud Resume Challenge to Personal Brand Infrastructure</div>
-        <div class="s-desc">What started as a learning exercise became a fully autonomous publishing platform with a private Command Center, EventBridge scheduling, and zero manual deploys.</div>
-        <div class="s-meta"><span class="s-tag">Builder</span><span class="s-date">Jun 2026</span></div>
-      </div>
-      <div class="story" onclick="location.href='/writing/from-clinical-to-cloud.html'">
-        <div class="s-kicker">Personal</div>
-        <div class="s-title">From Clinical to Cloud</div>
-        <div class="s-desc">Ten years in clinical healthcare. One pandemic. The decision to move to the infrastructure layer — and why the two worlds are closer than they look.</div>
-        <div class="s-meta"><span class="s-tag">Personal</span><span class="s-date">Jun 2026</span></div>
-      </div>
-      <div class="story" onclick="location.href='/writing/invisible-infrastructure-behind-modern-healthcare.html'">
-        <div class="s-kicker">Academic</div>
-        <div class="s-title">The Invisible Infrastructure Behind Modern Healthcare</div>
-        <div class="s-desc">A vast majority of Americans are uninformed on how their local healthcare network operates. The supply chain that ensures reliable patient care is invisible by design.</div>
-        <div class="s-meta"><span class="s-tag">Academic</span><span class="s-date">Jun 2026</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-divider"></div>
-  <div class="sidebar">
-    <div class="sb-block">
-      <div class="sb-label">All writing</div>
-      <div class="sb-post" onclick="location.href='/writing/compliance-platform.html'">
-        <div class="sbp-tag">GRC</div>
-        <div class="sbp-title">Compliance Engineering Platform</div>
-        <div class="sbp-date">Jul 2026</div>
-      </div>
-      <div class="sb-post" onclick="location.href='/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure.html'">
-        <div class="sbp-tag">Builder</div>
-        <div class="sbp-title">Cloud Resume Challenge to Personal Brand Infrastructure</div>
-        <div class="sbp-date">Jun 2026</div>
-      </div>
-      <div class="sb-post" onclick="location.href='/writing/from-clinical-to-cloud.html'">
-        <div class="sbp-tag">Personal</div>
-        <div class="sbp-title">From Clinical to Cloud</div>
-        <div class="sbp-date">Jun 2026</div>
-      </div>
-      <div class="sb-post" onclick="location.href='/writing/invisible-infrastructure-behind-modern-healthcare.html'">
-        <div class="sbp-tag">Academic</div>
-        <div class="sbp-title">The Invisible Infrastructure Behind Modern Healthcare</div>
-        <div class="sbp-date">Jun 2026</div>
-      </div>
-    </div>
-    <div class="sb-block">
-      <div class="sb-label">Stack</div>
-      <div class="stack-grid">
-        <span class="s-chip">Lambda</span><span class="s-chip">DynamoDB</span><span class="s-chip">CloudFront</span><span class="s-chip">EventBridge</span><span class="s-chip">API Gateway</span><span class="s-chip">Cognito</span><span class="s-chip">S3</span><span class="s-chip">Bedrock</span><span class="s-chip">Terraform</span><span class="s-chip">OPA/Rego</span><span class="s-chip">OSCAL</span><span class="s-chip">NIST 800-53</span><span class="s-chip">React</span><span class="s-chip">Python</span>
-      </div>
-    </div>
-    <div class="sb-block">
-      <div class="sb-label">Credentials</div>
-      <div class="cred-row"><span class="cred-label">Role</span><span class="cred-value">Cloud Security Engineer</span></div>
-      <div class="cred-row"><span class="cred-label">Education</span><span class="cred-value">M.S. Cybersecurity</span></div>
-      <div class="cred-row"><span class="cred-label">License</span><span class="cred-value">R.T.(R) ARRT</span></div>
-      <div class="cred-row"><span class="cred-label">Healthcare</span><span class="cred-value">10+ years clinical</span></div>
-      <div class="cred-row"><span class="cred-label">Cloud</span><span class="cred-value">AWS (primary)</span></div>
-    </div>
-  </div>
-</div>
-<div class="section-label">Projects &nbsp;·&nbsp; Production systems built and operated by Chris Chambers</div>
-<div class="projects-band">
-  <div class="projects-grid">
-    <div class="proj-cell" onclick="location.href='/projects/compliance-platform.html'">
-      <div class="pc-num">01</div>
-      <div class="pc-name">Compliance Engineering Platform</div>
-      <div class="pc-desc">Five production systems with live demos. Policy-as-code, audit evidence vaults, HIPAA remediation, zero trust credentials.</div>
-      <div class="pc-tags"><span class="pc-tag">OPA/Rego</span><span class="pc-tag">Cosign</span><span class="pc-tag">OSCAL</span><span class="pc-tag">NIST</span></div>
-      <div class="pc-outcome">94% policy violation reduction</div>
-    </div>
-    <div class="proj-cell" onclick="location.href='https://github.com/chambsec/grc-engineering-capstone'">
-      <div class="pc-num">02</div>
-      <div class="pc-name">GRC Engineering Capstone</div>
-      <div class="pc-desc">End-to-end compliance-as-code across AWS and GCP. Closed 7 of 8 HIPAA Security Rule gaps with signed evidence bundles.</div>
-      <div class="pc-tags"><span class="pc-tag">Terraform</span><span class="pc-tag">OPA</span><span class="pc-tag">OSCAL</span><span class="pc-tag">GCP</span></div>
-      <div class="pc-outcome">7 of 8 HIPAA gaps closed</div>
-    </div>
-    <div class="proj-cell" onclick="location.href='https://github.com/chambsec/chamb-dev'">
-      <div class="pc-num">03</div>
-      <div class="pc-name">Personal Brand Infrastructure</div>
-      <div class="pc-desc">Autonomous publishing pipeline. Write in the Command Center, schedule a time, walk away. EventBridge publishes everything.</div>
-      <div class="pc-tags"><span class="pc-tag">Lambda</span><span class="pc-tag">EventBridge</span><span class="pc-tag">React</span><span class="pc-tag">Bedrock</span></div>
-      <div class="pc-outcome">Zero manual deploys</div>
-    </div>
-    <div class="proj-cell" onclick="location.href='https://github.com/chambsec/finops-visibility-dashboard'">
-      <div class="pc-num">04</div>
-      <div class="pc-name">FinOps Visibility Dashboard</div>
-      <div class="pc-desc">AWS and Stripe cost aggregation in one view. Hourly Lambda polling, DynamoDB snapshots, React frontend.</div>
-      <div class="pc-tags"><span class="pc-tag">Cost Explorer</span><span class="pc-tag">DynamoDB</span><span class="pc-tag">Stripe</span></div>
-      <div class="pc-outcome">4 tabs replaced by 1 dashboard</div>
-    </div>
-  </div>
-</div>
-<div class="about-band">
-  <div class="about-cell">
-    <div class="about-cell-label">Background</div>
-    <div class="about-cell-text"><strong>10+ years in clinical healthcare</strong> — radiology, MRI, CT, and emergency departments. COVID ER. R.T.(R) ARRT licensed. The kind of operational experience that makes uptime and data integrity feel personal, not abstract.</div>
-  </div>
-  <div class="about-divider"></div>
-  <div class="about-cell">
-    <div class="about-cell-label">Now</div>
-    <div class="about-cell-text"><strong>Cloud Security Engineer</strong> building production AWS infrastructure as a solo operator. Every system on this site is live. No tutorials. No demos. Real infrastructure, real consequences, real results.</div>
-  </div>
-  <div class="about-divider"></div>
-  <div class="about-cell">
-    <div class="about-cell-label">Building in public</div>
-    <div class="about-cell-text">chamb.dev documents what I build as I build it. The Command Center that runs this site, the compliance platform, the FinOps dashboard — all documented here as they shipped.</div>
-  </div>
-</div>
-<footer class="footer">
-  <div class="footer-left">© 2026 Chris Chambers &nbsp;·&nbsp; R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity &nbsp;·&nbsp; chamb.dev</div>
-  <ul class="footer-links">
-    <li><a href="https://github.com/chambsec" target="_blank">GitHub</a></li>
-    <li><a href="https://linkedin.com/in/chambsec" target="_blank">LinkedIn</a></li>
-    <li><a href="https://x.com/chambsec" target="_blank">X</a></li>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
     <li><a href="/resume.html">Resume</a></li>
   </ul>
-  <div class="footer-badge">Powered by OAM</div>
+</nav>
+
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+
+  <div class="main-col">
+    <div class="tab-row">
+      <div class="tab active" aria-current="page">Overview</div>
+      <div class="tab">Projects</div>
+      <div class="tab">Writing</div>
+    </div>
+
+    <div class="section-title">Pinned</div>
+    <div class="pin-grid">
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">pacs-hl7-lab</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>Six interactive demos, real lab</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Docker / HL7</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Orthanc</span>
+          <span class="pin-tag">Mirth Connect</span>
+          <span class="pin-tag">DICOM</span>
+          <span class="pin-tag">HL7</span>
+        </div>
+        <div class="pin-links">
+          <a href="/projects/imaging-systems.html">View project ↗</a>
+          <a href="https://github.com/chambsec/pacs-hl7-lab" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">compliance-platform</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">Five production systems built from 11 GRC Engineering labs across AWS and GCP: policy-as-code PR gates, signed audit evidence, HIPAA gap remediation, and zero trust CI/CD credentials.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>94% policy violation reduction</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Terraform / Rego</div>
+        <div class="pin-tags">
+          <span class="pin-tag">OPA/Rego</span>
+          <span class="pin-tag">Cosign</span>
+          <span class="pin-tag">OSCAL</span>
+          <span class="pin-tag">NIST 800-53</span>
+        </div>
+        <div class="pin-links">
+          <a href="/projects/compliance-platform.html">View project ↗</a>
+          <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">grc-engineering-capstone</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">End-to-end compliance-as-code across AWS and GCP. Closed 7 of 8 HIPAA Security Rule control gaps with cryptographically signed OSCAL evidence bundles and automated remediation workflows.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>7 of 8 HIPAA gaps closed</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Terraform / OSCAL</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Terraform</span>
+          <span class="pin-tag">OPA</span>
+          <span class="pin-tag">OSCAL</span>
+          <span class="pin-tag">HIPAA</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/grc-engineering-capstone" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="pin-card">
+        <div class="pin-card-head">
+          <span class="pin-name">finops-visibility-dashboard</span>
+          <span class="pin-badge">Public</span>
+        </div>
+        <p class="pin-desc">AWS and Stripe cost aggregation in a single view. An hourly Lambda hits Cost Explorer and the Stripe API, writes a snapshot to DynamoDB, and a React frontend shows net margin and trend lines.</p>
+        <div class="pin-outcome"><span class="dot dot-green"></span>4 tabs replaced by 1 dashboard</div>
+        <div class="pin-lang"><span class="dot dot-lang"></span>Lambda / React</div>
+        <div class="pin-tags">
+          <span class="pin-tag">Lambda</span>
+          <span class="pin-tag">DynamoDB</span>
+          <span class="pin-tag">EventBridge</span>
+          <span class="pin-tag">Cost Explorer</span>
+        </div>
+        <div class="pin-links">
+          <a href="https://github.com/chambsec/finops-visibility-dashboard" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://finops.chamb.dev" target="_blank" rel="noopener">Live demo ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Recent writing</div>
+    <ul class="writing-list">
+      <li class="writing-item">
+        <span class="writing-icon">🏥</span>
+        <div class="writing-body">
+          <a class="writing-title" href="/writing/the-other-side-of-the-pacs/">The Other Side of the PACS</a>
+          <div class="writing-meta">
+            <span class="tag-pill tag-healthcare">Healthcare</span>
+            <span class="writing-date">Aug 6, 2026</span>
+          </div>
+        </div>
+      </li>
+      <li class="writing-item">
+        <span class="writing-icon">🛡️</span>
+        <div class="writing-body">
+          <a class="writing-title" href="/writing/from-lab-work-to-live-platform-building-the-compliance-engineering-platform/">From Lab Work to Live Platform: Building the Compliance Engineering Platform</a>
+          <div class="writing-meta">
+            <span class="tag-pill tag-grc">GRC</span>
+            <span class="writing-date">Jul 8, 2026</span>
+          </div>
+        </div>
+      </li>
+      <li class="writing-item">
+        <span class="writing-icon">🏗️</span>
+        <div class="writing-body">
+          <a class="writing-title" href="/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure/">From Cloud Resume Challenge to Personal Brand Infrastructure</a>
+          <div class="writing-meta">
+            <span class="tag-pill tag-builder">Builder</span>
+            <span class="writing-date">Jun 24, 2026</span>
+          </div>
+        </div>
+      </li>
+      <li class="writing-item">
+        <span class="writing-icon">🌱</span>
+        <div class="writing-body">
+          <a class="writing-title" href="/writing/from-clinical-to-cloud/">From Clinical to Cloud</a>
+          <div class="writing-meta">
+            <span class="tag-pill tag-personal">Personal</span>
+            <span class="writing-date">Jun 19, 2026</span>
+          </div>
+        </div>
+      </li>
+      <li class="writing-item">
+        <span class="writing-icon">📚</span>
+        <div class="writing-body">
+          <a class="writing-title" href="/writing/invisible-infrastructure-modern-healthcare/">The Invisible Infrastructure Behind Modern Healthcare</a>
+          <div class="writing-meta">
+            <span class="tag-pill tag-academic">Academic</span>
+            <span class="writing-date">Jun 20, 2026</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
 </footer>
-<script>function toggleTheme(){const d=document.body.classList.toggle('dark');localStorage.setItem('chamb-theme',d?'dark':'light')}</script>
 </body>
 </html>
