@@ -74,8 +74,21 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
   <p class="page-desc">Production systems built and operated by Chris Chambers. Every project here is live, real, and documented. No tutorials. No demos built for the sake of a portfolio.</p>
 </div>
 <div class="project-list">
-  <div class="project-item" onclick="location.href='/projects/compliance-platform.html'">
+  <div class="project-item" onclick="location.href='/projects/imaging-systems.html'">
     <div class="pi-num">01</div>
+    <div class="pi-main">
+      <div class="pi-name">PACS / HL7 Interface Lab</div>
+      <div class="pi-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems. Orthanc as the DICOM server, Mirth Connect as the RIS-to-PACS bridge, routing real ADT, ORM, and ORU messages.</div>
+      <div class="pi-tags"><span class="pi-tag">Orthanc</span><span class="pi-tag">Mirth Connect</span><span class="pi-tag">DICOM</span><span class="pi-tag">HL7</span><span class="pi-tag">Docker</span></div>
+    </div>
+    <div class="pi-meta">
+      <div class="pi-status live">Live demo</div>
+      <div class="pi-outcome"><span class="pi-outcome-label">Key outcome</span><span class="pi-outcome-value">Six interactive demos, real lab</span></div>
+      <div class="pi-links"><a href="/projects/imaging-systems.html" class="pi-link">View project ↗</a><a href="https://github.com/chambsec/pacs-hl7-lab" target="_blank" class="pi-link">GitHub ↗</a></div>
+    </div>
+  </div>
+  <div class="project-item" onclick="location.href='/projects/compliance-platform.html'">
+    <div class="pi-num">02</div>
     <div class="pi-main">
       <div class="pi-name">Compliance Engineering Platform</div>
       <div class="pi-desc">Five production systems built from 11 GRC Engineering labs across AWS and GCP. Policy-as-code gates at pull request time, automated audit evidence collection with Cosign signing, HIPAA gap remediation on a live patient intake API, continuous security baseline monitoring, and zero trust credential elimination across CI/CD pipelines.</div>
@@ -88,7 +101,7 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
     </div>
   </div>
   <div class="project-item" onclick="location.href='https://github.com/chambsec/grc-engineering-capstone'">
-    <div class="pi-num">02</div>
+    <div class="pi-num">03</div>
     <div class="pi-main">
       <div class="pi-name">GRC Engineering Capstone</div>
       <div class="pi-desc">End-to-end compliance-as-code implementation across AWS and GCP. Closed 7 of 8 HIPAA Security Rule control gaps with cryptographically signed OSCAL evidence bundles. Terraform IaC, OPA policy validation, automated remediation workflows, and a complete audit trail from code to artifact.</div>
@@ -101,7 +114,7 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
     </div>
   </div>
   <div class="project-item" onclick="location.href='https://github.com/chambsec/chamb-dev'">
-    <div class="pi-num">03</div>
+    <div class="pi-num">04</div>
     <div class="pi-main">
       <div class="pi-name">Personal Brand Infrastructure</div>
       <div class="pi-desc">The platform that runs chamb.dev. A private Command Center built in React, an autonomous publishing pipeline using EventBridge and Lambda, an AI-powered LinkedIn content engine with Bedrock, automatic graphic generation, X thread posting, and a complete content management system. Write once, deploy everywhere, zero manual steps.</div>
@@ -114,7 +127,7 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
     </div>
   </div>
   <div class="project-item" onclick="location.href='https://github.com/chambsec/finops-visibility-dashboard'">
-    <div class="pi-num">04</div>
+    <div class="pi-num">05</div>
     <div class="pi-main">
       <div class="pi-name">FinOps Visibility Dashboard</div>
       <div class="pi-desc">AWS and Stripe cost aggregation in a single view. EventBridge fires an hourly Lambda that hits the Cost Explorer API and the Stripe API, writes a snapshot to DynamoDB, and a React frontend shows net margin and trend lines in one place. Hourly polling because Cost Explorer lags actual spend by hours regardless of polling frequency.</div>
@@ -127,7 +140,7 @@ body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted
     </div>
   </div>
   <div class="project-item" onclick="location.href='https://github.com/chambsec/cloud-resume-challenge'">
-    <div class="pi-num">05</div>
+    <div class="pi-num">06</div>
     <div class="pi-main">
       <div class="pi-name">Cloud Resume Challenge</div>
       <div class="pi-desc">Full-stack serverless resume on AWS. Static site on S3 served through CloudFront, visitor counter via Lambda and DynamoDB, infrastructure as code with Terraform, CI/CD pipeline through GitHub Actions. The project that started everything else on this page.</div>
