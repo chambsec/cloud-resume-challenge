@@ -1,137 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="From Cloud Resume Challenge to Personal Brand Infrastructure">
-  <meta property="og:title" content="From Cloud Resume Challenge to Personal Brand Infrastructure -- Chris Chambers">
-  <meta property="og:description" content="From Cloud Resume Challenge to Personal Brand Infrastructure">
-  <meta property="og:url" content="https://chamb.dev/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure">
-  <meta name="twitter:card" content="summary">
-  <title>From Cloud Resume Challenge to Personal Brand Infrastructure -- Chris Chambers</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    :root {
-      --bg: #F5F4F0; --surface: #EEECEA; --border: #D4D2CE; --text: #1A1C1B;
-      --muted: #888B89; --subtle: #4A4D4C; --dim: #AAAEAD;
-      --accent: #C8391D; --accent-dk: #A82E16;
-      --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
-      --transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-    }
-    body.dark {
-      --bg: #252420; --surface: #2E2D29; --border: #3A3935; --text: #E8E6E0;
-      --muted: #6B6B68; --subtle: #A8A6A0; --dim: #555552;
-      --accent: #E04B2A; --accent-dk: #C83D20;
-    }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; transition: var(--transition); }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
-    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 0.5px solid var(--border); transition: var(--transition); }
-    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 1.25rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-    .nav-left { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-    .theme-toggle { background: none; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
-    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-    .icon-sun { display: none; } .icon-moon { display: block; }
-    body.dark .icon-sun { display: block; } body.dark .icon-moon { display: none; }
-    .post-header { padding: 4rem 0 3rem; border-bottom: 0.5px solid var(--border); }
-    .post-tag { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; }
-    .post-title { font-family: var(--mono); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.25rem; }
-    .post-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
-    .post-body { max-width: 680px; padding: 3rem 0 5rem; }
-    .post-body p { font-size: 16px; font-weight: 300; color: var(--subtle); line-height: 1.9; margin-bottom: 1.5rem; }
-    .post-body p:last-child { margin-bottom: 0; }
-    .post-divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 3rem; transition: color 0.2s; padding-top: 2rem; }
-    .back-link:hover { color: var(--accent); }
-    footer { padding: 2rem 0; border-top: 0.5px solid var(--border); background: var(--surface); transition: var(--transition); }
-    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-left { font-family: var(--mono); font-size: 11px; color: var(--muted); }
-    .footer-links { display: flex; gap: 1.75rem; list-style: none; }
-    .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--muted); transition: color 0.2s; }
-    .footer-links a:hover { color: var(--accent); }
-    @media (max-width: 768px) { .container { padding: 0 1.5rem; } .nav-inner { padding: 1rem 1.5rem; } .post-header { padding: 3rem 0 2rem; } .post-body { padding: 2rem 0 4rem; } .footer-inner { padding: 0 1.5rem; flex-direction: column; align-items: flex-start; } }
-    @media (prefers-reduced-motion: reduce) { * { transition: none; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="From Cloud Resume Challenge to Personal Brand Infrastructure — Chris Chambers.">
+<meta property="og:title" content="From Cloud Resume Challenge to Personal Brand Infrastructure — Chris Chambers">
+<meta property="og:url" content="https://chamb.dev/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure/">
+<title>From Cloud Resume Challenge to Personal Brand Infrastructure — chamb.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --text:#1F2328;--muted:#636C76;--subtle:#424A53;--dim:#818B98;
+  --accent-green:#1F883D;--accent-blue:#0969DA;--accent-red:#C8391D;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --tag-grc-fg:#1F883D;--tag-grc-bg:#DAFBE1;
+  --tag-builder-fg:#0969DA;--tag-builder-bg:#DDF4FF;
+  --tag-personal-fg:#BC4C00;--tag-personal-bg:#FFF1E5;
+  --tag-academic-fg:#8250DF;--tag-academic-bg:#FBEFFF;
+  --tag-healthcare-fg:#CF222E;--tag-healthcare-bg:#FFEBE9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.tag-pill{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:2em;font-weight:500}
+.tag-personal{color:var(--tag-personal-fg);background:var(--tag-personal-bg)}
+.tag-grc{color:var(--tag-grc-fg);background:var(--tag-grc-bg)}
+.tag-academic{color:var(--tag-academic-fg);background:var(--tag-academic-bg)}
+.tag-builder{color:var(--tag-builder-fg);background:var(--tag-builder-bg)}
+.tag-healthcare{color:var(--tag-healthcare-fg);background:var(--tag-healthcare-bg)}
+
+.topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+.topnav-brand{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--text)}
+.topnav-links{display:flex;gap:1.75rem;list-style:none}
+.topnav-links a{font-size:13px;color:var(--subtle);transition:color .15s}
+.topnav-links a:hover{color:var(--accent-blue)}
+
+.page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+
+.profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+.profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+.profile-handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.profile-bio{font-size:13px;color:var(--subtle);line-height:1.55}
+.profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.profile-meta li{font-size:12.5px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.profile-meta a{color:var(--accent-blue)}
+.profile-meta a:hover{text-decoration:underline}
+.cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+.cred-pill{font-family:var(--mono);font-size:10.5px;color:var(--subtle);background:var(--surface);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+.btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+.btn-primary{background:var(--accent-green);color:#fff;border-color:var(--accent-green)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:var(--surface);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+
+.main-col{flex:1;min-width:0;display:flex;gap:2rem;align-items:flex-start}
+.article-main{flex:1;min-width:0;max-width:680px}
+.article-aside{width:260px;flex:0 0 260px}
+.back-link{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:1.5rem;display:inline-block}
+.back-link:hover{color:var(--accent-blue)}
+.article-title{font-size:1.9rem;font-weight:600;line-height:1.15;letter-spacing:-0.01em;margin-bottom:.75rem}
+.article-meta{display:flex;gap:1.5rem;align-items:center;padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem;margin-top:1rem}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.meta-value{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.article-body{font-size:14px;color:var(--subtle);line-height:1.85}
+.article-body p{margin-bottom:1.15rem}
+.article-body p:last-child{margin-bottom:0}
+.article-body strong{color:var(--text);font-weight:600}
+
+.aside-block{padding-bottom:1.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.aside-block:last-child{border-bottom:none}
+.aside-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem}
+.aside-post{padding:.6rem 0;border-bottom:1px solid var(--border)}
+.aside-post:last-child{border-bottom:none}
+.ap-title{font-size:12px;font-weight:500;color:var(--accent-blue);margin:2px 0}
+.ap-title:hover{text-decoration:underline}
+.ap-date{font-family:var(--mono);font-size:10px;color:var(--dim)}
+
+.site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+.footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+.footer-links a{font-size:12.5px;color:var(--subtle)}
+.footer-links a:hover{color:var(--accent-blue)}
+.footer-oam{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+
+@media (max-width:900px){
+  .page-wrap{flex-direction:column}
+  .profile-sidebar{width:100%;flex:1 1 auto}
+  .main-col{flex-direction:column}
+  .article-aside{width:100%;flex:1 1 auto}
+}
+</style>
 </head>
 <body>
-  <script>
-    (function() {
-      const saved = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) document.body.classList.add('dark');
-    })();
-  </script>
-  <nav>
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="/" class="nav-logo">chamb<span>.</span>dev</a>
-        <ul class="nav-links">
-          <li><a href="/writing/">writing</a></li>
-          <li><a href="/#projects">projects</a></li>
-          <li><a href="/resume.html">resume</a></li>
-        </ul>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+
+  <div class="main-col">
+    <article class="article-main">
+      <a class="back-link" href="/writing/">← Writing</a>
+      <span class="tag-pill tag-builder">Builder</span>
+      <h1 class="article-title">From Cloud Resume Challenge to Personal Brand Infrastructure</h1>
+      <div class="article-meta">
+        <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 24, 2026</span></div>
+        <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Builder</span></div>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
-    </div>
-  </nav>
-  <div class="container">
-    <a href="/writing/" class="back-link">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      Writing
-    </a>
-    <header class="post-header">
-      <div class="post-tag">Personal</div>
-      <h1 class="post-title">From Cloud Resume Challenge to Personal Brand Infrastructure</h1>
-      <div class="post-meta">Chris Chambers &nbsp;&middot;&nbsp; June 24, 2026</div>
-    </header>
-    <article class="post-body">
-      <p>I started the Cloud Resume Challenge to learn how to become a cloud engineer. That was the whole reason. Not to build a product, not to start a brand, just to learn the stack and prove I could ship something real on AWS.</p>
-      <p>When I finished I had chamb.dev. My domain. An S3 bucket behind CloudFront with an ACM certificate. A Lambda function and a DynamoDB table counting visitors. A downloadable PDF resume. Links back to my GitHub repos. It worked. It was live. I was proud of it.</p>
-      <p>Then I started thinking about what else it could be.</p>
-      <p>A resume website doesn&#x27;t give people a reason to come back. chamb.dev had a domain, infrastructure, a deployment pipeline, and an audience of zero.</p>
-      <p>I wanted to fix that. I wanted it to be a personal brand, a space where I could document what I was building in real time, publish my writing, and show my projects as they evolved. Not a snapshot of where I was. A living record of where I was going.</p>
-      <p>So I kept building.</p>
-      <p>The site now has a writing section for technical posts and academic work, and a projects section that documents what I built and what it produced, not a list of technologies but outcomes. The resume is still there because the purpose of the original challenge is still alive.</p>
-      <p>But the biggest change is what runs underneath it.</p>
-      <p>I built a Command Center, a private dashboard at chamb.dev/command, fully wired to GitHub. I write articles inside it, set a publish date and time, and the system handles the rest: generates the HTML, commits it to GitHub, updates the writing index, pushes to S3, invalidates the CDN cache, and sends me a confirmation email. I don&#x27;t touch the terminal. I don&#x27;t edit files manually. I write, I schedule, it publishes.</p>
-      <p>Watching it work for the first time was one of the best feelings I&#x27;ve had building anything.</p>
-      <p>A hiring manager told me something I think about a lot. He said he doesn&#x27;t look at the surface of a repository. He looks at the change log. He wants to see how long it took to get from there to here. When he sees someone documenting their work consistently over months, adding things, evolving the project, he thinks: who told them that&#x27;s how we do it? Because that&#x27;s what gets you the phone call.</p>
-      <p>Not that you built a website that loads. Plenty of people build websites that load. He wants to see what you did after that.</p>
-      <p>He also said: always put your work out there. Don&#x27;t wait until it&#x27;s finished. It&#x27;s never finished. If someone applies today and he checks the repository and the last commit was yesterday, he already knows what that means. But if he goes there and the repository is six months old and every month there is new work, new changes, visible growth, now he knows what kind of engineer he&#x27;s looking at.</p>
-      <p>If you just finished the Cloud Resume Challenge and you&#x27;re wondering what to do next, keep going.
-Think hard about what else the project could become. You have a domain. You have infrastructure. You have a deployment pipeline. You have a GitHub history that a hiring manager is going to look at.</p>
-      <p>What are you going to put in it?</p>
-      <p>The challenge is not the end of the project. It is the foundation.</p>
+      <div class="article-body">
+        <p>I started the Cloud Resume Challenge to learn how to become a cloud engineer. That was the whole reason. Not to build a product, not to start a brand, just to learn the stack and prove I could ship something real on AWS.</p>
+        <p>When I finished I had chamb.dev. My domain. An S3 bucket behind CloudFront with an ACM certificate. A Lambda function and a DynamoDB table counting visitors. A downloadable PDF resume. Links back to my GitHub repos. It worked. It was live. I was proud of it.</p>
+        <p>Then I started thinking about what else it could be.</p>
+        <p>A resume website doesn't give people a reason to come back. chamb.dev had a domain, infrastructure, a deployment pipeline, and an audience of zero.</p>
+        <p>I wanted to fix that. I wanted it to be a personal brand, a space where I could document what I was building in real time, publish my writing, and show my projects as they evolved. Not a snapshot of where I was. A living record of where I was going.</p>
+        <p>So I kept building.</p>
+        <p>The site now has a writing section for technical posts and academic work, and a projects section that documents what I built and what it produced, not a list of technologies but outcomes. The resume is still there because the purpose of the original challenge is still alive.</p>
+        <p>But the biggest change is what runs underneath it.</p>
+        <p>I built a Command Center, a private dashboard at chamb.dev/command, fully wired to GitHub. I write articles inside it, set a publish date and time, and the system handles the rest: generates the HTML, commits it to GitHub, updates the writing index, pushes to S3, invalidates the CDN cache, and sends me a confirmation email. I don't touch the terminal. I don't edit files manually. I write, I schedule, it publishes.</p>
+        <p>Watching it work for the first time was one of the best feelings I've had building anything.</p>
+        <p>A hiring manager told me something I think about a lot. He said he doesn't look at the surface of a repository. He looks at the change log. He wants to see how long it took to get from there to here. When he sees someone documenting their work consistently over months, adding things, evolving the project, he thinks: who told them that's how we do it? Because that's what gets you the phone call.</p>
+        <p>Not that you built a website that loads. Plenty of people build websites that load. He wants to see what you did after that.</p>
+        <p>He also said: always put your work out there. Don't wait until it's finished. It's never finished. If someone applies today and he checks the repository and the last commit was yesterday, he already knows what that means. But if he goes there and the repository is six months old and every month there is new work, new changes, visible growth, now he knows what kind of engineer he's looking at.</p>
+        <p>If you just finished the Cloud Resume Challenge and you're wondering what to do next, keep going. Think hard about what else the project could become. You have a domain. You have infrastructure. You have a deployment pipeline. You have a GitHub history that a hiring manager is going to look at.</p>
+        <p>What are you going to put in it?</p>
+        <p>The challenge is not the end of the project. It is the foundation.</p>
+      </div>
     </article>
+
+    <aside class="article-aside">
+      <div class="aside-block">
+        <div class="aside-label">More writing</div>
+        <div class="aside-post">
+          <span class="tag-pill tag-healthcare" style="font-size:9px">Healthcare</span>
+          <div class="ap-title"><a href="/writing/the-other-side-of-the-pacs/">The Other Side of the PACS</a></div>
+          <div class="ap-date">Aug 6, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-grc" style="font-size:9px">GRC</span>
+          <div class="ap-title"><a href="/writing/from-lab-work-to-live-platform-building-the-compliance-engineering-platform/">From Lab Work to Live Platform</a></div>
+          <div class="ap-date">Jul 8, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-personal" style="font-size:9px">Personal</span>
+          <div class="ap-title"><a href="/writing/from-clinical-to-cloud/">From Clinical to Cloud</a></div>
+          <div class="ap-date">Jun 19, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-academic" style="font-size:9px">Academic</span>
+          <div class="ap-title"><a href="/writing/invisible-infrastructure-modern-healthcare/">The Invisible Infrastructure Behind Modern Healthcare</a></div>
+          <div class="ap-date">Jun 20, 2026</div>
+        </div>
+      </div>
+    </aside>
   </div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-left">Chris Chambers R.T.(R) (ARRT) &nbsp;&middot;&nbsp; M.S. Cybersecurity</div>
-      <ul class="footer-links">
-        <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
-        <li><a href="/resume.html">Resume</a></li>
-      </ul>
-    </div>
-  </footer>
-  <script>
-    function toggleTheme() {
-      const isDark = document.body.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-  </script>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
+</footer>
 </body>
 </html>

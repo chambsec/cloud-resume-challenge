@@ -59,7 +59,7 @@ a{color:inherit;text-decoration:none}
 /* main column */
 .main-col{flex:1;min-width:0}
 .tab-row{display:flex;gap:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
-.tab{font-size:13px;font-weight:500;color:var(--muted);padding:.6rem 0;border-bottom:2px solid transparent;display:flex;align-items:center;gap:5px}
+.tab{font:inherit;font-size:13px;font-weight:500;color:var(--muted);padding:.6rem 0;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;display:flex;align-items:center;gap:5px}
 .tab.active{color:var(--text);border-bottom-color:var(--accent-red)}
 .section-title{font-size:14px;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
 
@@ -138,11 +138,12 @@ a{color:inherit;text-decoration:none}
 
   <div class="main-col">
     <div class="tab-row">
-      <div class="tab active" aria-current="page">Overview</div>
-      <div class="tab">Projects</div>
-      <div class="tab">Writing</div>
+      <button class="tab active" aria-current="page" onclick="showTab('overview', this)">Overview</button>
+      <button class="tab" onclick="showTab('projects', this)">Projects</button>
+      <button class="tab" onclick="showTab('writing', this)">Writing</button>
     </div>
 
+    <div id="tab-panel-projects">
     <div class="section-title">Pinned</div>
     <div class="pin-grid">
       <div class="pin-card">
@@ -224,7 +225,9 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
     </div>
+    </div>
 
+    <div id="tab-panel-writing">
     <div class="section-title">Recent writing</div>
     <ul class="writing-list">
       <li class="writing-item">
@@ -278,6 +281,7 @@ a{color:inherit;text-decoration:none}
         </div>
       </li>
     </ul>
+    </div>
   </div>
 </div>
 
@@ -289,5 +293,16 @@ a{color:inherit;text-decoration:none}
   </ul>
   <div class="footer-oam">Powered by OAM</div>
 </footer>
+<script>
+function showTab(tab, btn){
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); t.removeAttribute('aria-current'); });
+  btn.classList.add('active');
+  btn.setAttribute('aria-current', 'page');
+  var projects = document.getElementById('tab-panel-projects');
+  var writing = document.getElementById('tab-panel-writing');
+  projects.style.display = (tab === 'overview' || tab === 'projects') ? '' : 'none';
+  writing.style.display = (tab === 'overview' || tab === 'writing') ? '' : 'none';
+}
+</script>
 </body>
 </html>

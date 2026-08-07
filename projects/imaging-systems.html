@@ -9,171 +9,195 @@
 <title>PACS / HL7 Interface Lab — chamb.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --text:#1F2328;--muted:#636C76;--subtle:#424A53;--dim:#818B98;
+  --accent-green:#1F883D;--accent-blue:#0969DA;--accent-red:#C8391D;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F5F4F0;--surface:#EEECEA;--border:#D4D2CE;--text:#1A1C1B;--muted:#888B89;--subtle:#2E2C28;--dim:#AAAEAD;--accent:#C8391D;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-width:900px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted:#6B6B68;--subtle:#A8A6A0;--dim:#555552;--accent:#E04B2A}
-.masthead{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:2px solid var(--text)}
-.mast-left{display:flex;flex-direction:column;gap:3px}
-.mast-name{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.02em}
-.mast-cred{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.mast-nav{display:flex;gap:2rem;align-items:center;list-style:none}
-.mast-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;transition:color 0.15s}
-.mast-nav a:hover,.mast-nav a.active{color:var(--accent)}
-.theme-btn{background:none;border:0.5px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;transition:all 0.15s}
-.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-.wrap{max-width:1000px;margin:0 auto;padding:0 2.5rem}
-.page-header{padding:2.5rem 0 1.75rem;border-bottom:1px solid var(--text)}
-.page-eyebrow{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem;display:flex;align-items:center;gap:6px}
-.page-eyebrow a:hover{color:var(--accent)}
-.page-title{font-size:2.2rem;font-weight:600;letter-spacing:-0.025em;color:var(--text);margin-bottom:0.75rem}
-.page-desc{font-size:14px;font-weight:300;color:var(--subtle);line-height:1.85;max-width:660px;margin-bottom:1.25rem}
-.link-row{display:flex;gap:1.5rem}
-.ext-link{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:0.04em}
+.topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+.topnav-brand{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--text)}
+.topnav-links{display:flex;gap:1.75rem;list-style:none}
+.topnav-links a{font-size:13px;color:var(--subtle);transition:color .15s}
+.topnav-links a:hover{color:var(--accent-blue)}
+
+.page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+
+.profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+.profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+.profile-handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.profile-bio{font-size:13px;color:var(--subtle);line-height:1.55}
+.profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.profile-meta li{font-size:12.5px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.profile-meta a{color:var(--accent-blue)}
+.profile-meta a:hover{text-decoration:underline}
+.cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+.cred-pill{font-family:var(--mono);font-size:10.5px;color:var(--subtle);background:var(--surface);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+.btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+.btn-primary{background:var(--accent-green);color:#fff;border-color:var(--accent-green)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:var(--surface);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+
+.main-col{flex:1;min-width:0}
+.breadcrumb{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:1.25rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.breadcrumb a{color:var(--dim)}
+.breadcrumb a:hover{color:var(--accent-blue)}
+.detail-title{font-size:1.8rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:.75rem}
+.detail-desc{font-size:13.5px;color:var(--subtle);line-height:1.75;max-width:680px;margin-bottom:1rem}
+.link-row{display:flex;gap:1.25rem;margin-bottom:1.5rem}
+.ext-link{font-family:var(--mono);font-size:11px;color:var(--accent-blue)}
 .ext-link:hover{text-decoration:underline}
 
-.section{padding:2rem 0;border-bottom:0.5px solid var(--border)}
-.section:last-of-type{border-bottom:none}
-.section-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:0.5px solid var(--border)}
-.body-text{font-size:13.5px;font-weight:300;color:var(--subtle);line-height:1.85;max-width:660px}
-.body-text strong{color:var(--text);font-weight:500}
-.body-text + .body-text{margin-top:1rem}
+.section-block{padding:1.5rem 0;border-top:1px solid var(--border)}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.body-text{font-size:13px;color:var(--subtle);line-height:1.8;max-width:680px}
+.body-text strong{color:var(--text);font-weight:600}
+.body-text+.body-text{margin-top:.85rem}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:.85rem}
+.pin-tag{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
 
-.demo-grid{display:grid;grid-template-columns:repeat(3,1fr)}
-.demo-cell{padding:1.5rem;border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.15s}
-.demo-cell:nth-child(3n){border-right:none}
-.demo-cell:hover{background:var(--surface)}
-.demo-cell:hover .dc-name{color:var(--accent)}
-.dc-num{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:0.1em;margin-bottom:0.6rem}
-.dc-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:0.5rem;transition:color 0.15s}
-.dc-desc{font-size:11.5px;font-weight:300;color:var(--subtle);line-height:1.6}
+.demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.demo-cell{border:1px solid var(--border);border-radius:6px;padding:1rem;transition:border-color .15s}
+.demo-cell:hover{border-color:var(--accent-blue)}
+.demo-num{font-family:var(--mono);font-size:10px;color:var(--dim);margin-bottom:.5rem}
+.demo-name{font-size:13px;font-weight:600;color:var(--accent-blue);margin-bottom:.4rem}
+.demo-desc{font-size:11.5px;color:var(--subtle);line-height:1.55}
 
 .jd-table{width:100%;border-collapse:collapse}
-.jd-table td{font-size:12px;font-weight:300;color:var(--subtle);line-height:1.6;padding:0.75rem 0;border-bottom:0.5px solid var(--border);vertical-align:top}
+.jd-table td{font-size:12px;color:var(--subtle);line-height:1.6;padding:.65rem 0;border-bottom:1px solid var(--border);vertical-align:top}
 .jd-table tr:last-child td{border-bottom:none}
-.jd-table td:first-child{width:38%;padding-right:1.5rem;color:var(--text);font-weight:500}
+.jd-table td:first-child{width:36%;padding-right:1.25rem;color:var(--text);font-weight:500}
 
-.tag-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:1rem}
-.tag{font-family:var(--mono);font-size:7.5px;color:var(--muted);border:0.5px solid var(--border);padding:2px 7px}
+.site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+.footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+.footer-links a{font-size:12.5px;color:var(--subtle)}
+.footer-links a:hover{color:var(--accent-blue)}
+.footer-oam{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
 
-.footer{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.5rem;background:var(--surface);border-top:2px solid var(--text);margin-top:0}
-.footer-left{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.08em}
-.footer-links{display:flex;gap:1.75rem;list-style:none}
-.footer-links a{font-family:var(--mono);font-size:8px;color:var(--muted);transition:color 0.15s}
-.footer-links a:hover{color:var(--accent)}
-.footer-badge{font-family:var(--mono);font-size:7px;color:var(--dim);border:0.5px solid var(--border);padding:2px 8px;letter-spacing:0.1em}
+@media (max-width:800px){
+  .page-wrap{flex-direction:column}
+  .profile-sidebar{width:100%;flex:1 1 auto}
+  .demo-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<script>(function(){const s=localStorage.getItem('chamb-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d))document.body.classList.add('dark')})();</script>
-<header class="masthead">
-  <div class="mast-left">
-    <a href="/" class="mast-name">Chris Chambers</a>
-    <div class="mast-cred">R.T.(R) ARRT &nbsp;·&nbsp; Cloud Security Engineer</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:2rem">
-    <ul class="mast-nav">
-      <li><a href="/writing/">Writing</a></li>
-      <li><a href="/projects/" class="active">Projects</a></li>
-      <li><a href="/resume.html">Resume</a></li>
-    </ul>
-    <button class="theme-btn" onclick="toggleTheme()">&#9680;</button>
-  </div>
-</header>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+</nav>
 
-<div class="wrap">
-  <div class="page-header">
-    <div class="page-eyebrow"><a href="/projects/">chamb.dev / projects</a> &nbsp;/&nbsp; imaging systems</div>
-    <h1 class="page-title">PACS / HL7 Interface Lab</h1>
-    <p class="page-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems.</p>
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+
+  <div class="main-col">
+    <div class="breadcrumb"><a href="/">chamb.dev</a><span>/</span><a href="/projects/">projects</a><span>/</span><span>imaging systems</span></div>
+    <h1 class="detail-title">PACS / HL7 Interface Lab</h1>
+    <p class="detail-desc">A working PACS and HL7 interface engine, plus six interactive demos, built to target Imaging Systems Administrator roles from ten years on the clinical side of these exact systems.</p>
     <div class="link-row">
       <a class="ext-link" href="https://github.com/chambsec/pacs-hl7-lab" target="_blank" rel="noopener">↗ GitHub</a>
       <a class="ext-link" href="/writing/the-other-side-of-the-pacs/">↗ Writeup: The Other Side of the PACS</a>
     </div>
-  </div>
 
-  <div class="section">
-    <div class="section-label">What this is</div>
-    <p class="body-text">Two real pieces of software, not a simulation. <strong>Orthanc</strong>, an open source DICOM server acting as the PACS, stores and routes imaging studies and exposes a REST API and web UI for worklist and study management. <strong>Mirth Connect</strong>, an open source HL7 interface engine acting as the RIS-to-PACS bridge, routes ADT, ORM, and ORU messages between clinical systems.</p>
-    <p class="body-text">Together they simulate the core of a hospital imaging environment: a PACS receiving studies, and an interface engine moving order and result messages between systems — the exact seam an Imaging Systems Administrator lives in.</p>
-    <div class="tag-row">
-      <span class="tag">Orthanc</span>
-      <span class="tag">Mirth Connect</span>
-      <span class="tag">DICOM</span>
-      <span class="tag">HL7</span>
-      <span class="tag">Docker</span>
-      <span class="tag">ADT / ORM / ORU</span>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">The real troubleshooting story</div>
-    <p class="body-text">Building the Mirth HL7 channel surfaced a genuine, undocumented problem: Mirth 4.x replaced the old dedicated MLLP connector with a generic TCP Listener architecture, and a wrong field or class name in hand-written channel XML produces a silently invalid channel with no logged exception. Diagnosing it meant reading the server's own source — the hex byte formatting trap and the ACK response setting are both the kind of thing you only learn from an afternoon of genuine, unglamorous troubleshooting.</p>
-  </div>
-
-  <div class="section">
-    <div class="section-label">Six interactive demos</div>
-    <div class="demo-grid">
-      <div class="demo-cell" onclick="location.href='/projects/hl7-interface-visualizer.html'">
-        <div class="dc-num">01</div>
-        <div class="dc-name">HL7 Interface Visualizer</div>
-        <div class="dc-desc">An order message routing from RIS to PACS through the interface engine, and what happens when the channel goes down.</div>
-      </div>
-      <div class="demo-cell" onclick="location.href='/projects/pacs-dicom-routing.html'">
-        <div class="dc-num">02</div>
-        <div class="dc-name">PACS / DICOM Routing</div>
-        <div class="dc-desc">Image routing with AE title handshakes, including why cardiology studies route to a separate archive from general radiology.</div>
-      </div>
-      <div class="demo-cell" onclick="location.href='/projects/storage-forecasting.html'">
-        <div class="dc-num">03</div>
-        <div class="dc-name">Storage Forecasting</div>
-        <div class="dc-desc">Capacity planning driven by per-modality study volume, with a live capacity exhaustion projection.</div>
-      </div>
-      <div class="demo-cell" onclick="location.href='/projects/monitoring-dashboard.html'">
-        <div class="dc-num">04</div>
-        <div class="dc-name">Monitoring Dashboard</div>
-        <div class="dc-desc">The daily status board: service health, queue depth, backup status, rolling uptime.</div>
-      </div>
-      <div class="demo-cell" onclick="location.href='/projects/vendor-coordination.html'">
-        <div class="dc-num">05</div>
-        <div class="dc-name">Vendor Coordination</div>
-        <div class="dc-desc">A change management board for planned vendor patches plus incident tracking with MTTR.</div>
-      </div>
-      <div class="demo-cell" onclick="location.href='/projects/windows-server-runbook.html'">
-        <div class="dc-num">06</div>
-        <div class="dc-name">Windows Server Runbook</div>
-        <div class="dc-desc">A disciplined patch cycle with a rollback point, including a scenario where verification fails and rollback runs automatically.</div>
+    <div class="section-block">
+      <div class="section-label">What this is</div>
+      <p class="body-text">Two real pieces of software, not a simulation. <strong>Orthanc</strong>, an open source DICOM server acting as the PACS, stores and routes imaging studies and exposes a REST API and web UI for worklist and study management. <strong>Mirth Connect</strong>, an open source HL7 interface engine acting as the RIS-to-PACS bridge, routes ADT, ORM, and ORU messages between clinical systems.</p>
+      <p class="body-text">Together they simulate the core of a hospital imaging environment: a PACS receiving studies, and an interface engine moving order and result messages between systems — the exact seam an Imaging Systems Administrator lives in.</p>
+      <div class="tag-row">
+        <span class="pin-tag">Orthanc</span><span class="pin-tag">Mirth Connect</span><span class="pin-tag">DICOM</span><span class="pin-tag">HL7</span><span class="pin-tag">Docker</span><span class="pin-tag">ADT / ORM / ORU</span>
       </div>
     </div>
-  </div>
 
-  <div class="section">
-    <div class="section-label">How this maps to the job description</div>
-    <table class="jd-table">
-      <tr><td>PACS, Cardiology, and imaging workflows</td><td>Orthanc study ingestion and routing, plus AE title-based cardiology routing in the DICOM demo</td></tr>
-      <tr><td>Healthcare IT supporting clinical applications</td><td>Mirth channel supporting real RIS-to-PACS message flow</td></tr>
-      <tr><td>Troubleshoot complex application/infrastructure issues</td><td>The Mirth 4.x connector migration — a real undocumented failure, not a staged one</td></tr>
-      <tr><td>Liaison between infrastructure, clinical IT, and vendor support</td><td>HL7 interface engine as the literal integration point, plus the vendor coordination demo</td></tr>
-      <tr><td>Server installation, upgrades, and support</td><td>The Windows Server runbook demo, including a real rollback scenario</td></tr>
-      <tr><td>Knowledge of HIPAA and healthcare security standards</td><td>Credentials pulled out of version control into <code>.env</code>, never hardcoded</td></tr>
-    </table>
+    <div class="section-block">
+      <div class="section-label">The real troubleshooting story</div>
+      <p class="body-text">Building the Mirth HL7 channel surfaced a genuine, undocumented problem: Mirth 4.x replaced the old dedicated MLLP connector with a generic TCP Listener architecture, and a wrong field or class name in hand-written channel XML produces a silently invalid channel with no logged exception. Diagnosing it meant reading the server's own source — the hex byte formatting trap and the ACK response setting are both the kind of thing you only learn from an afternoon of genuine, unglamorous troubleshooting.</p>
+    </div>
+
+    <div class="section-block">
+      <div class="section-label">Six interactive demos</div>
+      <div class="demo-grid">
+        <a class="demo-cell" href="/projects/hl7-interface-visualizer.html">
+          <div class="demo-num">01</div>
+          <div class="demo-name">HL7 Interface Visualizer</div>
+          <div class="demo-desc">An order message routing from RIS to PACS through the interface engine, and what happens when the channel goes down.</div>
+        </a>
+        <a class="demo-cell" href="/projects/pacs-dicom-routing.html">
+          <div class="demo-num">02</div>
+          <div class="demo-name">PACS / DICOM Routing</div>
+          <div class="demo-desc">Image routing with AE title handshakes, including why cardiology studies route to a separate archive from general radiology.</div>
+        </a>
+        <a class="demo-cell" href="/projects/storage-forecasting.html">
+          <div class="demo-num">03</div>
+          <div class="demo-name">Storage Forecasting</div>
+          <div class="demo-desc">Capacity planning driven by per-modality study volume, with a live capacity exhaustion projection.</div>
+        </a>
+        <a class="demo-cell" href="/projects/monitoring-dashboard.html">
+          <div class="demo-num">04</div>
+          <div class="demo-name">Monitoring Dashboard</div>
+          <div class="demo-desc">The daily status board: service health, queue depth, backup status, rolling uptime.</div>
+        </a>
+        <a class="demo-cell" href="/projects/vendor-coordination.html">
+          <div class="demo-num">05</div>
+          <div class="demo-name">Vendor Coordination</div>
+          <div class="demo-desc">A change management board for planned vendor patches plus incident tracking with MTTR.</div>
+        </a>
+        <a class="demo-cell" href="/projects/windows-server-runbook.html">
+          <div class="demo-num">06</div>
+          <div class="demo-name">Windows Server Runbook</div>
+          <div class="demo-desc">A disciplined patch cycle with a rollback point, including a scenario where verification fails and rollback runs automatically.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-label">How this maps to the job description</div>
+      <table class="jd-table">
+        <tr><td>PACS, Cardiology, and imaging workflows</td><td>Orthanc study ingestion and routing, plus AE title-based cardiology routing in the DICOM demo</td></tr>
+        <tr><td>Healthcare IT supporting clinical applications</td><td>Mirth channel supporting real RIS-to-PACS message flow</td></tr>
+        <tr><td>Troubleshoot complex application/infrastructure issues</td><td>The Mirth 4.x connector migration — a real undocumented failure, not a staged one</td></tr>
+        <tr><td>Liaison between infrastructure, clinical IT, and vendor support</td><td>HL7 interface engine as the literal integration point, plus the vendor coordination demo</td></tr>
+        <tr><td>Server installation, upgrades, and support</td><td>The Windows Server runbook demo, including a real rollback scenario</td></tr>
+        <tr><td>Knowledge of HIPAA and healthcare security standards</td><td>Credentials pulled out of version control into <code>.env</code>, never hardcoded</td></tr>
+      </table>
+    </div>
   </div>
 </div>
 
-<footer class="footer">
-  <div class="footer-left">© 2026 Chris Chambers &nbsp;·&nbsp; R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
+<footer class="site-footer">
   <ul class="footer-links">
-    <li><a href="https://github.com/chambsec" target="_blank">GitHub</a></li>
-    <li><a href="https://linkedin.com/in/chambsec" target="_blank">LinkedIn</a></li>
-    <li><a href="https://x.com/chambsec" target="_blank">X</a></li>
-    <li><a href="/resume.html">Resume</a></li>
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
   </ul>
-  <div class="footer-badge">Powered by OAM</div>
+  <div class="footer-oam">Powered by OAM</div>
 </footer>
-<script>function toggleTheme(){const d=document.body.classList.toggle('dark');localStorage.setItem('chamb-theme',d?'dark':'light')}</script>
 </body>
 </html>

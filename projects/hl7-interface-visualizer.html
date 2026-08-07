@@ -3,49 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HL7 Interface Engine — Imaging Systems Portfolio</title>
+<title>HL7 Interface Engine — chamb.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #10151c;
-    --panel: #182029;
-    --panel-2: #1d2631;
-    --border: #2b3542;
-    --ink: #e7ecf1;
-    --ink-dim: #8b97a6;
-    --teal: #3ecfc0;
-    --amber: #eba238;
-    --red: #e2555b;
+    --bg: #FFFFFF;
+    --panel: #F6F8FA;
+    --panel-2: #F6F8FA;
+    --border: #D0D7DE;
+    --ink: #1F2328;
+    --ink-dim: #636C76;
+    --teal: #0969DA;
+    --amber: #9A6700;
+    --red: #C8391D;
   }
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); }
   body{
     font-family: 'Inter', sans-serif;
-    padding: 32px 20px 60px;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap{ max-width: 980px; margin: 0 auto; }
+  a{color:inherit;text-decoration:none}
+  .topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+  .topnav-brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--ink)}
+  .topnav-links{display:flex;gap:1.75rem;list-style:none}
+  .topnav-links a{font-size:13px;color:var(--ink-dim);transition:color .15s}
+  .topnav-links a:hover{color:var(--teal)}
+  .page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+  .profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+  .profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+  .profile-handle{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink-dim)}
+  .profile-bio{font-size:13px;color:var(--ink-dim);line-height:1.55}
+  .profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+  .profile-meta li{font-size:12.5px;color:var(--ink-dim);display:flex;align-items:center;gap:6px}
+  .profile-meta a{color:var(--teal)}
+  .profile-meta a:hover{text-decoration:underline}
+  .cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+  .cred-pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim);background:var(--panel);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+  .btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+  .btn-primary{background:#1F883D;color:#fff;border-color:#1F883D}
+  .btn-primary:hover{opacity:.9}
+  .btn-secondary{background:var(--panel);color:var(--ink)}
+  .btn-secondary:hover{background:var(--border)}
+  .main-col{flex:1;min-width:0}
+  .breadcrumb{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim);margin-bottom:1.25rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .breadcrumb a:hover{color:var(--teal)}
+  .site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+  .footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+  .footer-links a{font-size:12.5px;color:var(--ink-dim)}
+  .footer-links a:hover{color:var(--teal)}
+  .footer-oam{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim)}
+  @media (max-width:800px){ .page-wrap{flex-direction:column} .profile-sidebar{width:100%;flex:1 1 auto} }
+  .wrap{ max-width: 100%; }
 
   .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--teal);
+    color: var(--red);
     margin-bottom: 10px;
   }
   h1{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(26px, 4vw, 38px);
+    font-family:'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(24px, 3.5vw, 32px);
     margin: 0 0 10px;
     letter-spacing: -0.01em;
   }
   .sub{
     color: var(--ink-dim);
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 13.5px;
+    line-height: 1.65;
     max-width: 620px;
     margin: 0 0 32px;
   }
@@ -75,7 +106,7 @@
   .node-icon{ width: 30px; height: 30px; color: var(--teal); margin-bottom: 4px; }
   .node-icon svg{ width: 100%; height: 100%; }
   .node-label{
-    font-family:'Space Grotesk', sans-serif;
+    font-family:'Inter', sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.03em;
@@ -84,7 +115,7 @@
 
   .status-badge{
     margin-top: 8px;
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.06em;
     padding: 3px 9px;
@@ -133,7 +164,7 @@
     width: 12px; height: 12px;
     background: var(--teal);
     border-radius: 3px;
-    box-shadow: 0 0 10px rgba(62,207,192,0.7);
+    box-shadow: 0 0 10px rgba(9,105,218,0.5);
   }
   .packet.travel{ animation: travel 0.9s linear forwards; }
   @keyframes travel{ from{ left: 0%; } to{ left: 100%; } }
@@ -146,11 +177,11 @@
     margin-bottom: 28px;
   }
   button{
-    font-family:'Space Grotesk', sans-serif;
+    font-family:'Inter', sans-serif;
     font-weight: 600;
     font-size: 13px;
     background: var(--teal);
-    color: #0a1512;
+    color: #fff;
     border: none;
     padding: 11px 18px;
     border-radius: 7px;
@@ -164,7 +195,7 @@
   }
   button.secondary.stopped{ border-color: var(--red); color: var(--red); }
   .queue-count{
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 12px;
     color: var(--ink-dim);
   }
@@ -183,7 +214,7 @@
     padding: 16px;
   }
   .panel-title{
-    font-family:'Space Grotesk', sans-serif;
+    font-family:'Inter', sans-serif;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -192,7 +223,7 @@
     margin-bottom: 10px;
   }
   .hl7-body{
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 12px;
     line-height: 1.7;
     white-space: pre-wrap;
@@ -202,7 +233,7 @@
   .hl7-body .seg{ color: var(--teal); font-weight: 600; }
 
   .log{
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 12px;
     height: 220px;
     overflow-y: auto;
@@ -231,7 +262,36 @@
 </style>
 </head>
 <body>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+</nav>
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+<div class="main-col">
 <div class="wrap">
+  <div class="breadcrumb"><a href="/">chamb.dev</a><span>/</span><a href="/projects/imaging-systems.html">imaging systems</a><span>/</span><span>hl7 interface visualizer</span></div>
   <div class="eyebrow">Imaging Systems Portfolio</div>
   <h1>HL7 Interface Engine</h1>
   <p class="sub">Order messages moving from RIS to PACS through an interface engine channel. Send a few orders, then stop the channel mid shift and watch what happens to a hospital that depends on it.</p>
@@ -289,6 +349,17 @@
 
   <div class="note">Simulates the channel built in the companion Orthanc and Mirth Connect lab. In production this port 6661 listener is what a radiology order actually travels through on its way from RIS to PACS.</div>
 </div>
+</div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
+</footer>
 
 <script>
   const exams = [

@@ -3,154 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="From Clinical to Cloud — Chris Chambers on the move from ten years in clinical healthcare to cloud security engineering.">
+<meta property="og:title" content="From Clinical to Cloud — Chris Chambers">
+<meta property="og:url" content="https://chamb.dev/writing/from-clinical-to-cloud/">
 <title>From Clinical to Cloud — chamb.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#FFFFFF;--surface:#F6F8FA;--border:#D0D7DE;
+  --text:#1F2328;--muted:#636C76;--subtle:#424A53;--dim:#818B98;
+  --accent-green:#1F883D;--accent-blue:#0969DA;--accent-red:#C8391D;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --tag-grc-fg:#1F883D;--tag-grc-bg:#DAFBE1;
+  --tag-builder-fg:#0969DA;--tag-builder-bg:#DDF4FF;
+  --tag-personal-fg:#BC4C00;--tag-personal-bg:#FFF1E5;
+  --tag-academic-fg:#8250DF;--tag-academic-bg:#FBEFFF;
+  --tag-healthcare-fg:#CF222E;--tag-healthcare-bg:#FFEBE9;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F5F4F0;--surface:#EEECEA;--border:#D4D2CE;--text:#1A1C1B;--muted:#888B89;--subtle:#2E2C28;--dim:#AAAEAD;--accent:#C8391D;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-width:900px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-body.dark{--bg:#252420;--surface:#2E2D29;--border:#3A3935;--text:#E8E6E0;--muted:#6B6B68;--subtle:#A8A6A0;--dim:#555552;--accent:#E04B2A}
-.masthead{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:2px solid var(--text)}
-.mast-left{display:flex;flex-direction:column;gap:3px}
-.mast-name{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.02em}
-.mast-cred{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.mast-nav{display:flex;gap:2rem;align-items:center;list-style:none}
-.mast-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;transition:color 0.15s}
-.mast-nav a:hover{color:var(--text)}
-.theme-btn{background:none;border:0.5px solid var(--border);color:var(--muted);cursor:pointer;font-size:12px;padding:4px 8px;transition:all 0.15s}
-.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
-.article-wrap{display:grid;grid-template-columns:1fr 280px;gap:0;max-width:1100px;margin:0 auto;padding:0 2.5rem}
-.article-main{padding:3rem 3rem 3rem 0;border-right:0.5px solid var(--border)}
-.article-aside{padding:3rem 0 3rem 2.5rem}
-.article-back{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.08em;margin-bottom:2rem;display:flex;align-items:center;gap:6px}
-.article-back:hover{color:var(--accent)}
-.article-kicker{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
-.article-title{font-size:2.4rem;font-weight:600;line-height:1.1;letter-spacing:-0.025em;color:var(--text);margin-bottom:1.25rem;max-width:560px}
-.article-deck{font-size:16px;font-weight:300;color:var(--subtle);line-height:1.85;margin-bottom:2rem;max-width:520px;padding-bottom:1.5rem;border-bottom:0.5px solid var(--border)}
-.article-meta{display:flex;gap:2rem;align-items:center;margin-bottom:2.5rem}
+.tag-pill{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:2em;font-weight:500}
+.tag-personal{color:var(--tag-personal-fg);background:var(--tag-personal-bg)}
+.tag-grc{color:var(--tag-grc-fg);background:var(--tag-grc-bg)}
+.tag-academic{color:var(--tag-academic-fg);background:var(--tag-academic-bg)}
+.tag-builder{color:var(--tag-builder-fg);background:var(--tag-builder-bg)}
+.tag-healthcare{color:var(--tag-healthcare-fg);background:var(--tag-healthcare-bg)}
+
+.topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+.topnav-brand{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--text)}
+.topnav-links{display:flex;gap:1.75rem;list-style:none}
+.topnav-links a{font-size:13px;color:var(--subtle);transition:color .15s}
+.topnav-links a:hover{color:var(--accent-blue)}
+
+.page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+
+.profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+.profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+.profile-handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.profile-bio{font-size:13px;color:var(--subtle);line-height:1.55}
+.profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.profile-meta li{font-size:12.5px;color:var(--subtle);display:flex;align-items:center;gap:6px}
+.profile-meta a{color:var(--accent-blue)}
+.profile-meta a:hover{text-decoration:underline}
+.cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+.cred-pill{font-family:var(--mono);font-size:10.5px;color:var(--subtle);background:var(--surface);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+.btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+.btn-primary{background:var(--accent-green);color:#fff;border-color:var(--accent-green)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:var(--surface);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+
+.main-col{flex:1;min-width:0;display:flex;gap:2rem;align-items:flex-start}
+.article-main{flex:1;min-width:0;max-width:680px}
+.article-aside{width:260px;flex:0 0 260px}
+.back-link{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:1.5rem;display:inline-block}
+.back-link:hover{color:var(--accent-blue)}
+.article-title{font-size:1.9rem;font-weight:600;line-height:1.15;letter-spacing:-0.01em;margin-bottom:.75rem}
+.article-deck{font-size:14px;color:var(--subtle);line-height:1.7;margin-bottom:1.25rem}
+.article-meta{display:flex;gap:1.5rem;align-items:center;padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
 .meta-item{display:flex;flex-direction:column;gap:2px}
-.meta-label{font-family:var(--mono);font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim)}
-.meta-value{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.article-body{font-size:16px;font-weight:300;color:var(--subtle);line-height:1.9;max-width:580px}
-.article-body p{margin-bottom:1.5rem}
+.meta-label{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.meta-value{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.article-body{font-size:14px;color:var(--subtle);line-height:1.85}
+.article-body p{margin-bottom:1.15rem}
 .article-body p:last-child{margin-bottom:0}
-.article-body strong{color:var(--text);font-weight:500}
-.article-body h2{font-size:1.2rem;font-weight:600;color:var(--text);margin:2.5rem 0 1rem;letter-spacing:-0.01em}
-.article-body blockquote{border-left:2px solid var(--accent);padding-left:1.25rem;margin:2rem 0;font-style:italic;color:var(--muted)}
-.aside-block{margin-bottom:2rem;padding-bottom:2rem;border-bottom:0.5px solid var(--border)}
-.aside-block:last-child{border-bottom:none;margin-bottom:0}
-.aside-label{font-family:var(--mono);font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem}
-.aside-tag{font-family:var(--mono);font-size:8px;color:var(--accent);letter-spacing:0.1em;border:0.5px solid var(--accent);padding:3px 8px;display:inline-block;margin-bottom:0.5rem}
-.aside-post{padding:0.6rem 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.article-body strong{color:var(--text);font-weight:600}
+.article-body h2{font-size:1.05rem;font-weight:600;color:var(--text);margin:1.75rem 0 .75rem}
+.article-body blockquote{border-left:3px solid var(--accent-blue);padding-left:1rem;margin:1.5rem 0;color:var(--muted);font-style:italic}
+
+.aside-block{padding-bottom:1.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.aside-block:last-child{border-bottom:none}
+.aside-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem}
+.aside-post{padding:.6rem 0;border-bottom:1px solid var(--border)}
 .aside-post:last-child{border-bottom:none}
-.aside-post:hover .ap-title{color:var(--accent)}
-.ap-tag{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.ap-title{font-size:11px;color:var(--text);line-height:1.4;margin:2px 0;transition:color 0.15s}
-.ap-date{font-family:var(--mono);font-size:7px;color:var(--dim)}
-.stack-grid{display:flex;flex-wrap:wrap;gap:4px}
-.s-chip{font-family:var(--mono);font-size:8px;color:var(--muted);border:0.5px solid var(--border);padding:2px 6px}
-.footer{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.5rem;background:var(--surface);border-top:2px solid var(--text)}
-.footer-left{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.08em}
-.footer-links{display:flex;gap:1.75rem;list-style:none}
-.footer-links a{font-family:var(--mono);font-size:8px;color:var(--muted);transition:color 0.15s}
-.footer-links a:hover{color:var(--accent)}
-.footer-badge{font-family:var(--mono);font-size:7px;color:var(--dim);border:0.5px solid var(--border);padding:2px 8px;letter-spacing:0.1em}
+.ap-title{font-size:12px;font-weight:500;color:var(--accent-blue);margin:2px 0}
+.ap-title:hover{text-decoration:underline}
+.ap-date{font-family:var(--mono);font-size:10px;color:var(--dim)}
+.stack-grid{display:flex;flex-wrap:wrap;gap:5px}
+.pin-tag{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--border);border-radius:2em;padding:1px 8px}
+
+.site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+.footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+.footer-links a{font-size:12.5px;color:var(--subtle)}
+.footer-links a:hover{color:var(--accent-blue)}
+.footer-oam{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+
+@media (max-width:900px){
+  .page-wrap{flex-direction:column}
+  .profile-sidebar{width:100%;flex:1 1 auto}
+  .main-col{flex-direction:column}
+  .article-aside{width:100%;flex:1 1 auto}
+}
 </style>
 </head>
 <body>
-<script>(function(){const s=localStorage.getItem('chamb-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d))document.body.classList.add('dark')})();</script>
-<header class="masthead">
-  <div class="mast-left">
-    <a href="/" class="mast-name">Chris Chambers</a>
-    <div class="mast-cred">R.T.(R) ARRT &nbsp;·&nbsp; Cloud Security Engineer</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:2rem">
-    <ul class="mast-nav">
-      <li><a href="/writing/">Writing</a></li>
-      <li><a href="/projects/">Projects</a></li>
-      <li><a href="/resume.html">Resume</a></li>
-    </ul>
-    <button class="theme-btn" onclick="toggleTheme()">&#9680;</button>
-  </div>
-</header>
-<div class="article-wrap">
-  <article class="article-main">
-    <a href="/writing/" class="article-back">← Writing</a>
-    <div class="article-kicker">Personal &nbsp;·&nbsp; Jun 19 2026</div>
-    <h1 class="article-title">From Clinical to Cloud</h1>
-    <p class="article-deck">Ten years in clinical healthcare. One pandemic. The decision to move to the infrastructure layer — and why the two worlds are closer than they look.</p>
-    <div class="article-meta">
-      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 19 2026</span></div>
-      <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Personal</span></div>
-      <div class="meta-item"><span class="meta-label">Reading time</span><span class="meta-value">4 min</span></div>
-    </div>
-    <div class="article-body">
-      <p>I spent over a decade as a Radiologic Technologist. Radiology, MRI, CT, emergency departments. COVID ER. The kind of work where the infrastructure you depend on is invisible until it fails — and when it fails, people notice immediately.</p>
-      <p>PACS systems, HL7 interface engines, RIS workflows — none of this is glamorous technology. It runs in the background of every scan, every diagnosis, every treatment plan. When it works, nobody thinks about it. When it breaks at 2am, a radiologist is on the phone and a patient is waiting.</p>
-      <blockquote>That is where I learned what reliability actually means. Not as a concept. As a consequence.</blockquote>
-      <h2>The move</h2>
-      <p>The transition to cloud security engineering was not a pivot away from healthcare. It was a move toward the infrastructure layer that healthcare depends on but rarely thinks about. The same instincts apply: what breaks when this fails, who notices first, and how do we know before they do.</p>
-      <p>In radiology, we ran redundant PACS servers, tested failover on nights nobody asked us to, and kept paper processes ready for when everything else failed. Not because we were told to. Because we understood the stakes.</p>
-      <p>Now I build Lambda functions with dead letter queues and CloudWatch alarms. The vocabulary changed. The discipline did not.</p>
-      <h2>What transfers</h2>
-      <p>The clinical background gives me something most cloud engineers do not have: a firsthand understanding of what the data actually represents. When I write IAM policies that protect patient data in S3, I know what that data is. I have handled it. I have protected it in physical spaces before I protected it in logical ones.</p>
-      <p><strong>HIPAA compliance is not abstract to me.</strong> It is the difference between a patient imaging study staying private and it not. That changes how you approach a security control — not as a checkbox but as a boundary that matters.</p>
-      <h2>Building in public</h2>
-      <p>chamb.dev is where I document what I build. The Cloud Resume Challenge led to a compliance engineering capstone, which led to a personal brand platform, which led to the system that published this post automatically while I was doing something else.</p>
-      <p>Everything here is real. No tutorials. No demos. Production infrastructure with real consequences — and the same operational mindset I carried out of the ER.</p>
-    </div>
-  </article>
-  <aside class="article-aside">
-    <div class="aside-block">
-      <div class="aside-label">Category</div>
-      <span class="aside-tag">Personal</span>
-    </div>
-    <div class="aside-block">
-      <div class="aside-label">More writing</div>
-      <div class="aside-post" onclick="location.href='/projects/compliance-platform.html'">
-        <div class="ap-tag">GRC</div>
-        <div class="ap-title">The Compliance Engineering Platform</div>
-        <div class="ap-date">Jul 2026</div>
-      </div>
-      <div class="aside-post" onclick="location.href='/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure.html'">
-        <div class="ap-tag">Builder</div>
-        <div class="ap-title">From Cloud Resume Challenge to Personal Brand Infrastructure</div>
-        <div class="ap-date">Jun 2026</div>
-      </div>
-      <div class="aside-post" onclick="location.href='/writing/invisible-infrastructure-behind-modern-healthcare.html'">
-        <div class="ap-tag">Academic</div>
-        <div class="ap-title">The Invisible Infrastructure Behind Modern Healthcare</div>
-        <div class="ap-date">Jun 2026</div>
-      </div>
-    </div>
-    <div class="aside-block">
-      <div class="aside-label">Stack mentioned</div>
-      <div class="stack-grid">
-        <span class="s-chip">Lambda</span><span class="s-chip">CloudWatch</span><span class="s-chip">S3</span><span class="s-chip">IAM</span><span class="s-chip">HIPAA</span><span class="s-chip">PACS</span><span class="s-chip">HL7</span>
-      </div>
-    </div>
-    <div class="aside-block">
-      <div class="aside-label">Author</div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--subtle);line-height:1.7">
-        Chris Chambers<br>
-        <span style="color:var(--dim)">R.T.(R) ARRT · M.S. Cybersecurity<br>Cloud Security Engineer</span>
-      </div>
-    </div>
-  </aside>
-</div>
-<footer class="footer">
-  <div class="footer-left">© 2026 Chris Chambers &nbsp;·&nbsp; R.T.(R) (ARRT) &nbsp;·&nbsp; M.S. Cybersecurity</div>
-  <ul class="footer-links">
-    <li><a href="https://github.com/chambsec" target="_blank">GitHub</a></li>
-    <li><a href="https://linkedin.com/in/chambsec" target="_blank">LinkedIn</a></li>
-    <li><a href="https://x.com/chambsec" target="_blank">X</a></li>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
     <li><a href="/resume.html">Resume</a></li>
   </ul>
-  <div class="footer-badge">Powered by OAM</div>
+</nav>
+
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+
+  <div class="main-col">
+    <article class="article-main">
+      <a class="back-link" href="/writing/">← Writing</a>
+      <span class="tag-pill tag-personal">Personal</span>
+      <h1 class="article-title">From Clinical to Cloud</h1>
+      <p class="article-deck">Ten years in clinical healthcare. One pandemic. The decision to move to the infrastructure layer — and why the two worlds are closer than they look.</p>
+      <div class="article-meta">
+        <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 19, 2026</span></div>
+        <div class="meta-item"><span class="meta-label">Category</span><span class="meta-value">Personal</span></div>
+        <div class="meta-item"><span class="meta-label">Reading time</span><span class="meta-value">4 min</span></div>
+      </div>
+      <div class="article-body">
+        <p>I spent over a decade as a Radiologic Technologist. Radiology, MRI, CT, emergency departments. COVID ER. The kind of work where the infrastructure you depend on is invisible until it fails — and when it fails, people notice immediately.</p>
+        <p>PACS systems, HL7 interface engines, RIS workflows — none of this is glamorous technology. It runs in the background of every scan, every diagnosis, every treatment plan. When it works, nobody thinks about it. When it breaks at 2am, a radiologist is on the phone and a patient is waiting.</p>
+        <blockquote>That is where I learned what reliability actually means. Not as a concept. As a consequence.</blockquote>
+        <h2>The move</h2>
+        <p>The transition to cloud security engineering was not a pivot away from healthcare. It was a move toward the infrastructure layer that healthcare depends on but rarely thinks about. The same instincts apply: what breaks when this fails, who notices first, and how do we know before they do.</p>
+        <p>In radiology, we ran redundant PACS servers, tested failover on nights nobody asked us to, and kept paper processes ready for when everything else failed. Not because we were told to. Because we understood the stakes.</p>
+        <p>Now I build Lambda functions with dead letter queues and CloudWatch alarms. The vocabulary changed. The discipline did not.</p>
+        <h2>What transfers</h2>
+        <p>The clinical background gives me something most cloud engineers do not have: a firsthand understanding of what the data actually represents. When I write IAM policies that protect patient data in S3, I know what that data is. I have handled it. I have protected it in physical spaces before I protected it in logical ones.</p>
+        <p><strong>HIPAA compliance is not abstract to me.</strong> It is the difference between a patient imaging study staying private and it not. That changes how you approach a security control — not as a checkbox but as a boundary that matters.</p>
+        <h2>Building in public</h2>
+        <p>chamb.dev is where I document what I build. The Cloud Resume Challenge led to a compliance engineering capstone, which led to a personal brand platform, which led to the system that published this post automatically while I was doing something else.</p>
+        <p>Everything here is real. No tutorials. No demos. Production infrastructure with real consequences — and the same operational mindset I carried out of the ER.</p>
+      </div>
+    </article>
+
+    <aside class="article-aside">
+      <div class="aside-block">
+        <div class="aside-label">More writing</div>
+        <div class="aside-post">
+          <span class="tag-pill tag-healthcare" style="font-size:9px">Healthcare</span>
+          <div class="ap-title"><a href="/writing/the-other-side-of-the-pacs/">The Other Side of the PACS</a></div>
+          <div class="ap-date">Aug 6, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-grc" style="font-size:9px">GRC</span>
+          <div class="ap-title"><a href="/writing/from-lab-work-to-live-platform-building-the-compliance-engineering-platform/">From Lab Work to Live Platform</a></div>
+          <div class="ap-date">Jul 8, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-builder" style="font-size:9px">Builder</span>
+          <div class="ap-title"><a href="/writing/from-cloud-resume-challenge-to-personal-brand-infrastructure/">From Cloud Resume Challenge to Personal Brand Infrastructure</a></div>
+          <div class="ap-date">Jun 24, 2026</div>
+        </div>
+        <div class="aside-post">
+          <span class="tag-pill tag-academic" style="font-size:9px">Academic</span>
+          <div class="ap-title"><a href="/writing/invisible-infrastructure-modern-healthcare/">The Invisible Infrastructure Behind Modern Healthcare</a></div>
+          <div class="ap-date">Jun 20, 2026</div>
+        </div>
+      </div>
+      <div class="aside-block">
+        <div class="aside-label">Stack mentioned</div>
+        <div class="stack-grid">
+          <span class="pin-tag">Lambda</span><span class="pin-tag">CloudWatch</span><span class="pin-tag">S3</span><span class="pin-tag">IAM</span><span class="pin-tag">HIPAA</span><span class="pin-tag">PACS</span><span class="pin-tag">HL7</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
 </footer>
-<script>function toggleTheme(){const d=document.body.classList.toggle('dark');localStorage.setItem('chamb-theme',d?'dark':'light')}</script>
 </body>
 </html>

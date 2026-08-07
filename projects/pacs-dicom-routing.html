@@ -3,28 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PACS / DICOM Routing — Imaging Systems Portfolio</title>
+<title>PACS / DICOM Routing — chamb.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #10151c;
-    --panel: #182029;
-    --border: #2b3542;
-    --ink: #e7ecf1;
-    --ink-dim: #8b97a6;
-    --teal: #3ecfc0;
-    --amber: #eba238;
-    --red: #e2555b;
+    --bg: #FFFFFF;
+    --panel: #F6F8FA;
+    --border: #D0D7DE;
+    --ink: #1F2328;
+    --ink-dim: #636C76;
+    --teal: #0969DA;
+    --amber: #9A6700;
+    --red: #C8391D;
   }
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); }
-  body{ font-family:'Inter', sans-serif; padding: 32px 20px 60px; -webkit-font-smoothing: antialiased; }
-  .wrap{ max-width: 980px; margin: 0 auto; }
+  body{ font-family:'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a{color:inherit;text-decoration:none}
+  .topnav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid var(--border)}
+  .topnav-brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--ink)}
+  .topnav-links{display:flex;gap:1.75rem;list-style:none}
+  .topnav-links a{font-size:13px;color:var(--ink-dim);transition:color .15s}
+  .topnav-links a:hover{color:var(--teal)}
+  .page-wrap{display:flex;align-items:flex-start;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem}
+  .profile-sidebar{width:220px;flex:0 0 220px;display:flex;flex-direction:column;gap:.9rem}
+  .profile-name{font-size:22px;font-weight:600;letter-spacing:-0.01em}
+  .profile-handle{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink-dim)}
+  .profile-bio{font-size:13px;color:var(--ink-dim);line-height:1.55}
+  .profile-meta{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+  .profile-meta li{font-size:12.5px;color:var(--ink-dim);display:flex;align-items:center;gap:6px}
+  .profile-meta a{color:var(--teal)}
+  .profile-meta a:hover{text-decoration:underline}
+  .cred-pills{display:flex;flex-direction:column;gap:6px;margin-top:.2rem}
+  .cred-pill{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim);background:var(--panel);border:1px solid var(--border);border-radius:2em;padding:3px 10px;width:fit-content}
+  .btn{display:block;text-align:center;font-size:12.5px;font-weight:500;border-radius:6px;padding:5px 12px;border:1px solid var(--border);margin-top:.25rem}
+  .btn-primary{background:#1F883D;color:#fff;border-color:#1F883D}
+  .btn-primary:hover{opacity:.9}
+  .btn-secondary{background:var(--panel);color:var(--ink)}
+  .btn-secondary:hover{background:var(--border)}
+  .main-col{flex:1;min-width:0}
+  .site-footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;margin-top:2rem}
+  .footer-links{list-style:none;display:flex;justify-content:center;gap:1.5rem;margin-bottom:.5rem}
+  .footer-links a{font-size:12.5px;color:var(--ink-dim)}
+  .footer-links a:hover{color:var(--teal)}
+  .footer-oam{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-dim)}
+  @media (max-width:800px){ .page-wrap{flex-direction:column} .profile-sidebar{width:100%;flex:1 1 auto} }
+  .wrap{ max-width: 100%; }
+  .breadcrumb{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim);margin-bottom:1.25rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .breadcrumb a:hover{color:var(--teal)}
 
-  .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
-  h1{ font-family:'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; letter-spacing: -0.01em; }
-  .sub{ color: var(--ink-dim); font-size: 15px; line-height: 1.55; max-width: 640px; margin: 0 0 32px; }
+  .eyebrow{ font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+  h1{ font-family:'Inter', sans-serif; font-weight: 600; font-size: clamp(24px, 3.5vw, 32px); margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sub{ color: var(--ink-dim); font-size: 13.5px; line-height: 1.65; max-width: 640px; margin: 0 0 32px; }
 
   .stage-scroll{ overflow-x: auto; padding-bottom: 6px; }
   .stage3{
@@ -50,11 +82,11 @@
   }
   .node-icon{ width: 30px; height: 30px; color: var(--teal); margin-bottom: 4px; }
   .node-icon svg{ width: 100%; height: 100%; }
-  .node-label{ font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.03em; }
+  .node-label{ font-family:'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.03em; }
   .node-sub{ font-size: 11px; color: var(--ink-dim); }
   .ae-badge{
     margin-top: 8px;
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'JetBrains Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.02em;
     padding: 3px 9px;
@@ -71,30 +103,30 @@
   @keyframes pulse{ 0%,100%{ opacity: 1; } 50%{ opacity: 0.45; } }
 
   .lane-track{ position: relative; height: 2px; }
-  .lane-label{ position: absolute; top: -20px; left: 0; font-family:'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink-dim); letter-spacing: 0.04em; }
+  .lane-label{ position: absolute; top: -20px; left: 0; font-family:'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-dim); letter-spacing: 0.04em; }
   .track-line{ width: 100%; height: 2px; background-image: linear-gradient(90deg, var(--border) 0 6px, transparent 6px 12px); background-size: 12px 2px; }
   .track-line.dead{ background-image: linear-gradient(90deg, var(--red) 0 6px, transparent 6px 12px); opacity: 0.5; }
-  .packet{ position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 12px; height: 12px; background: var(--teal); border-radius: 3px; box-shadow: 0 0 10px rgba(62,207,192,0.7); }
+  .packet{ position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 12px; height: 12px; background: var(--teal); border-radius: 3px; box-shadow: 0 0 10px rgba(9,105,218,0.5); }
   .packet.travel{ animation: travel 0.9s linear forwards; }
   @keyframes travel{ from{ left: 0%; } to{ left: 100%; } }
 
   .controls{ display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 28px 0; }
-  button{ font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; background: var(--teal); color: #0a1512; border: none; padding: 11px 18px; border-radius: 7px; cursor: pointer; }
+  button{ font-family:'Inter', sans-serif; font-weight: 600; font-size: 13px; background: var(--teal); color: #fff; border: none; padding: 11px 18px; border-radius: 7px; cursor: pointer; }
   button:active{ transform: translateY(1px); }
   button.secondary{ background: transparent; color: var(--ink); border: 1px solid var(--border); }
   button.secondary.broken{ border-color: var(--red); color: var(--red); }
-  .unverified-count{ font-family:'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-dim); }
+  .unverified-count{ font-family:'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-dim); }
 
   .panels{ display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; }
   @media (max-width: 720px){ .panels{ grid-template-columns: 1fr; } }
   .panel{ background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-  .panel-title{ font-family:'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 10px; }
-  .dicom-body{ font-family:'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; color: var(--ink-dim); }
+  .panel-title{ font-family:'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 10px; }
+  .dicom-body{ font-family:'JetBrains Mono', monospace; font-size: 12px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; color: var(--ink-dim); }
   .dicom-body .field{ color: var(--teal); }
   .dicom-body .accepted{ color: var(--teal); font-weight: 600; }
   .dicom-body .rejected{ color: var(--red); font-weight: 600; }
 
-  .log{ font-family:'IBM Plex Mono', monospace; font-size: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+  .log{ font-family:'JetBrains Mono', monospace; font-size: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
   .log-row{ color: var(--ink-dim); }
   .log-row .t{ color: #56626f; margin-right: 8px; }
   .log-row.ok .t{ color: var(--teal); }
@@ -110,7 +142,36 @@
 </style>
 </head>
 <body>
+<nav class="topnav">
+  <a href="/" class="topnav-brand">chambsec</a>
+  <ul class="topnav-links">
+    <li><a href="/writing/">Writing</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/resume.html">Resume</a></li>
+  </ul>
+</nav>
+<div class="page-wrap">
+  <aside class="profile-sidebar">
+    <h1 class="profile-name">Chris Chambers</h1>
+    <div class="profile-handle">chambsec</div>
+    <p class="profile-bio">Cloud security engineer with 10+ years of clinical healthcare experience. Building compliance automation, cloud infrastructure, and the systems that protect regulated data.</p>
+    <ul class="profile-meta">
+      <li>Memorial Sloan Kettering Cancer Center</li>
+      <li><a href="https://chamb.dev">chamb.dev</a></li>
+      <li>New York, NY</li>
+    </ul>
+    <div class="cred-pills">
+      <span class="cred-pill">R.T.(R) ARRT</span>
+      <span class="cred-pill">M.S. Cybersecurity</span>
+      <span class="cred-pill">AWS · Terraform · OPA/Rego</span>
+    </div>
+    <a class="btn btn-primary" href="/chris-chambers-resume.pdf">Download Resume</a>
+    <a class="btn btn-secondary" href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-secondary" href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a>
+  </aside>
+<div class="main-col">
 <div class="wrap">
+  <div class="breadcrumb"><a href="/">chamb.dev</a><span>/</span><a href="/projects/imaging-systems.html">imaging systems</a><span>/</span><span>pacs dicom routing</span></div>
   <div class="eyebrow">Imaging Systems Portfolio</div>
   <h1>PACS / DICOM Routing</h1>
   <p class="sub">A modality finishes an exam and sends its images on. Radiology studies go to the general PACS. Cardiology studies, echo and cath, go to a separate cardiovascular archive. Break the modality's AE title configuration and watch which lane actually stops.</p>
@@ -166,6 +227,17 @@
 
   <div class="note">Simulates the routing built in the companion Orthanc lab. In a real department, an AE title mismatch after a server migration or IP change is one of the most common reasons a modality silently stops sending studies, and cardiology systems are often administered separately from general radiology, so one outage does not always take down the other.</div>
 </div>
+</div>
+</div>
+
+<footer class="site-footer">
+  <ul class="footer-links">
+    <li><a href="https://github.com/chambsec" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/chambsec" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://x.com/chambsec" target="_blank" rel="noopener">X</a></li>
+  </ul>
+  <div class="footer-oam">Powered by OAM</div>
+</footer>
 
 <script>
   const exams = [
